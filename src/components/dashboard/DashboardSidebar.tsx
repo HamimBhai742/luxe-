@@ -1,8 +1,12 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+
 import Link from "next/link";
 import { toast } from "sonner";
+import { useAppDispatch } from "@/lib/hooks";
+import { clearCredentials } from "@/lib/features/auth/authSlice";
 
 interface SidebarProps {
   onCloseMobileDrawer?: () => void;
@@ -10,6 +14,10 @@ interface SidebarProps {
 
 export default function DashboardSidebar({ onCloseMobileDrawer }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const menuItems = [
     {
@@ -82,12 +90,22 @@ export default function DashboardSidebar({ onCloseMobileDrawer }: SidebarProps) 
     toast.success("Thank you! Upgraded to Plus membership successfully.");
   };
 
-  const handleLogout = () => {
+  const handleLogoutConfirm = () => {
+    setIsModalOpen(false);
+    dispatch(clearCredentials());
     toast.success("Sign out successful!");
+    router.push("/sign-in");
   };
 
+  const handleLogout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsModalOpen(true);
+  };
+
+
   return (
-    <div className="flex flex-col justify-between h-full bg-white dark:bg-zinc-950 p-6 select-none border-r border-zinc-100 dark:border-zinc-900">
+    <>
+      <div className="flex flex-col justify-between h-full bg-white dark:bg-zinc-950 p-6 select-none border-r border-zinc-100 dark:border-zinc-900">
       
       {/* Brand & Menu */}
       <div className="space-y-8">
@@ -156,20 +174,56 @@ export default function DashboardSidebar({ onCloseMobileDrawer }: SidebarProps) 
             </svg>
             <span>Settings</span>
           </Link>
-          <Link
-            href="/"
+          <button
+            type="button"
             onClick={handleLogout}
-            className="w-full flex items-center gap-3.5 rounded-xl px-3.5 py-2.5 text-xs font-bold text-red-650 hover:bg-red-50 hover:text-red-750 dark:text-red-400 dark:hover:bg-red-950/20 cursor-pointer transition-colors"
+            className="w-full flex items-center gap-3.5 rounded-xl px-3.5 py-2.5 text-xs font-bold text-red-600 hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-950/20 cursor-pointer transition-colors text-left"
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
             </svg>
             <span>Logout</span>
-          </Link>
+          </button>
         </div>
 
       </div>
-
     </div>
+
+      {/* Logout Confirmation Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm transition-opacity duration-300 animate-fade-in">
+          <div className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-white p-6 text-center shadow-2xl border border-zinc-100 dark:border-zinc-900 dark:bg-zinc-950 transition-all scale-100 duration-300">
+            {/* Sign Out Warning Icon */}
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 mb-4">
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+              </svg>
+            </div>
+            
+            <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white">Sign Out of LUXE</h3>
+            <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+              Are you sure you want to log out? You will need to sign in again to access your profile, cart, and orders.
+            </p>
+            
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="flex-1 rounded-xl border border-zinc-200 py-2.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleLogoutConfirm}
+                className="flex-1 rounded-xl bg-red-600 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-red-500 transition-colors cursor-pointer"
+              >
+                Yes, Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
