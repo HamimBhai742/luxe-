@@ -117,7 +117,7 @@ export default function Header() {
           </button>
 
           {/* Cart with badge */}
-          <button className="relative text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors">
+          <Link href="/cart" className="relative text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors">
             <svg
               className="h-6 w-6"
               fill="none"
@@ -132,9 +132,9 @@ export default function Header() {
               />
             </svg>
             <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-blue-600 text-[10px] font-bold text-white">
-              0
+              3
             </span>
-          </button>
+          </Link>
 
           {/* User Account Dropdown */}
           {isAuthenticated && user ? (

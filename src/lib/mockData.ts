@@ -371,3 +371,78 @@ export const ALL_PRODUCTS: Product[] = [
     ],
   }
 ];
+
+export interface CartItem {
+  id: number;
+  name: string;
+  brand: string;
+  price: number;
+  image: string;
+  quantity: number;
+  specsText: string;
+}
+
+export interface RecommendedProduct {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+}
+
+export const INITIAL_CART_ITEMS: CartItem[] = [
+  {
+    id: 201,
+    name: "AuraBook Pro 14\"",
+    brand: "AURATECH",
+    price: 1299,
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=600&auto=format&fit=crop",
+    quantity: 1,
+    specsText: "Space Gray • M3 Pro • 1TB SSD • 18GB RAM",
+  },
+  {
+    id: 202,
+    name: "Aura Noise-Cancelling Headphones",
+    brand: "AURATECH",
+    price: 249,
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop",
+    quantity: 1,
+    specsText: "Matte Black • Wireless • Over-Ear",
+  },
+  {
+    id: 203,
+    name: "Minimalist Leather Desk Mat",
+    brand: "AURATECH",
+    price: 45,
+    image: "https://images.unsplash.com/photo-1627124718515-4d3f31777d13?q=80&w=600&auto=format&fit=crop",
+    quantity: 2,
+    specsText: "Warm Taupe • Large (90×40cm) • Vegan Leather",
+  },
+];
+
+export const RECOMMENDED_PRODUCTS: RecommendedProduct[] = [
+  {
+    id: 301,
+    name: "Aura MagCharge Stand",
+    price: 89,
+    image: "https://images.unsplash.com/photo-1622445262465-2481c857535a?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 302,
+    name: "Low-Profile Mechanical Keyboard",
+    price: 149,
+    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 303,
+    name: "Aura Ergonomic Chair",
+    price: 599,
+    image: "https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?q=80&w=600&auto=format&fit=crop",
+  },
+  {
+    id: 304,
+    name: "AuraDisplay 27\" 4K",
+    price: 699,
+    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=600&auto=format&fit=crop",
+  },
+];
+
