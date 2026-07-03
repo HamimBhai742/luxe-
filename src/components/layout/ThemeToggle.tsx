@@ -11,7 +11,10 @@ export default function ThemeToggle() {
   // Initialize theme from localStorage safely on mount
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "system";
-    setActiveTheme(savedTheme);
+    const timer = setTimeout(() => {
+      setActiveTheme(savedTheme);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   // Click outside to close dropdown
@@ -90,7 +93,7 @@ export default function ThemeToggle() {
       {/* Toggle trigger button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="rounded-xl border border-zinc-200 hover:bg-zinc-50 dark:border-zinc-805 dark:bg-zinc-950/20 dark:hover:bg-zinc-900 p-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors cursor-pointer shadow-xs flex items-center justify-center"
+        className="rounded-xl hover:bg-zinc-50 dark:bg-zinc-950/20 dark:hover:bg-zinc-900 p-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center"
         title="Toggle Theme"
       >
         {renderIcon(activeTheme)}
