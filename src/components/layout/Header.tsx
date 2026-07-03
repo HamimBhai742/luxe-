@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { clearCredentials } from "@/lib/features/auth/authSlice";
 import { useRouter } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Header() {
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
@@ -135,6 +136,8 @@ export default function Header() {
               3
             </span>
           </Link>
+
+          <ThemeToggle />
 
           {/* User Account Dropdown */}
           {isAuthenticated && user ? (
