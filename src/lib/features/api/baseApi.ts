@@ -17,7 +17,7 @@ let isRefreshing = false;
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5001/api/v1",
+  baseUrl: process.env.NEXT_PUBLIC_URL,
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as { auth: { accessToken: string | null } };
     const token = state.auth.accessToken || (typeof window !== "undefined" ? localStorage.getItem("accessToken") : null);

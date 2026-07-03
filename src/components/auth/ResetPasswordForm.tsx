@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useResetPasswordMutation } from "@/lib/features/auth/authApi";
+import { toast } from "sonner";
 
 export default function ResetPasswordForm() {
   const [password, setPassword] = useState("");
@@ -48,6 +49,7 @@ export default function ResetPasswordForm() {
         sessionStorage.removeItem("resetEmail");
         sessionStorage.removeItem("resetToken");
         sessionStorage.removeItem("resetOtp");
+        toast.success("Password reset successfully! Redirecting to login...");
 
         setTimeout(() => {
           router.push("/sign-in");

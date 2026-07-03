@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useVerifyAccountMutation, useSignupMutation } from "@/lib/features/auth/authApi";
 import { useAppDispatch } from "@/lib/hooks";
 import { setCredentials } from "@/lib/features/auth/authSlice";
+import { toast } from "sonner";
 
 export default function VerifyAccountForm() {
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
@@ -98,6 +99,7 @@ export default function VerifyAccountForm() {
           })
         );
         sessionStorage.removeItem("verifyEmail"); // Clean up
+        toast.success("Account verified successfully! Welcome aboard.");
         router.push("/");
       }
     } catch (err: any) {
@@ -123,6 +125,7 @@ export default function VerifyAccountForm() {
       setCode(Array(6).fill(""));
       inputRefs.current[0]?.focus();
       setSuccessMessage("A new verification code has been sent to your email.");
+      toast.success("A new verification code has been sent to your email.");
     } catch (err: any) {
       console.error("Resend error:", err);
       setErrorMessage("Failed to resend code. Please try again later.");

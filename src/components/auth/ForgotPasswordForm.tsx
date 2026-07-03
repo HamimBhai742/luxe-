@@ -4,8 +4,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 import { useForgotPasswordMutation } from "@/lib/features/auth/authApi";
+import { toast } from "sonner";
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -23,6 +23,7 @@ export default function ForgotPasswordForm() {
       if (result.success) {
         // Store email for verification page
         sessionStorage.setItem("resetEmail", email);
+        toast.success("Password reset code sent to your email!");
         router.push("/forgot-password/verify");
       }
     } catch (err: any) {

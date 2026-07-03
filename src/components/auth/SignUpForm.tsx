@@ -3,8 +3,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useSignupMutation } from "@/lib/features/auth/authApi";
+import { useSignupMutation, useGoogleLoginMutation } from "@/lib/features/auth/authApi";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/lib/hooks";
+import { setCredentials } from "@/lib/features/auth/authSlice";
+import { loadGoogleGIS } from "@/lib/googleOAuth";
+import { toast } from "sonner";
 
 export default function SignUpForm() {
   const [name, setName] = useState("");
@@ -16,6 +20,45 @@ export default function SignUpForm() {
   const router = useRouter();
 
   const [signup, { isLoading }] = useSignupMutation();
+  const [googleLogin, { isLoading: isGoogleLoading }] = useGoogleLoginMutation();
+  const dispatch = useAppDispatch();
+
+  const handleGoogleLogin = async () => {
+    setErrorMessage("");
+    try {
+      const google = await loadGoogleGIS();
+      const client = google.accounts.oauth2.initTokenClient({
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+        scope: "email profile openid",
+        callback: async (tokenResponse: any) => {
+          if (tokenResponse && tokenResponse.access_token) {
+            try {
+              const result = await googleLogin({ accessToken: tokenResponse.access_token }).unwrap();
+              if (result.success) {
+                dispatch(
+                  setCredentials({
+                    user: result.data,
+                    accessToken: result.accessToken,
+                  })
+                );
+                toast.success("Signed in successfully with Google!");
+                router.push("/");
+              }
+            } catch (err: any) {
+              console.error("Google verification error:", err);
+              setErrorMessage(err?.data?.message || "Google authentication failed on server.");
+            }
+          } else {
+            setErrorMessage("Did not receive access token from Google.");
+          }
+        },
+      });
+      client.requestAccessToken();
+    } catch (error) {
+      console.error("Google SDK loading error:", error);
+      setErrorMessage("Failed to load Google login SDK.");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +70,7 @@ export default function SignUpForm() {
       if (response.success) {
         // Save email in session storage for verification step
         sessionStorage.setItem("verifyEmail", email);
+        toast.success("Account created successfully! Please verify your email.");
         router.push("/verify-account");
       }
     } catch (err: any) {
@@ -55,11 +99,16 @@ export default function SignUpForm() {
       {/* Social Login Buttons */}
       <div className="mt-8 w-full space-y-3">
         {/* Google Button */}
-        <button className="flex w-full items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-colors">
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          disabled={isLoading || isGoogleLoading}
+          className="flex w-full items-center justify-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           <svg className="h-5 w-5 text-zinc-500" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zm0 0a8.987 8.987 0 004.184-1.028m0 0a8.966 8.966 0 01-8.368 0m8.368 0A8.969 8.969 0 0021 12m-9 9c-2.39 0-4.684-.949-6.364-2.636M12 3c2.39 0 4.684.949 6.364 2.636M12 3v18" />
           </svg>
-          <span>Continue with Google</span>
+          <span>{isGoogleLoading ? "Connecting..." : "Continue with Google"}</span>
         </button>
 
         {/* GitHub Button */}
