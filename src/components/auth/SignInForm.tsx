@@ -1,18 +1,50 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
+import { useLoginMutation } from "@/lib/features/auth/authApi";
+import { useAppDispatch } from "@/lib/hooks";
+import { setCredentials } from "@/lib/features/auth/authSlice";
+import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [login, { isLoading }] = useLoginMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Signing in with:", { email, password, rememberMe });
-    // Authentication logic here
+    setErrorMessage("");
+
+    try {
+      const result = await login({ email, password }).unwrap();
+      if (result.success) {
+        // Dispatch setCredentials to save user details and tokens
+        dispatch(
+          setCredentials({
+            user: result.data,
+            accessToken: result.accessToken,
+          })
+        );
+        router.push("/");
+      }
+    } catch (err: any) {
+      console.error("Login error:", err);
+      if (err?.status === 403) {
+        // Email verification required, save email and route to verify-account
+        sessionStorage.setItem("verifyEmail", email);
+        router.push("/verify-account");
+      } else {
+        setErrorMessage(err?.data?.message || "Invalid email or password.");
+      }
+    }
   };
 
   return (
@@ -24,6 +56,13 @@ export default function SignInForm() {
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 text-center">
         Enter your credentials to access your account
       </p>
+
+      {/* Error Message Alert */}
+      {errorMessage && (
+        <div className="mt-4 w-full rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-650 dark:bg-red-950/20 dark:text-red-400 border border-red-100 dark:border-red-950/30">
+          {errorMessage}
+        </div>
+      )}
 
       {/* Social Login Buttons */}
       <div className="mt-8 w-full space-y-3">
@@ -150,12 +189,15 @@ export default function SignInForm() {
         {/* Submit CTA */}
         <button
           type="submit"
-          className="group flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all duration-300"
+          disabled={isLoading}
+          className="group flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all duration-300"
         >
-          <span>Sign In</span>
-          <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
+          <span>{isLoading ? "Signing In..." : "Sign In"}</span>
+          {!isLoading && (
+            <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          )}
         </button>
       </form>
 

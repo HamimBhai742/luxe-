@@ -1,19 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { useForgotPasswordMutation } from "@/lib/features/auth/authApi";
+
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Requesting password reset for:", email);
-    // OTP delivery mock logic.
-    // Redirect to Verify Code stage.
-    router.push("/forgot-password/verify");
+    setErrorMessage("");
+
+    try {
+      const result = await forgotPassword({ email }).unwrap();
+      if (result.success) {
+        // Store email for verification page
+        sessionStorage.setItem("resetEmail", email);
+        router.push("/forgot-password/verify");
+      }
+    } catch (err: any) {
+      console.error("Forgot password error:", err);
+      setErrorMessage(err?.data?.message || "User not found with this email.");
+    }
   };
 
   return (
@@ -36,6 +51,13 @@ export default function ForgotPasswordForm() {
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
         Enter the email address associated with your account and we&apos;ll send you a link to reset your password.
       </p>
+
+      {/* Error Message Alert */}
+      {errorMessage && (
+        <div className="mt-4 w-full rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-650 dark:bg-red-950/20 dark:text-red-400 border border-red-100 dark:border-red-950/30">
+          {errorMessage}
+        </div>
+      )}
 
       {/* Input Form */}
       <form onSubmit={handleSubmit} className="mt-8 space-y-5">
@@ -64,9 +86,10 @@ export default function ForgotPasswordForm() {
         {/* Action Button */}
         <button
           type="submit"
-          className="flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all duration-300"
+          disabled={isLoading}
+          className="flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all duration-300"
         >
-          Send Reset Link
+          {isLoading ? "Sending..." : "Send Reset Link"}
         </button>
       </form>
 

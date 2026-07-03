@@ -4,11 +4,9 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useVerifyAccountMutation, useSignupMutation } from "@/lib/features/auth/authApi";
-import { useAppDispatch } from "@/lib/hooks";
-import { setCredentials } from "@/lib/features/auth/authSlice";
+import { useVerifyOtpMutation, useForgotPasswordMutation } from "@/lib/features/auth/authApi";
 
-export default function VerifyAccountForm() {
+export default function VerifyForgotOtpForm() {
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const [timeLeft, setTimeLeft] = useState(179); // 2 mins 59 secs
   const [email, setEmail] = useState("");
@@ -16,22 +14,21 @@ export default function VerifyAccountForm() {
   const [successMessage, setSuccessMessage] = useState("");
   const inputRefs = useRef<HTMLInputElement[]>([]);
   const router = useRouter();
-  const dispatch = useAppDispatch();
 
-  const [verifyAccount, { isLoading: isVerifying }] = useVerifyAccountMutation();
-  const [resendOtp, { isLoading: isResending }] = useSignupMutation();
+  const [verifyOtp, { isLoading: isVerifying }] = useVerifyOtpMutation();
+  const [resendOtp, { isLoading: isResending }] = useForgotPasswordMutation();
 
   // Load email from sessionStorage on client load
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedEmail = sessionStorage.getItem("verifyEmail");
+      const storedEmail = sessionStorage.getItem("resetEmail");
       if (storedEmail) {
         setTimeout(() => {
           setEmail(storedEmail);
         }, 0);
       } else {
         setTimeout(() => {
-          setErrorMessage("No email address found for verification. Please register again.");
+          setErrorMessage("No email address found for verification. Please request again.");
         }, 0);
       }
     }
@@ -88,20 +85,15 @@ export default function VerifyAccountForm() {
     if (otp.length < 6 || !email) return;
 
     try {
-      const result = await verifyAccount({ email, otp }).unwrap();
+      const result = await verifyOtp({ email, otp }).unwrap();
       if (result.success) {
-        // Save token & user in Redux/localStorage/Cookie
-        dispatch(
-          setCredentials({
-            user: result.data,
-            accessToken: result.accessToken,
-          })
-        );
-        sessionStorage.removeItem("verifyEmail"); // Clean up
-        router.push("/");
+        // Save temporary reset token & otp details for reset page
+        sessionStorage.setItem("resetToken", result.token);
+        sessionStorage.setItem("resetOtp", otp);
+        router.push("/forgot-password/reset");
       }
     } catch (err: any) {
-      console.error("Verification error:", err);
+      console.error("OTP verification error:", err);
       setErrorMessage(err?.data?.message || "Invalid OTP code. Please try again.");
     }
   };
@@ -112,13 +104,7 @@ export default function VerifyAccountForm() {
     setSuccessMessage("");
 
     try {
-      // Sign up again with dummy values to trigger code regeneration on the server
-      await resendOtp({
-        name: "User",
-        email,
-        password: "TempPassword123!", // Dummy password trigger (server overwrites details)
-      }).unwrap();
-
+      await resendOtp({ email }).unwrap();
       setTimeLeft(179);
       setCode(Array(6).fill(""));
       inputRefs.current[0]?.focus();
@@ -131,7 +117,7 @@ export default function VerifyAccountForm() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      {/* Top Lock Circle */}
+      {/* Top Lock Badge */}
       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-950/30 mb-5">
         <svg className="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
@@ -160,7 +146,7 @@ export default function VerifyAccountForm() {
         </div>
       )}
 
-      {/* OTP input form */}
+      {/* OTP Input Form */}
       <form onSubmit={handleSubmit} className="mt-8 w-full space-y-6">
         <div className="flex justify-between gap-2.5">
           {code.map((digit, index) => (
@@ -222,7 +208,7 @@ export default function VerifyAccountForm() {
         className="flex items-center gap-2 text-xs font-semibold text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-white transition-colors mt-8"
       >
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l-7.5 7.5M3 12h18" />
         </svg>
         <span>Return to Login</span>
       </Link>

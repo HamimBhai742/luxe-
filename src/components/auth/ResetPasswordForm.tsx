@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useResetPasswordMutation } from "@/lib/features/auth/authApi";
 
 export default function ResetPasswordForm() {
   const [password, setPassword] = useState("");
@@ -9,21 +11,52 @@ export default function ResetPasswordForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage("");
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      setErrorMessage("Passwords do not match!");
       return;
     }
-    console.log("Resetting password to:", password);
-    setSuccess(true);
 
-    // Mock redirect delay
-    setTimeout(() => {
-      router.push("/sign-in");
-    }, 2000);
+    const email = typeof window !== "undefined" ? sessionStorage.getItem("resetEmail") || "" : "";
+    const token = typeof window !== "undefined" ? sessionStorage.getItem("resetToken") || "" : "";
+    const otp = typeof window !== "undefined" ? sessionStorage.getItem("resetOtp") || "" : "";
+
+    if (!email) {
+      setErrorMessage("Session expired. Please request a new OTP link.");
+      return;
+    }
+
+    try {
+      const response = await resetPassword({
+        email,
+        token,
+        otp,
+        password,
+      }).unwrap();
+
+      if (response.success) {
+        setSuccess(true);
+        // Clean up
+        sessionStorage.removeItem("resetEmail");
+        sessionStorage.removeItem("resetToken");
+        sessionStorage.removeItem("resetOtp");
+
+        setTimeout(() => {
+          router.push("/sign-in");
+        }, 2500);
+      }
+    } catch (err: any) {
+      console.error("Reset password error:", err);
+      setErrorMessage(err?.data?.message || "Failed to reset password. Please try again.");
+    }
   };
 
   return (
@@ -35,6 +68,13 @@ export default function ResetPasswordForm() {
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
         Your new password must be different from previously used passwords.
       </p>
+
+      {/* Error Message Alert */}
+      {errorMessage && (
+        <div className="mt-4 w-full rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-650 dark:bg-red-950/20 dark:text-red-400 border border-red-100 dark:border-red-950/30">
+          {errorMessage}
+        </div>
+      )}
 
       {/* Form */}
       {!success ? (
@@ -110,9 +150,10 @@ export default function ResetPasswordForm() {
           {/* Action button */}
           <button
             type="submit"
-            className="flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all duration-300"
+            disabled={isLoading}
+            className="flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all duration-300"
           >
-            Reset Password
+            {isLoading ? "Resetting..." : "Reset Password"}
           </button>
         </form>
       ) : (

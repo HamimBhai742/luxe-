@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSignupMutation } from "@/lib/features/auth/authApi";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
   const [name, setName] = useState("");
@@ -9,12 +12,27 @@ export default function SignUpForm() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [signup, { isLoading }] = useSignupMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreeTerms) return;
-    console.log("Signing up with:", { name, email, password });
-    // Authentication signup logic here
+    setErrorMessage("");
+
+    try {
+      const response = await signup({ name, email, password }).unwrap();
+      if (response.success) {
+        // Save email in session storage for verification step
+        sessionStorage.setItem("verifyEmail", email);
+        router.push("/verify-account");
+      }
+    } catch (err: any) {
+      console.error("Signup error:", err);
+      setErrorMessage(err?.data?.message || "Something went wrong during registration.");
+    }
   };
 
   return (
@@ -26,6 +44,13 @@ export default function SignUpForm() {
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 text-center">
         Enter your details to create a new account
       </p>
+
+      {/* Error Message Alert */}
+      {errorMessage && (
+        <div className="mt-4 w-full rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-650 dark:bg-red-950/20 dark:text-red-400 border border-red-100 dark:border-red-950/30">
+          {errorMessage}
+        </div>
+      )}
 
       {/* Social Login Buttons */}
       <div className="mt-8 w-full space-y-3">
@@ -171,12 +196,15 @@ export default function SignUpForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="group flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all duration-300"
+          disabled={isLoading}
+          className="group flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all duration-300"
         >
-          <span>Create Account</span>
-          <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-          </svg>
+          <span>{isLoading ? "Creating Account..." : "Create Account"}</span>
+          {!isLoading && (
+            <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          )}
         </button>
       </form>
 

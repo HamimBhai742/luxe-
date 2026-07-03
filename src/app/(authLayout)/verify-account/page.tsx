@@ -1,10 +1,10 @@
 import AuthLayoutWrapper from "@/components/auth/AuthLayoutWrapper";
-import VerifyForgotOtpForm from "@/components/auth/VerifyForgotOtpForm";
+import VerifyAccountForm from "@/components/auth/VerifyAccountForm";
 
 export default function VerifyAccountPage() {
   return (
     <AuthLayoutWrapper type="verify">
-      <VerifyForgotOtpForm />
+      <VerifyAccountForm />
     </AuthLayoutWrapper>
   );
 }
