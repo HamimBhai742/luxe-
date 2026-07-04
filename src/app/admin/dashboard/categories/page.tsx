@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import AdminCategoriesClient from "@/components/dashboard/AdminCategoriesClient";
+import AdminCategoriesClient from "@/components/dashboard/admin/AdminCategoriesClient";
 
 export default function AdminCategoriesPage() {
   return (

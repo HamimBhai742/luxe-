@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import AdminProductsClient from "@/components/dashboard/AdminProductsClient";
+import AdminProductsClient from "@/components/dashboard/admin/AdminProductsClient";
 
 export default function AdminProductsPage() {
   return (

@@ -1,4 +1,4 @@
-import DashboardOverviewClient from "@/components/dashboard/DashboardOverviewClient";
+import DashboardOverviewClient from "@/components/dashboard/user/DashboardOverviewClient";
 
 export default function DashboardPage() {
   return (

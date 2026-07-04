@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useAppSelector } from "@/lib/hooks";
-import AdminDashboardSidebar from "@/components/dashboard/AdminDashboardSidebar";
+import AdminDashboardSidebar from "@/components/dashboard/admin/AdminDashboardSidebar";
 
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

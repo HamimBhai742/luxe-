@@ -1,4 +1,4 @@
-import DashboardOrdersClient from "@/components/dashboard/DashboardOrdersClient";
+import DashboardOrdersClient from "@/components/dashboard/user/DashboardOrdersClient";
 
 export default function DashboardOrdersPage() {
   return (

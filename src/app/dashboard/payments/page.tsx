@@ -1,4 +1,4 @@
-import DashboardPaymentsClient from "@/components/dashboard/DashboardPaymentsClient";
+import DashboardPaymentsClient from "@/components/dashboard/user/DashboardPaymentsClient";
 
 export default function DashboardPaymentsPage() {
   return (
