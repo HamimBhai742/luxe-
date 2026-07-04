@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
-import { useAppDispatch } from "@/lib/hooks";
-import { clearCredentials } from "@/lib/features/auth/authSlice";
+
 
 interface SidebarProps {
   onCloseMobileDrawer?: () => void;
@@ -14,8 +12,7 @@ interface SidebarProps {
 export default function AdminDashboardSidebar({ onCloseMobileDrawer }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const mainMenuItems = [
     {
@@ -38,7 +35,7 @@ export default function AdminDashboardSidebar({ onCloseMobileDrawer }: SidebarPr
     },
     {
       name: "Categories",
-      path: "#",
+      path: "/admin/dashboard/categories",
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.5 1.5 0 002.122 0l4.72-4.72a1.5 1.5 0 000-2.122L10.49 3.659A2.25 2.25 0 008.902 3H9.57zM6 7.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
