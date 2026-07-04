@@ -62,7 +62,7 @@ export default function AdminDashboardSidebar({ onCloseMobileDrawer }: SidebarPr
     },
     {
       name: "Users",
-      path: "#",
+      path: "/admin/dashboard/users",
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A11.386 11.386 0 0112 20.25c-1.005 0-1.97-.13-2.887-.372v-.109c0-1.113.285-2.16.786-3.07M14.25 7.5a3 3 0 11-6 0 3 3 0 016 0zM12 18.75a6.002 6.002 0 00-4-5.659V12a3 3 0 005.343-1.701A5.025 5.025 0 0112 10.5a5.025 5.025 0 011.657-.282 3 3 0 005.343 1.701v1.091a6.002 6.002 0 00-4 5.659z" />
