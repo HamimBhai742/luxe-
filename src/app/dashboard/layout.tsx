@@ -1,13 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [searchVal, setSearchVal] = useState("");
+
+  useEffect(() => {
+    const authUserStr = localStorage.getItem("authUser");
+    if (authUserStr) {
+      try {
+        const authUser = JSON.parse(authUserStr);
+        if (authUser.role === "admin" || authUser.email === "admin@gmail.com") {
+          router.replace("/admin/dashboard");
+        }
+      } catch (err) {
+        console.error("Error parsing authUser in dashboard layout:", err);
+      }
+    }
+  }, [router]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();

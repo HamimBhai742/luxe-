@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "sonner";
 
 interface Product {
@@ -374,9 +375,11 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                     
                     {/* Image Box */}
                     <div className="relative aspect-square w-full bg-zinc-100 dark:bg-zinc-955 overflow-hidden">
-                      <img
+                      <Image
                         src={product.image}
                         alt={product.name}
+                        width={280}
+                        height={280}
                         className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover:scale-105"
                       />
                       
@@ -493,9 +496,11 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                 return (
                   <Link key={product.id} href={`/collections/${product.id}`} className="group flex bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
                     <div className="relative w-36 sm:w-48 aspect-square shrink-0 bg-zinc-100 dark:bg-zinc-950 overflow-hidden">
-                      <img
+                      <Image
                         src={product.image}
                         alt={product.name}
+                        width={180}
+                        height={180}
                         className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover:scale-105"
                       />
                       {product.tag && (
@@ -615,9 +620,11 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
           {RECENTLY_VIEWED.map((product) => (
             <Link key={product.id} href={`/collections/${product.id === 101 ? 7 : 15}`} className="group relative flex flex-col cursor-pointer bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-900 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
               <div className="aspect-square w-full bg-zinc-100 dark:bg-zinc-950 overflow-hidden">
-                <img
+                <Image
                   src={product.image}
                   alt={product.name}
+                  width={200}
+                  height={200}
                   className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover:scale-103"
                 />
               </div>

@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "sonner";
 import { CartItem, RecommendedProduct } from "@/lib/mockData";
 
@@ -145,7 +146,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                 >
                   <div className="flex gap-6 items-center flex-1">
                     <div className="h-24 w-24 shrink-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-2">
-                      <img src={item.image} alt={item.name} className="object-contain max-h-full max-w-full" />
+                      <Image src={item.image} alt={item.name} width={96} height={96} className="object-contain max-h-full max-w-full" />
                     </div>
                     <div>
                       <h3 className="text-base font-extrabold text-zinc-900 dark:text-white leading-snug">
@@ -317,8 +318,8 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                 key={rec.id}
                 className="group relative flex flex-col bg-white dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
               >
-                <div className="aspect-[4/3] w-full bg-zinc-50 dark:bg-zinc-950 overflow-hidden p-4 flex items-center justify-center">
-                  <img src={rec.image} alt={rec.name} className="object-contain max-h-[85%] max-w-[85%] transition-transform duration-500 ease-out group-hover:scale-103" />
+                <div className="aspect-4/3 w-full bg-zinc-50 dark:bg-zinc-950 overflow-hidden p-4 flex items-center justify-center">
+                  <Image src={rec.image} alt={rec.name} width={150} height={150} className="object-contain max-h-[85%] max-w-[85%] transition-transform duration-500 ease-out group-hover:scale-103" />
                 </div>
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
@@ -381,7 +382,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                 >
                   {/* Left: Thumbnail Image */}
                   <div className="h-20 w-20 shrink-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5">
-                    <img src={item.image} alt={item.name} className="object-contain max-h-full max-w-full" />
+                    <Image src={item.image} alt={item.name} width={80} height={80} className="object-contain max-h-full max-w-full" />
                   </div>
 
                   {/* Right: Info Panel */}
@@ -470,8 +471,8 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                     key={rec.id}
                     className="flex flex-col bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm"
                   >
-                    <div className="aspect-[4/3] w-full bg-zinc-50 dark:bg-zinc-950 p-3 flex items-center justify-center">
-                      <img src={rec.image} alt={rec.name} className="object-contain max-h-full max-w-full" />
+                    <div className="aspect-4/3 w-full bg-zinc-50 dark:bg-zinc-950 p-3 flex items-center justify-center">
+                      <Image src={rec.image} alt={rec.name} width={120} height={120} className="object-contain max-h-full max-w-full" />
                     </div>
                     <div className="p-3 flex-1 flex flex-col justify-between gap-3">
                       <div>

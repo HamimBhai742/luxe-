@@ -64,13 +64,13 @@ export default function AuthLayoutWrapper({ children, type }: AuthLayoutWrapperP
         {/* Render background based on auth stage */}
         {isSignIn || isSignUp ? (
           <>
-            <div className="absolute inset-0 bg-gradient-to-b from-zinc-200 via-zinc-400 to-zinc-700 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-800 z-0" />
+            <div className="absolute inset-0 bg-linear-to-b from-zinc-200 via-zinc-400 to-zinc-700 dark:from-zinc-900 dark:via-zinc-950 dark:to-zinc-800 z-0" />
             <div className="absolute inset-0 bg-[radial-gradient(at_0%_0%,rgba(255,255,255,0.15)_0,transparent_55%)] z-1" />
             <div className="absolute inset-0 bg-[radial-gradient(at_100%_100%,rgba(0,0,0,0.25)_0,transparent_55%)] z-1" />
           </>
         ) : isForgot ? (
           <>
-            <div className="absolute inset-0 bg-gradient-to-b from-zinc-50 to-zinc-150 dark:from-zinc-900 dark:to-zinc-950 z-0" />
+            <div className="absolute inset-0 bg-linear-to-b from-zinc-50 to-zinc-150 dark:from-zinc-900 dark:to-zinc-950 z-0" />
             <div className="absolute inset-0 bg-[radial-gradient(at_0%_0%,rgba(255,255,255,0.8)_0,transparent_60%)] dark:bg-none z-1" />
           </>
         ) : isVerify ? (

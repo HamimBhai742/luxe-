@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Hero() {
   return (
@@ -37,7 +38,7 @@ export default function Hero() {
       `}</style>
 
       {/* Hero Inner Floating Card */}
-      <div className="relative rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800 bg-gradient-to-br from-zinc-50/70 via-white to-blue-50/20 dark:from-zinc-900/50 dark:via-zinc-950 dark:to-blue-950/20 py-16 sm:py-20 lg:py-24 px-6 sm:px-10 lg:px-16 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-12 transition-colors duration-500">
+      <div className="relative rounded-3xl overflow-hidden border border-zinc-200/80 dark:border-zinc-800 bg-linear-to-br from-zinc-50/70 via-white to-blue-50/20 dark:from-zinc-900/50 dark:via-zinc-950 dark:to-blue-950/20 py-16 sm:py-20 lg:py-24 px-6 sm:px-10 lg:px-16 shadow-xs flex flex-col lg:flex-row items-center justify-between gap-12 transition-colors duration-500">
         
         {/* Animated Mesh Blobs */}
         <div className="absolute top-10 left-10 h-72 w-72 rounded-full bg-blue-400/10 dark:bg-blue-600/10 blur-3xl animate-blob-drift pointer-events-none z-0" />
@@ -93,9 +94,11 @@ export default function Hero() {
           {/* Card 1: Aura Headphones (Floating slow) */}
           <div className="bg-white/80 dark:bg-zinc-900/80 border border-zinc-200/50 dark:border-zinc-800/80 rounded-2xl p-4 shadow-lg flex items-center gap-4 w-72 max-w-full backdrop-blur-md animate-float-slow">
             <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=200&auto=format&fit=crop"
                 alt="Aura Headphones"
+                width={64}
+                height={64}
                 className="object-contain max-h-full max-w-full"
               />
             </div>
@@ -115,9 +118,11 @@ export default function Hero() {
           {/* Card 2: AuraBook Pro (Floating reverse) */}
           <div className="bg-white/80 dark:bg-zinc-900/80 border border-zinc-200/50 dark:border-zinc-800/80 rounded-2xl p-4 shadow-lg flex items-center gap-4 w-72 max-w-full backdrop-blur-md animate-float-reverse sm:translate-y-8 lg:translate-y-0 lg:translate-x-6">
             <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=200&auto=format&fit=crop"
                 alt="AuraBook Pro 14"
+                width={64}
+                height={64}
                 className="object-contain max-h-full max-w-full"
               />
             </div>

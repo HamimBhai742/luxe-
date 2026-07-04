@@ -1,0 +1,14 @@
+import { Suspense } from "react";
+import AdminProductsClient from "@/components/dashboard/AdminProductsClient";
+
+export default function AdminProductsPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex h-64 items-center justify-center text-zinc-550 dark:text-zinc-400 font-bold">
+        Loading Products Console...
+      </div>
+    }>
+      <AdminProductsClient />
+    </Suspense>
+  );
+}

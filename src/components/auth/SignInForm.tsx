@@ -74,7 +74,11 @@ export default function SignInForm() {
           })
         );
         toast.success("Signed in successfully!");
-        router.push("/");
+        if (result.data.role === "admin" || email === "admin@gmail.com") {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/");
+        }
       }
     } catch (err: any) {
       console.error("Login error:", err);
@@ -97,6 +101,54 @@ export default function SignInForm() {
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 text-center">
         Enter your credentials to access your account
       </p>
+
+      {/* Quick Test Login Credentials */}
+      <div className="mt-6 w-full rounded-2xl border border-dashed border-zinc-200 bg-zinc-50/50 p-4 dark:border-zinc-800 dark:bg-zinc-900/50">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-[11px] font-bold tracking-wider text-zinc-400 dark:text-zinc-500 uppercase flex items-center gap-1.5">
+            <svg className="h-3.5 w-3.5 text-blue-500" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Quick Test Login
+          </span>
+          <span className="text-[10px] text-zinc-400 dark:text-zinc-500 italic">Click to autofill</span>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              setEmail("dakokno230@gmail.com");
+              setPassword("Hamim@742");
+            }}
+            className="flex flex-col items-start gap-1 p-3 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900 text-left transition-all duration-200 hover:border-blue-500 dark:hover:border-blue-500 cursor-pointer shadow-sm group"
+          >
+            <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 flex items-center gap-1">
+              <svg className="h-3.5 w-3.5 text-zinc-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+              Demo User
+            </span>
+            <span className="text-[10px] text-zinc-400 dark:text-zinc-500 truncate w-full">dakokno230@gmail.com</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setEmail("admin@gmail.com");
+              setPassword("Hamim@742");
+            }}
+            className="flex flex-col items-start gap-1 p-3 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900 text-left transition-all duration-200 hover:border-purple-500 dark:hover:border-purple-500 cursor-pointer shadow-sm group"
+          >
+            <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300 group-hover:text-purple-600 dark:group-hover:text-purple-400 flex items-center gap-1">
+              <svg className="h-3.5 w-3.5 text-zinc-400 group-hover:text-purple-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+              </svg>
+              Demo Admin
+            </span>
+            <span className="text-[10px] text-zinc-400 dark:text-zinc-500 truncate w-full">admin@gmail.com</span>
+          </button>
+        </div>
+      </div>
 
       {/* Error Message Alert */}
       {errorMessage && (

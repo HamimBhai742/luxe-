@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "sonner";
 
 interface ProductReview {
@@ -122,10 +123,12 @@ export default function CollectionDetailsClient({
           <div className="space-y-6">
             
             {/* Main Showcase Image */}
-            <div className="relative aspect-[4/3] w-full bg-zinc-50 dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 shadow-sm flex items-center justify-center p-4">
-              <img
+            <div className="relative aspect-4/3 w-full bg-zinc-50 dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 shadow-sm flex items-center justify-center p-4">
+              <Image
                 src={product.images[activeImageIndex] || product.image}
                 alt={product.name}
+                width={400}
+                height={300}
                 className="object-contain max-h-[85%] max-w-[85%] transition-all duration-300"
               />
 
@@ -167,7 +170,7 @@ export default function CollectionDetailsClient({
                         : "border-zinc-200 hover:border-zinc-350 dark:border-zinc-800"
                     }`}
                   >
-                    <img src={img} alt="thumbnail" className="object-contain max-h-[90%] max-w-[90%]" />
+                    <Image src={img} alt="thumbnail" width={80} height={80} className="object-contain max-h-[90%] max-w-[90%]" />
                   </button>
                 );
               })}
@@ -358,9 +361,11 @@ export default function CollectionDetailsClient({
                 className="group relative flex flex-col bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <div className="aspect-square w-full bg-zinc-50 dark:bg-zinc-950 overflow-hidden p-4 flex items-center justify-center">
-                  <img
+                  <Image
                     src={p.image}
                     alt={p.name}
+                    width={180}
+                    height={180}
                     className="object-contain max-h-[85%] max-w-[85%] transition-transform duration-500 ease-out group-hover:scale-103"
                   />
                 </div>
@@ -414,9 +419,11 @@ export default function CollectionDetailsClient({
 
         {/* Carousel Showcase */}
         <div className="relative w-full aspect-square bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center p-6 border-b border-zinc-100 dark:border-zinc-900">
-          <img
+          <Image
             src={product.images[activeImageIndex] || product.image}
             alt={product.name}
+            width={300}
+            height={300}
             className="object-contain max-h-[85%] max-w-[85%]"
           />
           

@@ -30,7 +30,7 @@ export default function ProductCard({
         <div className={`absolute inset-0 w-full h-full ${gradientBgStyle} transition-transform duration-500 ease-out group-hover:scale-105`}>
           {/* Glassmorphism overlays to give premium glass/plastic lighting reflection */}
           <div className="absolute inset-0 bg-white/5 opacity-40 mix-blend-overlay" />
-          <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/20 to-transparent pointer-events-none" />
           {/* Internal shadow to give a premium inset look */}
           <div className="absolute inset-0 ring-1 ring-inset ring-black/5" />
         </div>

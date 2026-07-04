@@ -112,7 +112,7 @@ export default function DashboardSidebar({ onCloseMobileDrawer }: SidebarProps) 
         
         {/* Branding header with Customer Portal subtitle */}
         <div>
-          <Link href="/" className="flex items-center gap-2.5 font-serif text-lg font-bold tracking-[0.05em] text-blue-600 dark:text-blue-450 uppercase pl-3">
+          <Link href="/" className="flex items-center gap-2.5 font-serif text-lg font-bold tracking-wider text-blue-600 dark:text-blue-450 uppercase pl-3">
             Aura Marketplace
           </Link>
           <span className="text-[10px] font-semibold text-zinc-400 pl-3 mt-1 block">
@@ -191,7 +191,7 @@ export default function DashboardSidebar({ onCloseMobileDrawer }: SidebarProps) 
 
       {/* Logout Confirmation Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm transition-opacity duration-300 animate-fade-in">
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm transition-opacity duration-300 animate-fade-in">
           <div className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-white p-6 text-center shadow-2xl border border-zinc-100 dark:border-zinc-900 dark:bg-zinc-950 transition-all scale-100 duration-300">
             {/* Sign Out Warning Icon */}
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 mb-4">

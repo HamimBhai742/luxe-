@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { toast } from "sonner";
 
 export default function DashboardSettingsClient() {
@@ -171,7 +172,7 @@ export default function DashboardSettingsClient() {
           {activeTab === "profile" && (
             <div className="relative">
               {/* Graphic Banner */}
-              <div className="h-32 w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-650 relative" />
+              <div className="h-32 w-full bg-linear-to-r from-blue-600 via-indigo-600 to-purple-650 relative" />
 
               {/* Hidden File Input */}
               <input
@@ -195,9 +196,12 @@ export default function DashboardSettingsClient() {
                   }}
                   className="relative group cursor-pointer h-20 w-20 rounded-full shrink-0 shadow-md"
                 >
-                  <img
+                  <Image
                     src={avatarUrl}
                     alt="avatar"
+                    width={80}
+                    height={80}
+                    unoptimized={avatarUrl.startsWith("data:") || avatarUrl.startsWith("blob:")}
                     className="h-full w-full rounded-full object-cover border-4 border-white dark:border-zinc-900 shrink-0"
                   />
                   

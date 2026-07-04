@@ -165,7 +165,7 @@ export default function Header() {
                   <div className="my-1 border-t border-zinc-100 dark:border-zinc-800"></div>
 
                   <Link
-                    href="/dashboard"
+                    href={user.role === "admin" || user.email === "admin@gmail.com" ? "/admin/dashboard" : "/dashboard"}
                     onClick={() => setIsDropdownOpen(false)}
                     className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors"
                   >
@@ -206,7 +206,7 @@ export default function Header() {
     
       {/* Logout Confirmation Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm transition-opacity duration-300">
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm transition-opacity duration-300">
           <div className="w-full max-w-sm transform overflow-hidden rounded-2xl bg-white p-6 text-center shadow-2xl border border-zinc-100 dark:border-zinc-900 dark:bg-zinc-950 transition-all scale-100 duration-300">
             {/* Sign Out Warning Icon */}
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 mb-4">

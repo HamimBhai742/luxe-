@@ -22,7 +22,7 @@ export default function Categories() {
                 fill
                 className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
             </div>
 
             <div className="relative z-10 h-full flex flex-col justify-end p-6 md:p-8">

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "sonner";
 
 interface WishlistItem {
@@ -155,8 +156,8 @@ export default function DashboardWishlistClient() {
                 className="group relative flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300"
               >
                 {/* Image layout */}
-                <div className="aspect-[4/3] w-full bg-zinc-50 dark:bg-zinc-950 overflow-hidden p-4 flex items-center justify-center relative">
-                  <img src={item.image} alt={item.name} className="object-contain max-h-[85%] max-w-[85%] transition-transform duration-500 ease-out group-hover:scale-103" />
+                <div className="aspect-4/3 w-full bg-zinc-50 dark:bg-zinc-950 overflow-hidden p-4 flex items-center justify-center relative">
+                  <Image src={item.image} alt={item.name} width={150} height={150} className="object-contain max-h-[85%] max-w-[85%] transition-transform duration-500 ease-out group-hover:scale-103" />
                   
                   {/* Delete remove badge */}
                   <button
@@ -248,8 +249,8 @@ export default function DashboardWishlistClient() {
                 </button>
 
                 {/* image */}
-                <div className="aspect-[4/3] w-full bg-zinc-50 dark:bg-zinc-950 p-3 flex items-center justify-center">
-                  <img src={item.image} alt={item.name} className="object-contain max-h-full max-w-full" />
+                <div className="aspect-4/3 w-full bg-zinc-50 dark:bg-zinc-950 p-3 flex items-center justify-center">
+                  <Image src={item.image} alt={item.name} width={120} height={120} className="object-contain max-h-full max-w-full" />
                 </div>
 
                 {/* Info */}
@@ -321,7 +322,7 @@ export default function DashboardWishlistClient() {
             >
               {/* Image box */}
               <div className="aspect-square w-full bg-zinc-50 dark:bg-zinc-950 p-4 flex items-center justify-center relative">
-                <img src={prod.image} alt={prod.name} className="object-contain max-h-[85%] max-w-[85%] transition-transform duration-500 group-hover:scale-103" />
+                <Image src={prod.image} alt={prod.name} width={120} height={120} className="object-contain max-h-[85%] max-w-[85%] transition-transform duration-500 group-hover:scale-103" />
               </div>
 
               {/* metadata info */}
