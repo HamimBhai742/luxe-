@@ -26,8 +26,8 @@ export default function NotFound() {
 
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-16 sm:px-6 lg:px-8 text-center max-w-4xl mx-auto w-full">
         {/* Card illustration container */}
-        <div className="relative w-full max-w-md aspect-[4/3] rounded-2xl border border-zinc-100 bg-white/60 p-4 shadow-xl backdrop-blur-sm dark:border-zinc-900/80 dark:bg-zinc-900/60 overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] mb-8">
-          <div className="absolute inset-0 bg-gradient-to-tr from-blue-50/20 via-transparent to-zinc-50/30 dark:from-blue-950/10 dark:to-zinc-950/10 pointer-events-none" />
+        <div className="relative w-full max-w-md aspect-4/3 rounded-2xl border border-zinc-100 bg-white/60 p-4 shadow-xl backdrop-blur-sm dark:border-zinc-900/80 dark:bg-zinc-900/60 overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:scale-[1.01] mb-8">
+          <div className="absolute inset-0 bg-linear-to-tr from-blue-50/20 via-transparent to-zinc-50/30 dark:from-blue-950/10 dark:to-zinc-950/10 pointer-events-none" />
           
           <div className="relative w-full h-full flex flex-col items-center justify-center">
             {/* Minimalist preview of website name in top left of card */}

@@ -53,7 +53,16 @@ export default function AdminCategoriesClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [categories, setCategories] = useState<CategoryItem[]>(INITIAL_CATEGORIES);
+  const API_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
+
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
+  // Delete confirmation modal states
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [deleteConfirmName, setDeleteConfirmName] = useState("");
+
   const [filterSearch, setFilterSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -72,6 +81,28 @@ export default function AdminCategoriesClient() {
   // Edit states
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
   const [editingCategoryId, setEditingCategoryId] = useState<string | null>(null);
+
+  // Fetch categories on mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch(`${API_URL}/categories`);
+        const data = await res.json();
+        if (data.success) {
+          setCategories(data.data);
+        } else {
+          toast.error(data.message || "Failed to fetch categories");
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        toast.error("Failed to fetch categories from backend.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCategories();
+  }, [API_URL]);
 
   // Derived state to check if modal should be open (either triggered locally or via URL params)
   const isModalOpen = localIsModalOpen || searchParams.get("create") === "true";
@@ -107,6 +138,7 @@ export default function AdminCategoriesClient() {
     setVisWeb(true);
     setVisMobile(true);
     setIconType("other");
+    setFormErrors({});
     setEditingCategoryId(null);
   };
 
@@ -128,61 +160,116 @@ export default function AdminCategoriesClient() {
     setActiveMenuId(null);
   };
 
-  const handleDeleteCategory = (id: string, catName: string) => {
-    setCategories((prev) => prev.filter((c) => c.id !== id));
-    toast.success(`Category "${catName}" deleted successfully!`);
-    setActiveMenuId(null);
+  const handleDeleteCategory = async (id: string) => {
+    try {
+      const res = await fetch(`${API_URL}/categories/${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setCategories((prev) => prev.filter((c) => c.id !== id));
+        toast.success("Category deleted successfully!");
+      } else {
+        toast.error(data.message || "Failed to delete category");
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      toast.error("Failed to delete category from server.");
+    } finally {
+      setDeleteConfirmId(null);
+      setDeleteConfirmName("");
+    }
   };
 
-  const handleBulkDelete = () => {
+  const handleBulkDelete = async () => {
     if (selectedCategories.length === 0) return;
-    setCategories((prev) => prev.filter((c) => !selectedCategories.includes(c.id)));
-    toast.success(`Successfully deleted ${selectedCategories.length} category(s)!`);
-    setSelectedCategories([]);
+    try {
+      let successCount = 0;
+      for (const id of selectedCategories) {
+        const res = await fetch(`${API_URL}/categories/${id}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          successCount++;
+        }
+      }
+      setCategories((prev) => prev.filter((c) => !selectedCategories.includes(c.id)));
+      toast.success(`Successfully deleted ${successCount} category(s)!`);
+      setSelectedCategories([]);
+    } catch (error) {
+      console.error("Error bulk deleting categories:", error);
+      toast.error("Failed to complete bulk delete operations.");
+    }
   };
 
-  const handleSubmitCategory = (e: React.FormEvent) => {
+  const handleSubmitCategory = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !slug) {
-      toast.error("Please fill in all required fields!");
+    setFormErrors({});
+
+    // Client-side quick checks
+    const clientErrors: Record<string, string> = {};
+    if (!name.trim()) clientErrors.name = "Category name is required.";
+    if (!slug.trim()) clientErrors.slug = "Slug path is required.";
+
+    if (Object.keys(clientErrors).length > 0) {
+      setFormErrors(clientErrors);
+      toast.error("Please fix all form validation errors!");
       return;
     }
 
-    if (editingCategoryId) {
-      setCategories((prev) =>
-        prev.map((c) => {
-          if (c.id === editingCategoryId) {
-            return {
-              ...c,
-              name,
-              slug,
-              parent,
-              productsCount: productsCount === "" ? 0 : Number(productsCount),
-              status,
-              visibility: { web: visWeb, mobile: visMobile },
-              iconType,
-            };
-          }
-          return c;
-        })
-      );
-      toast.success("Category updated successfully!");
-    } else {
-      const newCategory: CategoryItem = {
-        id: `cat-${Date.now()}`,
+    const toastId = toast.loading(editingCategoryId ? "Updating category..." : "Saving category...");
+
+    try {
+      const payload = {
         name,
         slug,
         parent,
-        productsCount: productsCount === "" ? 0 : Number(productsCount),
         status,
         visibility: { web: visWeb, mobile: visMobile },
         iconType,
       };
 
-      setCategories((prev) => [newCategory, ...prev]);
-      toast.success("Category created successfully!");
+      let res;
+      if (editingCategoryId) {
+        res = await fetch(`${API_URL}/categories/${editingCategoryId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        res = await fetch(`${API_URL}/categories`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      const responseData = await res.json();
+
+      if (res.ok && responseData.success) {
+        if (editingCategoryId) {
+          setCategories((prev) =>
+            prev.map((c) => (c.id === editingCategoryId ? responseData.data : c))
+          );
+          toast.success("Category updated successfully!", { id: toastId });
+        } else {
+          setCategories((prev) => [responseData.data, ...prev]);
+          toast.success("Category created successfully!", { id: toastId });
+        }
+        closeModal();
+      } else {
+        if (responseData.errors) {
+          setFormErrors(responseData.errors);
+          toast.error(responseData.message || "Server validation failed.", { id: toastId });
+        } else {
+          toast.error(responseData.message || "Failed to save category.", { id: toastId });
+        }
+      }
+    } catch (error) {
+      console.error("Error submitting category:", error);
+      toast.error("An error occurred while saving the category.", { id: toastId });
     }
-    closeModal();
   };
 
   const handleExport = () => {
@@ -372,10 +459,22 @@ export default function AdminCategoriesClient() {
               </tr>
             </thead>
             <tbody>
-              {filteredCategories.length === 0 ? (
+              {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="py-12 text-center text-zinc-400">
-                    No categories match your search parameters.
+                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-550 font-bold">
+                    <div className="flex flex-col items-center justify-center gap-3">
+                      <svg className="animate-spin h-6 w-6 text-blue-650" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span>Fetching categories catalog...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : filteredCategories.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-550 font-bold">
+                    No categories found. Click "Create Category" to add one.
                   </td>
                 </tr>
               ) : (
@@ -503,8 +602,12 @@ export default function AdminCategoriesClient() {
                             
                             <button
                               type="button"
-                              onClick={() => handleDeleteCategory(c.id, c.name)}
-                              className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-bold text-red-655 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/20 transition-colors cursor-pointer"
+                              onClick={() => {
+                                setDeleteConfirmId(c.id);
+                                setDeleteConfirmName(c.name);
+                                setActiveMenuId(null);
+                              }}
+                              className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-bold text-red-655 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/20 transition-colors cursor-pointer text-left"
                             >
                               <svg className="h-4 w-4 text-red-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -594,7 +697,7 @@ export default function AdminCategoriesClient() {
             </div>
 
             {/* Modal Form Content */}
-            <form onSubmit={handleSubmitCategory} className="space-y-4">
+            <form onSubmit={handleSubmitCategory} noValidate className="space-y-4">
               
               {/* Category Name */}
               <div>
@@ -603,12 +706,14 @@ export default function AdminCategoriesClient() {
                 </label>
                 <input
                   type="text"
-                  required
                   placeholder="e.g. Smart Home Accessories"
                   value={name}
                   onChange={(e) => handleNameChange(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
+                  className={`w-full px-3.5 py-2.5 rounded-xl border ${formErrors.name ? "border-red-500 focus:border-red-500" : "border-zinc-250 dark:border-zinc-800"} bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400`}
                 />
+                {formErrors.name && (
+                  <p className="text-red-500 text-[10px] mt-1 font-bold">{formErrors.name}</p>
+                )}
               </div>
 
               {/* Slug */}
@@ -618,12 +723,14 @@ export default function AdminCategoriesClient() {
                 </label>
                 <input
                   type="text"
-                  required
                   placeholder="/smart-home"
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
+                  className={`w-full px-3.5 py-2.5 rounded-xl border ${formErrors.slug ? "border-red-500 focus:border-red-500" : "border-zinc-250 dark:border-zinc-800"} bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400`}
                 />
+                {formErrors.slug && (
+                  <p className="text-red-500 text-[10px] mt-1 font-bold">{formErrors.slug}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -755,6 +862,40 @@ export default function AdminCategoriesClient() {
               </div>
 
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmId && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300">
+          <div className="w-full max-w-sm transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
+            <h3 className="text-base font-bold text-zinc-950 dark:text-white flex items-center gap-2">
+              <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              Confirm Delete
+            </h3>
+            <p className="text-xs text-zinc-550 dark:text-zinc-400 mt-2.5 leading-relaxed">
+              Are you sure you want to delete category <span className="font-extrabold text-zinc-900 dark:text-white">"{deleteConfirmName}"</span>? This action cannot be undone.
+            </p>
+            <div className="flex items-center gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-900 mt-5">
+              <button
+                onClick={() => {
+                  setDeleteConfirmId(null);
+                  setDeleteConfirmName("");
+                }}
+                className="flex-1 rounded-xl border border-zinc-250 py-2 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-850 transition-colors cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDeleteCategory(deleteConfirmId)}
+                className="flex-1 rounded-xl bg-red-655 hover:bg-red-550 py-2 text-xs font-extrabold text-white shadow-sm shadow-red-500/10 transition-colors cursor-pointer"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

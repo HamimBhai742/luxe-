@@ -45,7 +45,9 @@ export default function SignInForm() {
               }
             } catch (err: any) {
               console.error("Google verification error:", err);
-              setErrorMessage(err?.data?.message || "Google authentication failed on server.");
+              const errorMsg = err?.data?.message || "Google authentication failed on server.";
+              setErrorMessage(errorMsg);
+              toast.error(errorMsg);
             }
           } else {
             setErrorMessage("Did not receive access token from Google.");
@@ -82,12 +84,15 @@ export default function SignInForm() {
       }
     } catch (err: any) {
       console.error("Login error:", err);
-      if (err?.status === 403) {
+      const msg = err?.data?.message || "";
+      if (err?.status === 403 && msg.toLowerCase().includes("verify")) {
         // Email verification required, save email and route to verify-account
         sessionStorage.setItem("verifyEmail", email);
         router.push("/verify-account");
       } else {
-        setErrorMessage(err?.data?.message || "Invalid email or password.");
+        const errorMsg = msg || "Invalid email or password.";
+        setErrorMessage(errorMsg);
+        toast.error(errorMsg);
       }
     }
   };
