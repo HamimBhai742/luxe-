@@ -16,54 +16,14 @@ interface CouponItem {
   status: "Active" | "Expired" | "Scheduled";
 }
 
-const INITIAL_COUPONS: CouponItem[] = [
-  {
-    id: "coupon-1",
-    code: "WELCOME20",
-    type: "Percentage",
-    value: "20%",
-    usageUsed: 145,
-    usageMax: 500,
-    expiryDate: "Dec 31, 2024",
-    status: "Active",
-  },
-  {
-    id: "coupon-2",
-    code: "SUMMER24",
-    type: "Fixed Amount",
-    value: "$15.00",
-    usageUsed: 500,
-    usageMax: 500,
-    expiryDate: "Aug 31, 2024",
-    status: "Expired",
-  },
-  {
-    id: "coupon-3",
-    code: "FREESHIPNV",
-    type: "Free Shipping",
-    value: "Standard",
-    usageUsed: 0,
-    usageMax: -1, // -1 means Infinity
-    expiryDate: "Nov 30, 2024",
-    status: "Scheduled",
-  },
-  {
-    id: "coupon-4",
-    code: "VIPONLY25",
-    type: "Percentage",
-    value: "25%",
-    usageUsed: 89,
-    usageMax: 100,
-    expiryDate: "Never",
-    status: "Active",
-  },
-];
+const API_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
 
 export default function AdminCouponsClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [coupons, setCoupons] = useState<CouponItem[]>(INITIAL_COUPONS);
+  const [coupons, setCoupons] = useState<CouponItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filterSearch, setFilterSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All");
   const [selectedType, setSelectedType] = useState("All");
@@ -87,6 +47,48 @@ export default function AdminCouponsClient() {
 
   // Derived state to check if modal should be open (either triggered locally or via URL params)
   const isModalOpen = localIsModalOpen || searchParams.get("create") === "true";
+
+  // Calculate stats dynamically
+  const totalCouponsCount = coupons.length;
+  const activeCouponsCount = coupons.filter((c) => c.status === "Active").length;
+  const inactiveCouponsCount = coupons.length - activeCouponsCount;
+  const totalRedemptionsCount = coupons.reduce((sum, c) => sum + c.usageUsed, 0);
+
+  const totalSavingsVal = coupons.reduce((sum, c) => {
+    const discountVal = parseFloat(c.value.replace(/[^0-9.]/g, "")) || 0;
+    const itemSavings = c.type === "Percentage"
+      ? (discountVal / 100) * 60 // 60 USD average order
+      : c.type === "Fixed Amount"
+        ? discountVal
+        : 8.5; // Free shipping value
+    return sum + (c.usageUsed * itemSavings);
+  }, 0);
+  const displaySavings = totalSavingsVal >= 1000
+    ? `$${(totalSavingsVal / 1000).toFixed(1)}K`
+    : `$${totalSavingsVal.toFixed(2)}`;
+
+
+  // Fetch coupons on mount
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch(`${API_URL}/coupons`);
+        const data = await res.json();
+        if (data.success) {
+          setCoupons(data.data);
+        } else {
+          toast.error(data.message || "Failed to fetch coupons");
+        }
+      } catch (error) {
+        console.error("Error fetching coupons:", error);
+        toast.error("Failed to fetch coupons from backend.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCoupons();
+  }, [API_URL]);
 
   // Close menus on click outside
   useEffect(() => {
@@ -155,20 +157,48 @@ export default function AdminCouponsClient() {
     setActiveMenuId(null);
   };
 
-  const handleDeleteCoupon = (id: string, couponCode: string) => {
-    setCoupons((prev) => prev.filter((c) => c.id !== id));
-    toast.success(`Coupon "${couponCode}" deleted successfully!`);
+  const handleDeleteCoupon = async (id: string, couponCode: string) => {
+    try {
+      const res = await fetch(`${API_URL}/coupons/${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setCoupons((prev) => prev.filter((c) => c.id !== id));
+        toast.success(`Coupon "${couponCode}" deleted successfully!`);
+      } else {
+        toast.error(data.message || "Failed to delete coupon");
+      }
+    } catch (error) {
+      console.error("Error deleting coupon:", error);
+      toast.error("Failed to delete coupon from server.");
+    }
     setActiveMenuId(null);
   };
 
-  const handleBulkDelete = () => {
+  const handleBulkDelete = async () => {
     if (selectedCoupons.length === 0) return;
-    setCoupons((prev) => prev.filter((c) => !selectedCoupons.includes(c.id)));
-    toast.success(`Successfully deleted ${selectedCoupons.length} coupon(s)!`);
-    setSelectedCoupons([]);
+    try {
+      let successCount = 0;
+      for (const id of selectedCoupons) {
+        const res = await fetch(`${API_URL}/coupons/${id}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          successCount++;
+        }
+      }
+      setCoupons((prev) => prev.filter((c) => !selectedCoupons.includes(c.id)));
+      toast.success(`Successfully deleted ${successCount} coupon(s)!`);
+      setSelectedCoupons([]);
+    } catch (error) {
+      console.error("Error bulk deleting coupons:", error);
+      toast.error("Failed to complete bulk delete operations.");
+    }
   };
 
-  const handleSubmitCoupon = (e: React.FormEvent) => {
+  const handleSubmitCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!code) {
       toast.error("Coupon Code is required!");
@@ -193,41 +223,58 @@ export default function AdminCouponsClient() {
       });
     }
 
-    if (editingCouponId) {
-      setCoupons((prev) =>
-        prev.map((c) => {
-          if (c.id === editingCouponId) {
-            return {
-              ...c,
-              code: code.toUpperCase(),
-              type,
-              value: displayValue,
-              usageUsed: Number(usageUsed),
-              usageMax: isInfiniteUsage ? -1 : Number(usageMax),
-              expiryDate: finalExpiry,
-              status,
-            };
-          }
-          return c;
-        })
-      );
-      toast.success("Coupon updated successfully!");
-    } else {
-      const newCoupon: CouponItem = {
-        id: `coupon-${Date.now()}`,
-        code: code.toUpperCase(),
-        type,
-        value: displayValue,
-        usageUsed: Number(usageUsed) || 0,
-        usageMax: isInfiniteUsage ? -1 : Number(usageMax) || 100,
-        expiryDate: finalExpiry,
-        status,
-      };
+    const payload = {
+      code: code.toUpperCase(),
+      type,
+      value: displayValue,
+      usageUsed: Number(usageUsed) || 0,
+      usageMax: isInfiniteUsage ? -1 : Number(usageMax) || 100,
+      expiryDate: finalExpiry,
+      status,
+    };
 
-      setCoupons((prev) => [newCoupon, ...prev]);
-      toast.success("Coupon created successfully!");
+    const toastId = toast.loading(editingCouponId ? "Updating coupon..." : "Creating coupon...");
+
+    try {
+      let res;
+      if (editingCouponId) {
+        res = await fetch(`${API_URL}/coupons/${editingCouponId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        res = await fetch(`${API_URL}/coupons`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      const responseData = await res.json();
+
+      if (res.ok && responseData.success) {
+        if (editingCouponId) {
+          setCoupons((prev) =>
+            prev.map((c) => (c.id === editingCouponId ? responseData.data : c))
+          );
+          toast.success("Coupon updated successfully!", { id: toastId });
+        } else {
+          setCoupons((prev) => [responseData.data, ...prev]);
+          toast.success("Coupon created successfully!", { id: toastId });
+        }
+        closeModal();
+      } else {
+        if (responseData.errors && responseData.errors.code) {
+          toast.error(responseData.errors.code, { id: toastId });
+        } else {
+          toast.error(responseData.message || "Failed to save coupon.", { id: toastId });
+        }
+      }
+    } catch (error) {
+      console.error("Error submitting coupon:", error);
+      toast.error("An error occurred while saving the coupon.", { id: toastId });
     }
-    closeModal();
   };
 
   const handleExport = () => {
@@ -356,15 +403,15 @@ export default function AdminCouponsClient() {
         <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 flex justify-between items-center relative overflow-hidden shadow-xs">
           <div>
             <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Total Coupons</span>
-            <span className="text-3xl font-black text-zinc-955 dark:text-white mt-2 block">124</span>
+            <span className="text-3xl font-black text-zinc-955 dark:text-white mt-2 block">{totalCouponsCount}</span>
             <div className="flex items-center gap-3 mt-3">
               <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-600">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                86 Active
+                {activeCouponsCount} Active
               </span>
               <span className="flex items-center gap-1.5 text-[10px] font-bold text-zinc-400">
                 <span className="h-1.5 w-1.5 rounded-full bg-zinc-350" />
-                38 Inactive
+                {inactiveCouponsCount} Inactive
               </span>
             </div>
           </div>
@@ -379,7 +426,7 @@ export default function AdminCouponsClient() {
         <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 flex justify-between items-center relative overflow-hidden shadow-xs">
           <div>
             <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Total Savings</span>
-            <span className="text-3xl font-black text-zinc-950 dark:text-white mt-2 block">$45.2K</span>
+            <span className="text-3xl font-black text-zinc-955 dark:text-white mt-2 block">{displaySavings}</span>
             <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 mt-3">
               <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24">
                 <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z" />
@@ -398,8 +445,8 @@ export default function AdminCouponsClient() {
         <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 flex justify-between items-center relative overflow-hidden shadow-xs">
           <div>
             <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Total Redemptions</span>
-            <span className="text-3xl font-black text-zinc-955 dark:text-white mt-2 block">3,892</span>
-            <span className="text-[10px] font-bold text-zinc-400 mt-3.5 block">Across 42 active campaigns</span>
+            <span className="text-3xl font-black text-zinc-955 dark:text-white mt-2 block">{totalRedemptionsCount.toLocaleString()}</span>
+            <span className="text-[10px] font-bold text-zinc-400 mt-3.5 block">Across {activeCouponsCount} active campaigns</span>
           </div>
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50/60 dark:bg-zinc-900">
             <svg className="h-5 w-5 text-rose-600" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -409,6 +456,7 @@ export default function AdminCouponsClient() {
         </div>
 
       </div>
+
 
       {/* Main Console Box */}
       <div className="rounded-3xl border border-zinc-150 bg-white dark:border-zinc-900 dark:bg-zinc-950 overflow-hidden shadow-xs">
@@ -491,7 +539,19 @@ export default function AdminCouponsClient() {
               </tr>
             </thead>
             <tbody>
-              {filteredCoupons.length === 0 ? (
+              {isLoading ? (
+                <tr>
+                  <td colSpan={8} className="py-16 text-center text-zinc-400 dark:text-zinc-550 font-bold border-0">
+                    <div className="flex flex-col items-center justify-center gap-3">
+                      <svg className="animate-spin h-6 w-6 text-blue-650" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span>Fetching coupons catalog...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : filteredCoupons.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="py-12 text-center text-zinc-400 border-0">
                     No coupon codes match your filters.

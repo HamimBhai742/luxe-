@@ -20,6 +20,7 @@ interface ProductItem {
   media: { image: boolean; video: boolean; threeD: boolean };
   status: "Published" | "Draft" | "Out of Stock";
   image: string;
+  images?: string[];
   description: string;
   brand?: string;
   originalPrice?: number;
@@ -67,8 +68,13 @@ export default function AdminProductsClient() {
   const [price, setPrice] = useState("");
   const [inventoryCount, setInventoryCount] = useState("");
   const [status, setStatus] = useState<"Published" | "Draft" | "Out of Stock">("Published");
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState("");
+  interface ProductImageState {
+    id: string;
+    file: File | null;
+    preview: string;
+  }
+
+  const [productImages, setProductImages] = useState<ProductImageState[]>([]);
   
   // Custom enhanced fields
   const [description, setDescription] = useState("");
@@ -130,20 +136,29 @@ export default function AdminProductsClient() {
     setBrand("");
     setOriginalPrice("");
     setFormErrors({});
-    if (imagePreview && imagePreview.startsWith("blob:")) {
-      URL.revokeObjectURL(imagePreview);
-    }
-    setImageFile(null);
-    setImagePreview("");
+    
+    // Revoke blob urls
+    productImages.forEach(img => {
+      if (img.preview && img.preview.startsWith("blob:")) {
+        URL.revokeObjectURL(img.preview);
+      }
+    });
+    setProductImages([]);
     setEditingProductId(null);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const previewUrl = URL.createObjectURL(file);
-      setImagePreview(previewUrl);
+    const files = Array.from(e.target.files || []);
+    if (files.length > 0) {
+      const newImages = files.map(file => {
+        const previewUrl = URL.createObjectURL(file);
+        return {
+          id: `new-${Date.now()}-${file.name}-${Math.random()}`,
+          file: file,
+          preview: previewUrl
+        };
+      });
+      setProductImages(prev => [...prev, ...newImages]);
     }
   };
 
@@ -160,13 +175,24 @@ export default function AdminProductsClient() {
     setPrice(String(product.price));
     setInventoryCount(product.inventoryType === "untracked" ? "" : String(product.inventoryCount));
     setStatus(product.status);
-    setImagePreview(product.image);
+    
+    const existingImages = product.images && product.images.length > 0
+      ? product.images
+      : (product.image ? [product.image] : []);
+      
+    setProductImages(existingImages.map(url => ({
+      id: url,
+      file: null,
+      preview: url
+    })));
+    
     setDescription(product.description || "");
     setBrand(product.brand || "");
     setOriginalPrice(product.originalPrice ? String(product.originalPrice) : "");
     setLocalIsModalOpen(true);
     setActiveMenuId(null);
   };
+
 
   const handleDeleteProduct = async (id: string) => {
     try {
@@ -224,8 +250,8 @@ export default function AdminProductsClient() {
     if (inventoryCount !== "" && Number(inventoryCount) < 0) {
       clientErrors.inventoryCount = "Inventory count cannot be negative.";
     }
-    if (!imagePreview) {
-      clientErrors.image = "Product image is required.";
+    if (productImages.length === 0) {
+      clientErrors.image = "At least one product image is required.";
     }
 
     if (Object.keys(clientErrors).length > 0) {
@@ -237,27 +263,33 @@ export default function AdminProductsClient() {
     const toastId = toast.loading(editingProductId ? "Updating product..." : "Saving product...");
 
     try {
-      let finalImageUrl = imagePreview;
-      if (imageFile) {
-        toast.loading("Uploading image to Cloudinary...", { id: toastId });
-        const base64Image = await fileToBase64(imageFile);
-        
-        // Upload to server's Cloudinary upload endpoint
-        const uploadRes = await fetch(`${API_URL}/upload/image`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ image: base64Image }),
-        });
-        
-        const uploadData = await uploadRes.json();
-        
-        if (!uploadRes.ok || !uploadData.success) {
-          toast.error(uploadData.message || "Failed to upload image to Cloudinary.", { id: toastId });
-          setFormErrors((prev) => ({ ...prev, image: uploadData.message || "Image upload failed." }));
-          return;
+      const uploadedUrls: string[] = [];
+      
+      for (const imgState of productImages) {
+        if (imgState.file) {
+          toast.loading(`Uploading image "${imgState.file.name}" to Cloudinary...`, { id: toastId });
+          const base64Image = await fileToBase64(imgState.file);
+          
+          // Upload to server's Cloudinary upload endpoint
+          const uploadRes = await fetch(`${API_URL}/upload/image`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: base64Image }),
+          });
+          
+          const uploadData = await uploadRes.json();
+          
+          if (!uploadRes.ok || !uploadData.success) {
+            toast.error(uploadData.message || "Failed to upload image to Cloudinary.", { id: toastId });
+            setFormErrors((prev) => ({ ...prev, image: uploadData.message || "Image upload failed." }));
+            return;
+          }
+          
+          uploadedUrls.push(uploadData.url);
+        } else {
+          // Retain existing image URL
+          uploadedUrls.push(imgState.preview);
         }
-        
-        finalImageUrl = uploadData.url;
       }
 
       toast.loading("Saving product details...", { id: toastId });
@@ -272,7 +304,8 @@ export default function AdminProductsClient() {
         price: Number(price),
         originalPrice: originalPrice ? Number(originalPrice) : undefined,
         status,
-        image: finalImageUrl,
+        image: uploadedUrls[0] || "",
+        images: uploadedUrls,
         description,
         brand: brand || undefined,
       };
@@ -1074,63 +1107,68 @@ export default function AdminProductsClient() {
               {/* Image Upload Zone */}
               <div>
                 <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
-                  Product Image *
+                  Product Images *
                 </label>
                 
-                {imagePreview ? (
-                  <div className="relative rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 p-2.5 flex items-center gap-4">
-                    <Image
-                      src={imagePreview}
-                      alt="Upload Preview"
-                      width={64}
-                      height={64}
-                      unoptimized={imagePreview.startsWith("blob:") || imagePreview.startsWith("data:")}
-                      className="h-16 w-16 rounded-xl object-cover border border-zinc-200 dark:border-zinc-800 bg-white"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-bold text-zinc-800 dark:text-zinc-200 truncate">
-                        {imageFile?.name || "Uploaded Image"}
-                      </p>
-                      <p className="text-[10px] text-zinc-400 dark:text-zinc-500 font-semibold mt-0.5">
-                        {imageFile ? `${(imageFile.size / 1024).toFixed(1)} KB` : ""}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (imagePreview && imagePreview.startsWith("blob:")) URL.revokeObjectURL(imagePreview);
-                        setImageFile(null);
-                        setImagePreview("");
-                      }}
-                      className="rounded-lg border border-red-200 hover:bg-red-50 p-1.5 text-red-500 dark:border-red-950/30 dark:hover:bg-red-950/20 transition-all cursor-pointer shadow-xs"
-                      title="Remove Image"
-                    >
-                      <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0M4.5 18.06l4.5-4.5m0 0l4.5 4.5m-4.5-4.5V21" />
-                      </svg>
-                    </button>
-                  </div>
-                ) : (
-                  <div className="relative rounded-2xl border-2 border-dashed border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 hover:bg-zinc-100/50 dark:bg-zinc-900/30 dark:hover:bg-zinc-900/50 transition-all">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                    />
-                    <div className="p-6 flex flex-col items-center justify-center text-center">
-                      <svg className="h-8 w-8 text-zinc-400 mb-2.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
-                      </svg>
-                      <p className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
-                        Click or drag image here
-                      </p>
-                      <p className="text-[10px] text-zinc-400 mt-1 font-semibold">
-                        PNG, JPG or WEBP (Max 2MB)
-                      </p>
-                    </div>
+                {productImages.length > 0 && (
+                  <div className="grid grid-cols-4 gap-3.5 mb-4">
+                    {productImages.map((img, index) => (
+                      <div key={img.id} className="relative group aspect-square rounded-2xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 shadow-xs">
+                        <Image
+                          src={img.preview}
+                          alt="Product Gallery Item"
+                          fill
+                          unoptimized={img.preview.startsWith("blob:") || img.preview.startsWith("data:")}
+                          className="object-cover"
+                        />
+                        {/* Remove Image Button overlay */}
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (img.preview.startsWith("blob:")) URL.revokeObjectURL(img.preview);
+                              setProductImages(prev => prev.filter((_, i) => i !== index));
+                            }}
+                            className="rounded-full bg-red-650 hover:bg-red-500 p-2 text-white transition-all shadow-md cursor-pointer"
+                            title="Remove Image"
+                          >
+                            <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                            </svg>
+                          </button>
+                        </div>
+                        {/* Primary Image Badge */}
+                        {index === 0 && (
+                          <span className="absolute top-1.5 left-1.5 rounded-md bg-blue-600 text-[8px] font-black tracking-wider uppercase text-white px-1.5 py-0.5">
+                            Primary
+                          </span>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 )}
+                
+                {/* Uploader Box */}
+                <div className="relative rounded-2xl border-2 border-dashed border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 hover:bg-zinc-100/50 dark:bg-zinc-900/30 dark:hover:bg-zinc-900/50 transition-all">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageChange}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                  />
+                  <div className="p-6 flex flex-col items-center justify-center text-center">
+                    <svg className="h-8 w-8 text-zinc-400 mb-2.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                    </svg>
+                    <p className="text-xs font-bold text-zinc-705 dark:text-zinc-300">
+                      Click or drag images here
+                    </p>
+                    <p className="text-[10px] text-zinc-400 mt-1 font-semibold">
+                      Upload one or more product images (PNG, JPG or WEBP, Max 2MB each)
+                    </p>
+                  </div>
+                </div>
                 {formErrors.image && (
                   <p className="text-red-500 text-[10px] mt-1 font-bold">{formErrors.image}</p>
                 )}
