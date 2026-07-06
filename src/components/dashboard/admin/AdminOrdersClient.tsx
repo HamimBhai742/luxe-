@@ -73,12 +73,60 @@ export default function AdminOrdersClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [orders, setOrders] = useState<OrderItem[]>(INITIAL_ORDERS);
+  const [orders, setOrders] = useState<OrderItem[]>([]);
   const [filterSearch, setFilterSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("All"); // Fulfillment filter
   const [selectedPayment, setSelectedPayment] = useState("All");
   const [selectedDateRange, setSelectedDateRange] = useState("All");
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api/v1";
+
+  // Fetch orders from API on dependencies change
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setIsLoading(true);
+        const params = new URLSearchParams({
+          page: String(currentPage),
+          limit: String(itemsPerPage),
+          search: filterSearch,
+          status: selectedStatus,
+          payment: selectedPayment,
+          dateRange: selectedDateRange,
+        });
+
+        const res = await fetch(`${API_URL}/orders?${params.toString()}`);
+        const data = await res.json();
+        if (data.success) {
+          setOrders(data.data);
+          setTotalPages(data.meta.totalPages);
+          setTotalItems(data.meta.total);
+        } else {
+          toast.error(data.message || "Failed to fetch orders");
+        }
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        toast.error("Failed to fetch orders from backend.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchOrders();
+  }, [API_URL, currentPage, itemsPerPage, filterSearch, selectedStatus, selectedPayment, selectedDateRange, refreshTrigger]);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterSearch, selectedStatus, selectedPayment, selectedDateRange]);
 
   // Create/Edit modal states
   const [localIsModalOpen, setLocalIsModalOpen] = useState(false);
@@ -136,53 +184,55 @@ export default function AdminOrdersClient() {
     setActiveMenuId(null);
   };
 
-  const handleDeleteOrder = (id: string, orderId: string) => {
-    setOrders((prev) => prev.filter((o) => o.id !== id));
-    toast.success(`Order "${orderId}" deleted successfully!`);
+  const handleDeleteOrder = async (id: string, orderId: string) => {
+    const toastId = toast.loading(`Deleting order "${orderId}"...`);
+    try {
+      const res = await fetch(`${API_URL}/orders/${id}`, {
+        method: "DELETE",
+      });
+      const responseData = await res.json();
+      if (res.ok && responseData.success) {
+        toast.success(`Order "${orderId}" deleted successfully!`, { id: toastId });
+        setRefreshTrigger((prev) => prev + 1);
+      } else {
+        toast.error(responseData.message || "Failed to delete order.", { id: toastId });
+      }
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      toast.error("Failed to delete order.", { id: toastId });
+    }
     setActiveMenuId(null);
   };
 
-  const handleBulkDelete = () => {
+  const handleBulkDelete = async () => {
     if (selectedOrders.length === 0) return;
-    setOrders((prev) => prev.filter((o) => !selectedOrders.includes(o.id)));
-    toast.success(`Successfully deleted ${selectedOrders.length} order(s)!`);
-    setSelectedOrders([]);
+    const toastId = toast.loading(`Deleting ${selectedOrders.length} order(s)...`);
+    try {
+      for (const id of selectedOrders) {
+        await fetch(`${API_URL}/orders/${id}`, {
+          method: "DELETE",
+        });
+      }
+      toast.success(`Successfully deleted ${selectedOrders.length} order(s)!`, { id: toastId });
+      setSelectedOrders([]);
+      setRefreshTrigger((prev) => prev + 1);
+    } catch (error) {
+      console.error("Error bulk deleting orders:", error);
+      toast.error("Failed to delete all selected orders.", { id: toastId });
+    }
   };
 
-  const handleSubmitOrder = (e: React.FormEvent) => {
+  const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerName || !customerEmail || !total) {
+    if (!customerName.trim() || !customerEmail.trim() || !total) {
       toast.error("Please fill in all required fields!");
       return;
     }
 
-    if (editingOrderId) {
-      setOrders((prev) =>
-        prev.map((o) => {
-          if (o.id === editingOrderId) {
-            return {
-              ...o,
-              customerName,
-              customerEmail,
-              total: Number(total),
-              paymentStatus,
-              fulfillmentStatus,
-            };
-          }
-          return o;
-        })
-      );
-      toast.success("Order updated successfully!");
-    } else {
-      const randomId = Math.floor(1000 + Math.random() * 9000);
-      const newOrder: OrderItem = {
-        id: `order-${Date.now()}`,
-        orderId: `#AUR-${randomId}`,
-        date: new Date().toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }),
+    const toastId = toast.loading(editingOrderId ? "Updating order..." : "Creating order...");
+
+    try {
+      const payload = {
         customerName,
         customerEmail,
         total: Number(total),
@@ -190,10 +240,34 @@ export default function AdminOrdersClient() {
         fulfillmentStatus,
       };
 
-      setOrders((prev) => [newOrder, ...prev]);
-      toast.success("Order created successfully!");
+      let res;
+      if (editingOrderId) {
+        res = await fetch(`${API_URL}/orders/${editingOrderId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        res = await fetch(`${API_URL}/orders`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+      }
+
+      const responseData = await res.json();
+
+      if (res.ok && responseData.success) {
+        toast.success(editingOrderId ? "Order updated successfully!" : "Order created successfully!", { id: toastId });
+        setRefreshTrigger((prev) => prev + 1);
+        closeModal();
+      } else {
+        toast.error(responseData.message || "Failed to save order.", { id: toastId });
+      }
+    } catch (error) {
+      console.error("Error saving order:", error);
+      toast.error("Failed to save order due to network error.", { id: toastId });
     }
-    closeModal();
   };
 
   const handleExport = () => {
@@ -214,16 +288,6 @@ export default function AdminOrdersClient() {
     );
   };
 
-  // Filter & Search logic
-  const filteredOrders = orders.filter((o) => {
-    const matchesSearch =
-      o.orderId.toLowerCase().includes(filterSearch.toLowerCase()) ||
-      o.customerName.toLowerCase().includes(filterSearch.toLowerCase()) ||
-      o.customerEmail.toLowerCase().includes(filterSearch.toLowerCase());
-    const matchesStatus = selectedStatus === "All" || o.fulfillmentStatus === selectedStatus;
-    const matchesPayment = selectedPayment === "All" || o.paymentStatus === selectedPayment;
-    return matchesSearch && matchesStatus && matchesPayment;
-  });
 
   const renderPaymentBadge = (p: string) => {
     switch (p) {
@@ -424,14 +488,26 @@ export default function AdminOrdersClient() {
               </tr>
             </thead>
             <tbody>
-              {filteredOrders.length === 0 ? (
+              {isLoading ? (
+                <tr>
+                  <td colSpan={8} className="py-16 text-center text-zinc-400 dark:text-zinc-550 font-bold border-0">
+                    <div className="flex flex-col items-center justify-center gap-3">
+                      <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span>Fetching orders database...</span>
+                    </div>
+                  </td>
+                </tr>
+              ) : orders.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="py-12 text-center text-zinc-400 border-0">
                     No orders match your search criteria.
                   </td>
                 </tr>
               ) : (
-                filteredOrders.map((o) => {
+                orders.map((o) => {
                   const isSelected = selectedOrders.includes(o.id);
                   return (
                     <tr
@@ -472,7 +548,7 @@ export default function AdminOrdersClient() {
                           <span className="text-xs font-extrabold text-zinc-850 dark:text-white leading-tight">
                             {o.customerName}
                           </span>
-                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-bold mt-0.5">
+                          <span className="text-[10px] text-zinc-400 dark:text-zinc-550 font-bold mt-0.5">
                             {o.customerEmail}
                           </span>
                         </div>
@@ -511,7 +587,7 @@ export default function AdminOrdersClient() {
                           <button
                             type="button"
                             onClick={() => handleStartEdit(o)}
-                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-650 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-655 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
                             title="Edit Order"
                           >
                             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -571,37 +647,40 @@ export default function AdminOrdersClient() {
         {/* Footer pagination */}
         <div className="border-t border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <span className="text-xs font-bold text-zinc-400 dark:text-zinc-550">
-            Showing 1 to {filteredOrders.length} of {orders.length} orders
+            Showing {orders.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} orders
           </span>
 
           <div className="flex items-center gap-1.5 self-center sm:self-auto">
             {/* Prev */}
             <button
-              onClick={() => toast.info("Opening previous page...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+              disabled={currentPage === 1 || isLoading}
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               &lt;
             </button>
 
-            {/* 1 */}
-            <button className="rounded-xl bg-blue-600 text-white px-3.5 py-2 text-xs font-black cursor-pointer shadow-xs shadow-blue-500/10">
-              1
-            </button>
-
-            {/* 2 */}
-            <button
-              onClick={() => toast.info("Opening page 2...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
-            >
-              2
-            </button>
-
-            <span className="text-xs font-bold text-zinc-400 px-1 select-none">...</span>
+            {/* Dynamic Page Numbers */}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                disabled={isLoading}
+                className={`rounded-xl px-3.5 py-2 text-xs font-black cursor-pointer transition-colors ${
+                  currentPage === page
+                    ? "bg-blue-600 text-white shadow-xs shadow-blue-500/10"
+                    : "border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 text-zinc-700 dark:text-zinc-300"
+                } disabled:opacity-50`}
+              >
+                {page}
+              </button>
+            ))}
 
             {/* Next */}
             <button
-              onClick={() => toast.info("Opening next page...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages || isLoading}
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               &gt;
             </button>
