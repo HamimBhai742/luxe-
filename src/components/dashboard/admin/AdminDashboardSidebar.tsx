@@ -61,6 +61,15 @@ export default function AdminDashboardSidebar({ onCloseMobileDrawer }: SidebarPr
       ),
     },
     {
+      name: "Transactions",
+      path: "/admin/dashboard/transactions",
+      icon: (
+        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-19.5 5.25h19.5m-19.5 0a2.25 2.25 0 002.25 2.25h15a2.25 2.25 0 002.25-2.25m-19.5 0v-3a2.25 2.25 0 012.25-2.25h15a2.25 2.25 0 012.25 2.25v3m-3.75 3c0-1.242-1.008-2.25-2.25-2.25h-3c-1.242 0-2.25 1.008-2.25 2.25m-6 0h.008v.008H6V18z" />
+        </svg>
+      ),
+    },
+    {
       name: "Users",
       path: "/admin/dashboard/users",
       icon: (
