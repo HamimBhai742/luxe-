@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LUXE Client - Premium E-Commerce Storefront
 
-## Getting Started
+This is the Next.js frontend application for **LUXE**, built with modern design aesthetics, dynamic transitions, and optimized server interfaces.
 
-First, run the development server:
+## Technology Stack
+- **Framework**: Next.js 15+ (App Router)
+- **Styling**: Tailwind CSS & custom Vanilla CSS layout rules
+- **Notifications**: Sonner toasts
+- **Icons**: SVG custom paths
+- **Network Requests**: Standard Fetch API communicating with the backend REST endpoints
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Key Features
+
+### 1. Storefront & Collections Page
+- **Dynamic Category Filtering**: Dynamically fetches and crawls published database products, generating matching checkbox filters on-the-fly.
+- **Interactive Shimmer Skeletons**: Renders custom shimmer placeholders during async database fetches to prevent layout shifts.
+- **Recently Viewed Products**: Tracks visited product details inside a localStorage stack, displaying history items at the bottom of the collections page with direct product detail link bindings.
+- **Lazy Initialization State**: Resolves React cascading render warnings by loading localized data synchronously inside `useState(() => { ... })` rendering cycles instead of effects.
+
+### 2. Admin Dashboard Console
+- **Transactions Audit Logs**: Computes gross volume indicators, success rates based on historical data, and pending payouts processing logs. Supports full text-based customer search and status/method filters.
+- **Orders Manager**: Features full offset pagination, order state toggling, fulfillment tracking, and status Pills.
+- **Product Uploads Gallery**: Supports multiple product image uploads, Cloudinary media sync, and preview image grid galleries.
+
+---
+
+## Development and Building
+
+### Bootstrapping Dev Server
+Ensure your environment variables are configured inside `.env.local` pointing to the backend API:
+```env
+NEXT_PUBLIC_API_URL="http://localhost:5001/api/v1"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To boot up the Next.js dev server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view the storefront application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build and Type Safety Checks
+To verify typescript types and compile the production bundle:
+```bash
+npx tsc --noEmit
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To run lint checks:
+```bash
+npm run lint
+```
