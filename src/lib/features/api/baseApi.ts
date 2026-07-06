@@ -89,6 +89,7 @@ const baseQueryWithReauth: BaseQueryFn<
             api.dispatch({ type: "auth/clearCredentials" });
           }
         } catch (err) {
+          console.log(err)
           api.dispatch({ type: "auth/clearCredentials" });
         } finally {
           isRefreshing = false;

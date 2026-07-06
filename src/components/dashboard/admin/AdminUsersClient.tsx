@@ -16,45 +16,6 @@ interface UserItem {
   status: "Active" | "Pending" | "Suspended";
 }
 
-const INITIAL_USERS: UserItem[] = [
-  {
-    id: "user-1",
-    name: "Sarah Jenkins",
-    email: "sarah.j@example.com",
-    role: "Admin",
-    joinedDate: "Oct 24, 2024",
-    lastLogin: "2 hours ago",
-    status: "Active",
-  },
-  {
-    id: "user-2",
-    name: "Marcus Reed",
-    email: "m.reed@agency.co",
-    role: "Customer",
-    joinedDate: "Sep 12, 2024",
-    lastLogin: "1 day ago",
-    status: "Active",
-  },
-  {
-    id: "user-3",
-    name: "David Chen",
-    email: "david@techcorp.net",
-    role: "Seller",
-    joinedDate: "Nov 01, 2024",
-    lastLogin: "Never",
-    status: "Pending",
-  },
-  {
-    id: "user-4",
-    name: "Elena Lopez",
-    email: "elena.l@demo.com",
-    role: "Customer",
-    joinedDate: "Jul 15, 2023",
-    lastLogin: "2 months ago",
-    status: "Suspended",
-  },
-];
-
 export default function AdminUsersClient() {
   const searchParams = useSearchParams();
   const router = useRouter();

@@ -17,39 +17,6 @@ interface CategoryItem {
   iconType: "electronics" | "laptops" | "clothing" | "other";
 }
 
-const INITIAL_CATEGORIES: CategoryItem[] = [
-  {
-    id: "cat-1",
-    name: "Electronics",
-    slug: "/electronics",
-    parent: "--",
-    productsCount: 1245,
-    status: "Active",
-    visibility: { web: true, mobile: true },
-    iconType: "electronics",
-  },
-  {
-    id: "cat-2",
-    name: "Laptops",
-    slug: "/electronics/laptops",
-    parent: "Electronics",
-    productsCount: 342,
-    status: "Active",
-    visibility: { web: true, mobile: false },
-    iconType: "laptops",
-  },
-  {
-    id: "cat-3",
-    name: "Clothing & Apparel",
-    slug: "/clothing",
-    parent: "--",
-    productsCount: 4502,
-    status: "Draft",
-    visibility: { web: false, mobile: false },
-    iconType: "clothing",
-  },
-];
-
 export default function AdminCategoriesClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
