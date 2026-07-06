@@ -123,10 +123,6 @@ export default function AdminOrdersClient() {
     fetchOrders();
   }, [API_URL, currentPage, itemsPerPage, filterSearch, selectedStatus, selectedPayment, selectedDateRange, refreshTrigger]);
 
-  // Reset page when filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filterSearch, selectedStatus, selectedPayment, selectedDateRange]);
 
   // Create/Edit modal states
   const [localIsModalOpen, setLocalIsModalOpen] = useState(false);
@@ -402,7 +398,10 @@ export default function AdminOrdersClient() {
               type="text"
               placeholder="Search orders..."
               value={filterSearch}
-              onChange={(e) => setFilterSearch(e.target.value)}
+              onChange={(e) => {
+                setFilterSearch(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full pl-9.5 pr-4 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-medium text-zinc-800 outline-none focus:border-zinc-350 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
             />
           </div>
@@ -412,7 +411,10 @@ export default function AdminOrdersClient() {
             <div className="relative min-w-28">
               <select
                 value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
+                onChange={(e) => {
+                  setSelectedStatus(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-750 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">Status</option>
@@ -431,7 +433,10 @@ export default function AdminOrdersClient() {
             <div className="relative min-w-28">
               <select
                 value={selectedPayment}
-                onChange={(e) => setSelectedPayment(e.target.value)}
+                onChange={(e) => {
+                  setSelectedPayment(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-755 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">Payment</option>
@@ -448,7 +453,10 @@ export default function AdminOrdersClient() {
             <div className="relative min-w-32">
               <select
                 value={selectedDateRange}
-                onChange={(e) => setSelectedDateRange(e.target.value)}
+                onChange={(e) => {
+                  setSelectedDateRange(e.target.value);
+                  setCurrentPage(1);
+                }}
                 className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-755 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">Date Range</option>
