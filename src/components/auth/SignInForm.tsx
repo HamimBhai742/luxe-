@@ -7,7 +7,7 @@ import { useLoginMutation, useGoogleLoginMutation } from "@/lib/features/auth/au
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setCredentials } from "@/lib/features/auth/authSlice";
 import { setCartItems } from "@/lib/features/cart/cartSlice";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { loadGoogleGIS } from "@/lib/googleOAuth";
 import { toast } from "sonner";
 import { useAddToWishlistMutation } from "@/lib/features/api/wishlistApi";
@@ -20,6 +20,8 @@ export default function SignInForm() {
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
   const dispatch = useAppDispatch();
 
   const [login, { isLoading }] = useLoginMutation();
@@ -91,7 +93,11 @@ export default function SignInForm() {
                   }
                 }
                 
-                router.push("/");
+                if (redirect) {
+                  router.push(redirect);
+                } else {
+                  router.push("/");
+                }
               }
             } catch (err: any) {
               console.error("Google verification error:", err);
@@ -141,7 +147,9 @@ export default function SignInForm() {
           }
         }
 
-        if (result.data.role === "admin" || email === "admin@gmail.com") {
+        if (redirect) {
+          router.push(redirect);
+        } else if (result.data.role === "admin" || email === "admin@gmail.com") {
           router.push("/admin/dashboard");
         } else {
           router.push("/");

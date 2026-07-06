@@ -9,37 +9,52 @@ import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useValidateCouponMutation } from "@/lib/features/api/couponApi";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { clearCart } from "@/lib/features/cart/cartSlice";
+import { useClearDbCartMutation } from "@/lib/features/api/cartApi";
+import { useCreateOrderMutation } from "@/lib/features/api/orderApi";
 
 export default function CheckoutClient() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth);
+  const cartItems = useAppSelector((state) => state.cart.items);
+
+  const [createOrder, { isLoading: isCreatingOrder }] = useCreateOrderMutation();
+  const [clearDbCart] = useClearDbCartMutation();
 
   // Current active step: 'shipping' | 'delivery' | 'payment' | 'review' | 'confirmation'
   const [activeStep, setActiveStep] = useState<"shipping" | "delivery" | "payment" | "review" | "confirmation">("shipping");
 
   // Shipping Address Form
-  const [fullName, setFullName] = useState("Eleanor Vance");
-  const [phone, setPhone] = useState("(555) 123-4567");
-  const [addressLine1, setAddressLine1] = useState("1042 Hillside Manor Drive");
-  const [addressLine2, setAddressLine2] = useState("Apt 304");
-  const [city, setCity] = useState("San Francisco");
-  const [state, setState] = useState("CA");
-  const [zipCode, setZipCode] = useState("94110");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [addressLine1, setAddressLine1] = useState("");
+  const [addressLine2, setAddressLine2] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zipCode, setZipCode] = useState("");
   const [addToAddressBook, setAddToAddressBook] = useState(false);
 
   // Delivery Method Selection
   const [deliveryMethod, setDeliveryMethod] = useState<"standard" | "express">("standard");
 
-  // Payment Form Selection: 'card' (Stripe) | 'paypal' (SSLCommerz) | 'applepay' (COD)
-  const [paymentMethod, setPaymentMethod] = useState<"card" | "paypal" | "applepay">("card");
-  const [cardNumber, setCardNumber] = useState("•••• •••• •••• 4242");
-  const [cardExpiry, setCardExpiry] = useState("12/28");
-  const [cardCvv, setCardCvv] = useState("•••");
+  // Payment Form Selection: 'card' (Stripe) | 'cod' (Cash on Delivery)
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "cod">("card");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
 
 
   // Accordion state
   const [isPromoOpen, setIsPromoOpen] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{ id: string; code: string; type: string; value: string } | null>(null);
+  const [createdOrder, setCreatedOrder] = useState<any>(null);
+  const [orderedItems, setOrderedItems] = useState<any[]>([]);
+  const [showStripeModal, setShowStripeModal] = useState(false);
+  const [stripeProcessing, setStripeProcessing] = useState(false);
+  const [stripeSuccess, setStripeSuccess] = useState(false);
 
   const [validateCoupon, { isLoading: isValidatingCoupon }] = useValidateCouponMutation();
 
@@ -58,13 +73,16 @@ export default function CheckoutClient() {
     }
   }, []);
 
-  // Calculations: Dynamic to match screenshot values at different checkout stages!
+  // Calculations: Dynamic based on cart items!
   const isPaymentStage = activeStep === "payment";
   const isReviewStage = activeStep === "review";
   const isConfirmStage = activeStep === "confirmation";
 
-  const subtotal = isConfirmStage ? 299.00 : isReviewStage ? 384.00 : isPaymentStage ? 270.00 : 249.00;
-  const tax = isConfirmStage ? 23.92 : isReviewStage ? 26.88 : isPaymentStage ? 21.60 : 21.16;
+  const cartSubtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const cartTax = cartSubtotal * 0.08;
+
+  const subtotal = isConfirmStage && createdOrder ? (createdOrder.total / 1.08) : cartSubtotal;
+  const tax = isConfirmStage && createdOrder ? (createdOrder.total - subtotal) : cartTax;
 
   let discountAmount = 0;
   if (appliedCoupon) {
@@ -79,13 +97,12 @@ export default function CheckoutClient() {
   const getShippingCost = () => {
     if (activeStep === "shipping") return "Calculated next step";
     if (isConfirmStage) return 0.00;
-    if (isPaymentStage) return 15.00; // Mock Payment matching screenshot exactly ($15.00)
     
     switch (deliveryMethod) {
       case "express":
-        return 25.00; // Mock Express matching screenshot exactly ($25.00)
+        return 25.00;
       default:
-        return 0.00; // Standard Free
+        return 0.00;
     }
   };
 
@@ -105,10 +122,29 @@ export default function CheckoutClient() {
     return Math.max(0, subtotal + tax + shippingNum - discountAmount);
   };
 
+  const getEstimatedDeliveryRange = (selectedState: string) => {
+    const today = new Date();
+    let startDays = 5;
+    let endDays = 7;
+    if (selectedState && selectedState.toLowerCase() === "dhaka") {
+      startDays = 2;
+      endDays = 3;
+    }
+    const startDate = new Date(today);
+    startDate.setDate(today.getDate() + startDays);
+    const endDate = new Date(today);
+    endDate.setDate(today.getDate() + endDays);
+    const options: Intl.DateTimeFormatOptions = { month: "short", day: "numeric" };
+    const startStr = startDate.toLocaleDateString("en-US", options);
+    const endStr = endDate.toLocaleDateString("en-US", options);
+    const yearStr = endDate.getFullYear();
+    return `${startStr} - ${endStr}, ${yearStr}`;
+  };
+
   const getSubtotalLabel = () => {
-    if (activeStep === "review") return "Items (2)";
+    if (activeStep === "review") return `Items (${cartItems.length})`;
     if (activeStep === "payment") return "Subtotal";
-    return "Subtotal (2 items)";
+    return `Subtotal (${cartItems.length} items)`;
   };
 
   const getTaxLabel = () => {
@@ -117,9 +153,43 @@ export default function CheckoutClient() {
     return "Estimated Tax";
   };
 
-  const handleNextStep = () => {
+
+  const submitOrder = async () => {
+    try {
+      const orderPayload = {
+        customerName: fullName,
+        customerEmail: user?.email || "guest@luxe.com",
+        total: getGrandTotal(),
+        paymentStatus: paymentMethod === "card" ? "Paid" : "Pending",
+        fulfillmentStatus: "Processing",
+      };
+      const orderResult = await createOrder(orderPayload).unwrap();
+      if (orderResult.success && orderResult.data) {
+        setOrderedItems(cartItems);
+        setCreatedOrder(orderResult.data);
+        dispatch(clearCart());
+        if (isAuthenticated) {
+          try {
+            await clearDbCart().unwrap();
+          } catch (cartClearErr) {
+            console.error("Failed to clear DB cart:", cartClearErr);
+          }
+        }
+        sessionStorage.removeItem("appliedCoupon");
+        toast.success("Order Placed Successfully!");
+        setActiveStep("confirmation");
+        return true;
+      }
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to place order. Please try again.");
+      console.error("Order placement failure:", err);
+    }
+    return false;
+  };
+
+  const handleNextStep = async () => {
     if (activeStep === "shipping") {
-      if (!fullName || !addressLine1 || !city || !state || !zipCode) {
+      if (!fullName || !phone || !addressLine1 || !city || !state || !zipCode) {
         toast.error("Please fill in all shipping fields!");
         return;
       }
@@ -133,17 +203,37 @@ export default function CheckoutClient() {
       }
       setActiveStep("review");
     } else if (activeStep === "review") {
-      toast.success("Order Placed Successfully!");
-      setActiveStep("confirmation");
+      if (paymentMethod === "card") {
+        setShowStripeModal(true);
+      } else {
+        await submitOrder();
+      }
     }
   };
 
   const handleBackToStep = (step: "shipping" | "delivery" | "payment" | "review" | "confirmation") => {
-    // Prevent skipping forward without validation
-    if (step === "delivery" && (!fullName || !addressLine1)) return;
-    if (step === "payment" && (!fullName || !addressLine1)) return;
-    if (step === "review" && (!fullName || !addressLine1 || (paymentMethod === "card" && !cardNumber))) return;
-    if (step === "confirmation") return; // cannot jump to confirm manually
+    const stepOrder = ["shipping", "delivery", "payment", "review", "confirmation"];
+    const targetIndex = stepOrder.indexOf(step);
+    const currentIndex = stepOrder.indexOf(activeStep);
+    
+    if (targetIndex < currentIndex) {
+      setActiveStep(step);
+      return;
+    }
+    
+    if (targetIndex > 0 && (!fullName || !phone || !addressLine1 || !city || !state || !zipCode)) {
+      toast.error("Please complete the Shipping Address first!");
+      return;
+    }
+    if (targetIndex > 1 && !deliveryMethod) {
+      toast.error("Please choose a Delivery Method first!");
+      return;
+    }
+    if (targetIndex > 2 && paymentMethod === "card" && (!cardNumber || !cardExpiry || !cardCvv)) {
+      toast.error("Please complete Credit Card payment details first!");
+      return;
+    }
+    if (step === "confirmation") return;
     
     setActiveStep(step);
   };
@@ -178,40 +268,66 @@ export default function CheckoutClient() {
               Thank you for your order!
             </h1>
             <p className="text-sm text-zinc-500 font-bold text-center mt-2.5">
-              Order #AURA-98234-LX has been placed successfully.
+              Order {createdOrder?.orderId || "#AUR-PLACEHOLDER"} has been placed successfully.
             </p>
 
             {/* Order Summary Centered Card */}
-            <div className="w-full mt-10 rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs space-y-5">
+            <div className="w-full mt-10 rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs space-y-5">
               <div className="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-900 pb-3.5">
-                <span className="text-base font-extrabold text-zinc-950 dark:text-white">Order Summary</span>
+                <span className="text-base font-extrabold text-zinc-955 dark:text-white">Order Summary</span>
                 <span className="bg-blue-50/70 dark:bg-blue-955/10 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-[10px] font-black tracking-wide uppercase">
                   Confirmed
                 </span>
               </div>
 
-              {/* Smartwatch Item Details */}
-              <div className="flex gap-4 py-2">
-                <div className="relative h-16 w-16 rounded-xl border border-zinc-150 dark:border-zinc-850 overflow-hidden bg-zinc-50 shrink-0">
-                  <Image
-                    src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop"
-                    alt="Aura Horizon Smartwatch"
-                    fill
-                    unoptimized
-                    className="object-cover"
-                  />
-                </div>
-                <div className="flex-1 flex justify-between items-start text-xs leading-normal">
-                  <div className="flex flex-col">
-                    <span className="font-extrabold text-zinc-900 dark:text-white text-sm">Aura Horizon Smartwatch</span>
-                    <span className="text-[10px] text-zinc-400 font-bold mt-1">Titanium Silver, 44mm</span>
+              {/* Dynamic Item Details */}
+              {orderedItems.length > 0 ? (
+                orderedItems.map((item, idx) => (
+                  <div key={idx} className="flex gap-4 py-2 border-b border-zinc-100 dark:border-zinc-900/50 last:border-b-0">
+                    <div className="relative h-16 w-16 rounded-xl border border-zinc-150 dark:border-zinc-850 overflow-hidden bg-zinc-50 shrink-0">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex-1 flex justify-between items-start text-xs leading-normal">
+                      <div className="flex flex-col">
+                        <span className="font-extrabold text-zinc-900 dark:text-white text-sm">{item.name}</span>
+                        <span className="text-[10px] text-zinc-400 font-bold mt-1">{item.specsText}</span>
+                      </div>
+                      <div className="text-right flex flex-col items-end gap-1">
+                        <span className="font-black text-zinc-955 dark:text-white text-sm">${item.price.toFixed(2)}</span>
+                        <span className="text-[10px] text-zinc-400 font-bold">Qty: {item.quantity}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-right flex flex-col items-end gap-1">
-                    <span className="font-black text-zinc-950 dark:text-white text-sm">$299.00</span>
-                    <span className="text-[10px] text-zinc-400 font-bold">Qty: 1</span>
+                ))
+              ) : (
+                <div className="flex gap-4 py-2 border-b border-zinc-100 dark:border-zinc-900/50 last:border-b-0">
+                  <div className="relative h-16 w-16 rounded-xl border border-zinc-150 dark:border-zinc-850 overflow-hidden bg-zinc-50 shrink-0">
+                    <Image
+                      src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop"
+                      alt="Aura Horizon Smartwatch"
+                      fill
+                      unoptimized
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 flex justify-between items-start text-xs leading-normal">
+                    <div className="flex flex-col">
+                      <span className="font-extrabold text-zinc-900 dark:text-white text-sm">Aura Horizon Smartwatch</span>
+                      <span className="text-[10px] text-zinc-400 font-bold mt-1">Titanium Silver, 44mm</span>
+                    </div>
+                    <div className="text-right flex flex-col items-end gap-1">
+                      <span className="font-black text-zinc-950 dark:text-white text-sm">$299.00</span>
+                      <span className="text-[10px] text-zinc-400 font-bold">Qty: 1</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Billing Breakdowns */}
               <div className="space-y-3.5 border-t border-zinc-100 dark:border-zinc-900 pt-5 text-xs text-zinc-500 font-bold">
@@ -245,8 +361,12 @@ export default function CheckoutClient() {
                 </svg>
                 <div className="flex flex-col text-xs leading-normal">
                   <span className="font-extrabold text-zinc-850 dark:text-white">Estimated Delivery</span>
-                  <span className="text-zinc-900 dark:text-zinc-100 font-extrabold mt-1">Oct 24 - Oct 26, 2024</span>
-                  <span className="text-[10px] text-zinc-400 font-bold mt-0.5">Standard Shipping</span>
+                  <span className="text-zinc-900 dark:text-zinc-100 font-extrabold mt-1">
+                    {deliveryMethod === "express" ? "1-2 Days (Express)" : getEstimatedDeliveryRange(state)}
+                  </span>
+                  <span className="text-[10px] text-zinc-400 font-bold mt-0.5">
+                    {deliveryMethod === "express" ? "Express Shipping" : "Standard Shipping"}
+                  </span>
                 </div>
               </div>
 
@@ -520,18 +640,23 @@ export default function CheckoutClient() {
                       {/* State */}
                       <div>
                         <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1.5">
-                          State
+                          Division / State
                         </label>
                         <div className="relative">
                           <select
                             value={state}
                             onChange={(e) => setState(e.target.value)}
-                            className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-305 cursor-pointer"
+                            className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-750 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-305 cursor-pointer"
                           >
-                            <option value="WA">Washington (WA)</option>
-                            <option value="CA">California (CA)</option>
-                            <option value="NY">New York (NY)</option>
-                            <option value="TX">Texas (TX)</option>
+                            <option value="">Select Division</option>
+                            <option value="Dhaka">Dhaka</option>
+                            <option value="Chittagong">Chittagong</option>
+                            <option value="Sylhet">Sylhet</option>
+                            <option value="Rajshahi">Rajshahi</option>
+                            <option value="Khulna">Khulna</option>
+                            <option value="Barisal">Barisal</option>
+                            <option value="Rangpur">Rangpur</option>
+                            <option value="Mymensingh">Mymensingh</option>
                           </select>
                           <svg className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -613,7 +738,7 @@ export default function CheckoutClient() {
 
                       <div className="mt-4 flex items-baseline justify-between pt-4 border-t border-zinc-100 dark:border-zinc-900">
                         <span className="text-sm font-black text-zinc-955 dark:text-white">Free</span>
-                        <span className="text-[9px] font-bold text-zinc-400">Est. Arrival: Oct 24 - Oct 26</span>
+                        <span className="text-[9px] font-bold text-zinc-400">Est. Arrival: {getEstimatedDeliveryRange(state)}</span>
                       </div>
                     </label>
 
@@ -797,52 +922,34 @@ export default function CheckoutClient() {
                               </svg>
                             </div>
                           </div>
-
                         </div>
                       )}
                     </div>
 
-                    {/* Option 2: Digital Wallets (SSLCommerz) */}
+                    {/* Option 2: Cash on Delivery */}
                     <div className={`border rounded-3xl overflow-hidden transition-all ${
-                      paymentMethod === "paypal"
-                        ? "border-blue-600 bg-white dark:bg-zinc-950"
+                      paymentMethod === "cod"
+                        ? "border-blue-600 bg-white dark:bg-zinc-955"
                         : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-955 dark:hover:bg-zinc-900"
                     }`}>
                       <button
                         type="button"
-                        onClick={() => setPaymentMethod("paypal")}
+                        onClick={() => setPaymentMethod("cod")}
                         className="w-full flex items-center justify-between p-5 cursor-pointer text-left focus:outline-none"
                       >
                         <div className="flex items-center gap-3.5">
-                          <svg className="h-5.5 w-5.5 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" />
+                          <svg className="h-5.5 w-5.5 text-zinc-450 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
                           </svg>
-                          <span className="text-xs font-black text-zinc-900 dark:text-white">Digital Wallets (SSLCommerz)</span>
+                          <span className="text-xs font-black text-zinc-955 dark:text-white">Cash on Delivery (COD)</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded text-[8px] font-black uppercase text-zinc-450 tracking-wider">Bk</span>
-                          <span className="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded text-[8px] font-black uppercase text-zinc-450 tracking-wider">Ng</span>
-                        </div>
-                      </button>
-                    </div>
-
-                    {/* Option 3: Cash on Delivery */}
-                    <div className={`border rounded-3xl overflow-hidden transition-all ${
-                      paymentMethod === "applepay"
-                        ? "border-blue-600 bg-white dark:bg-zinc-950"
-                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900"
-                    }`}>
-                      <button
-                        type="button"
-                        onClick={() => setPaymentMethod("applepay")}
-                        className="w-full flex items-center justify-between p-5 cursor-pointer text-left focus:outline-none"
-                      >
-                        <div className="flex items-center gap-3.5">
-                          <svg className="h-5.5 w-5.5 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          <span className="text-xs font-black text-zinc-900 dark:text-white">Cash on Delivery</span>
-                        </div>
+                        <input
+                          type="radio"
+                          name="paymentOption"
+                          checked={paymentMethod === "cod"}
+                          onChange={() => setPaymentMethod("cod")}
+                          className="h-4.5 w-4.5 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                        />
                       </button>
                     </div>
 
@@ -874,7 +981,7 @@ export default function CheckoutClient() {
                     <div className="flex flex-col">
                       <span className="text-xs font-black text-zinc-900 dark:text-white">Estimated Delivery</span>
                       <span className="text-xs text-zinc-500 font-bold mt-0.5">
-                        {deliveryMethod === "standard" ? "Arriving by Thursday, October 26" : "Arriving Tomorrow"}
+                        {deliveryMethod === "express" ? "Arriving in 1-2 Days (Express)" : `Arriving ${getEstimatedDeliveryRange(state)}`}
                       </span>
                     </div>
                   </div>
@@ -905,7 +1012,7 @@ export default function CheckoutClient() {
                         <p>{addressLine1}</p>
                         {addressLine2 && <p>{addressLine2}</p>}
                         <p>{city}, {state} {zipCode}</p>
-                        <p>United States</p>
+                        <p>Bangladesh</p>
                       </div>
                     </div>
 
@@ -933,7 +1040,7 @@ export default function CheckoutClient() {
                             <span className="text-zinc-900 dark:text-white font-extrabold">Visa ending in 4242</span>
                           </div>
                         ) : (
-                          <p className="text-zinc-900 dark:text-white font-extrabold capitalize">{paymentMethod === "paypal" ? "Digital Wallets (SSLCommerz)" : "Cash on Delivery"}</p>
+                          <p className="text-zinc-900 dark:text-white font-extrabold">Cash on Delivery (COD)</p>
                         )}
                         <p className="text-[10px] text-zinc-450">Billing address matches shipping</p>
                       </div>
@@ -948,45 +1055,27 @@ export default function CheckoutClient() {
                     </div>
                     <div className="divide-y divide-zinc-100 dark:divide-zinc-900">
                       
-                      <div className="p-4 flex gap-4">
-                        <div className="relative h-16 w-16 rounded-xl border border-zinc-150 dark:border-zinc-850 overflow-hidden bg-zinc-50 shrink-0">
-                          <Image
-                            src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop"
-                            alt="Aura Pro Headphones"
-                            fill
-                            unoptimized
-                            className="object-cover"
-                          />
-                        </div>
-                        <div className="flex-1 flex justify-between">
-                          <div className="flex flex-col">
-                            <span className="text-xs font-extrabold text-zinc-900 dark:text-white">Aura Pro Noise-Canceling Headphones</span>
-                            <span className="text-[10px] text-zinc-400 font-bold mt-1">Color: Matte Black</span>
-                            <span className="text-[10px] text-zinc-400 font-bold mt-0.5">Qty: 1</span>
+                      {cartItems.map((item, idx) => (
+                        <div key={idx} className="p-4 flex gap-4">
+                          <div className="relative h-16 w-16 rounded-xl border border-zinc-150 dark:border-zinc-850 overflow-hidden bg-zinc-50 shrink-0">
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fill
+                              unoptimized
+                              className="object-cover"
+                            />
                           </div>
-                          <span className="text-xs font-black text-zinc-950 dark:text-white">$299.00</span>
-                        </div>
-                      </div>
-
-                      <div className="p-4 flex gap-4">
-                        <div className="relative h-16 w-16 rounded-xl border border-zinc-150 dark:border-zinc-850 overflow-hidden bg-zinc-50 shrink-0">
-                          <Image
-                            src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=600&auto=format&fit=crop"
-                            alt="Artisan Ceramic Pour-Over Set"
-                            fill
-                            unoptimized
-                            className="object-cover"
-                          />
-                        </div>
-                        <div className="flex-1 flex justify-between">
-                          <div className="flex flex-col">
-                            <span className="text-xs font-extrabold text-zinc-900 dark:text-white">Artisan Ceramic Pour-Over Set</span>
-                            <span className="text-[10px] text-zinc-400 font-bold mt-1">Material: Matte White Ceramic</span>
-                            <span className="text-[10px] text-zinc-400 font-bold mt-0.5">Qty: 1</span>
+                          <div className="flex-1 flex justify-between">
+                            <div className="flex flex-col">
+                              <span className="text-xs font-extrabold text-zinc-900 dark:text-white">{item.name}</span>
+                              <span className="text-[10px] text-zinc-400 font-bold mt-1">{item.specsText}</span>
+                              <span className="text-[10px] text-zinc-400 font-bold mt-0.5">Qty: {item.quantity}</span>
+                            </div>
+                            <span className="text-xs font-black text-zinc-950 dark:text-white">${item.price.toFixed(2)}</span>
                           </div>
-                          <span className="text-xs font-black text-zinc-955 dark:text-white">$85.00</span>
                         </div>
-                      </div>
+                      ))}
 
                     </div>
                   </div>
@@ -1221,6 +1310,124 @@ export default function CheckoutClient() {
           </div>
         </div>
       </footer>
+
+      {/* Stripe Payment Modal */}
+      {showStripeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-955/65 backdrop-blur-xs animate-fade-in">
+          <div className="relative w-full max-w-md rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950 shadow-2xl space-y-6">
+            
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => {
+                if (!stripeProcessing) {
+                  setShowStripeModal(false);
+                  setStripeSuccess(false);
+                }
+              }}
+              className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-650 dark:hover:text-zinc-300 disabled:opacity-50 cursor-pointer"
+              disabled={stripeProcessing}
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Header */}
+            <div className="flex flex-col items-center text-center space-y-2 mt-2">
+              <div className="h-12 w-12 rounded-2xl bg-blue-50 dark:bg-blue-955/15 flex items-center justify-center text-blue-600">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0V10.5m-3.75 3h15.75m-15.75 0a2.25 2.25 0 00-2.25 2.25v3a2.25 2.25 0 002.25 2.25h15.75a2.25 2.25 0 002.25-2.25v-3a2.25 2.25 0 00-2.25-2.25M3 10.5h18" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-black text-zinc-955 dark:text-white">Stripe Secure Checkout</h3>
+              <p className="text-xs text-zinc-450">Pay securely with Credit or Debit card via Stripe</p>
+            </div>
+
+            {/* Content: Form fields or processing state */}
+            <div className="space-y-4 pt-1">
+              
+              {/* Order total info */}
+              <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 p-4 border border-zinc-150 dark:border-zinc-800 flex justify-between items-center text-xs">
+                <span className="font-bold text-zinc-500">Amount to Pay</span>
+                <span className="text-sm font-black text-blue-600 dark:text-blue-450">${getGrandTotal().toFixed(2)}</span>
+              </div>
+
+              {stripeProcessing ? (
+                <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                  {stripeSuccess ? (
+                    <>
+                      <div className="h-14 w-14 rounded-full bg-emerald-650 text-white flex items-center justify-center shadow-lg shadow-emerald-500/10 animate-scale-up">
+                        <svg className="h-7 w-7 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="3">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                      </div>
+                      <p className="text-xs font-black text-emerald-600 dark:text-emerald-500">Payment Authorized!</p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                      <p className="text-xs text-zinc-500 font-bold animate-pulse">Contacting card issuer & processing...</p>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-3.5">
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 mb-1">Card Number</label>
+                    <input
+                      type="text"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none"
+                      value={cardNumber || "4242 •••• •••• 4242"}
+                      readOnly
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 mb-1">Expiry</label>
+                      <input
+                        type="text"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none"
+                        value={cardExpiry || "12/28"}
+                        readOnly
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1">CVC</label>
+                      <input
+                        type="text"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none"
+                        value={cardCvv || "•••"}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      setStripeProcessing(true);
+                      await new Promise((resolve) => setTimeout(resolve, 2000));
+                      setStripeSuccess(true);
+                      await new Promise((resolve) => setTimeout(resolve, 800));
+                      const ok = await submitOrder();
+                      if (ok) {
+                        setShowStripeModal(false);
+                      }
+                      setStripeProcessing(false);
+                      setStripeSuccess(false);
+                    }}
+                    className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl py-3.5 text-xs font-black shadow-md shadow-blue-500/10 transition-all cursor-pointer"
+                  >
+                    <span>Authorize & Pay Securely</span>
+                  </button>
+                </div>
+              )}
+
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

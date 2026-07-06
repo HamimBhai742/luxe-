@@ -216,7 +216,12 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
     } else {
       sessionStorage.removeItem("appliedCoupon");
     }
-    router.push("/checkout");
+    if (!isAuthenticated) {
+      toast.error("Please log in to proceed to checkout!");
+      router.push("/sign-in?redirect=/checkout");
+    } else {
+      router.push("/checkout");
+    }
   };
 
   if (!mounted) {
