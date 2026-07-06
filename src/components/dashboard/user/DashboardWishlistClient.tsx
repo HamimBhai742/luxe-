@@ -118,8 +118,9 @@ export default function DashboardWishlistClient() {
       await syncDbCart({
         items: [{ productId: String(item.id), quantity: 1, specsText: "Default Edition • Premium Grade" }],
       }).unwrap();
+      await removeFromWishlist({ productId: String(item.id) }).unwrap();
     } catch (err) {
-      console.error("Failed to sync item addition to DB cart:", err);
+      console.error("Failed to sync item addition or remove from wishlist:", err);
     }
   };
 

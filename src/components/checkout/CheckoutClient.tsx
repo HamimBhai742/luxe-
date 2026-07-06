@@ -1,11 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useValidateCouponMutation } from "@/lib/features/api/couponApi";
 
 export default function CheckoutClient() {
   const router = useRouter();
@@ -31,11 +34,29 @@ export default function CheckoutClient() {
   const [cardNumber, setCardNumber] = useState("•••• •••• •••• 4242");
   const [cardExpiry, setCardExpiry] = useState("12/28");
   const [cardCvv, setCardCvv] = useState("•••");
-  const [cardName, setCardName] = useState("Eleanor Vance");
+
 
   // Accordion state
   const [isPromoOpen, setIsPromoOpen] = useState(false);
   const [promoCode, setPromoCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<{ id: string; code: string; type: string; value: string } | null>(null);
+
+  const [validateCoupon, { isLoading: isValidatingCoupon }] = useValidateCouponMutation();
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("appliedCoupon");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        const timer = setTimeout(() => {
+          setAppliedCoupon(parsed);
+        }, 0);
+        return () => clearTimeout(timer);
+      } catch (e) {
+        
+      }
+    }
+  }, []);
 
   // Calculations: Dynamic to match screenshot values at different checkout stages!
   const isPaymentStage = activeStep === "payment";
@@ -44,6 +65,16 @@ export default function CheckoutClient() {
 
   const subtotal = isConfirmStage ? 299.00 : isReviewStage ? 384.00 : isPaymentStage ? 270.00 : 249.00;
   const tax = isConfirmStage ? 23.92 : isReviewStage ? 26.88 : isPaymentStage ? 21.60 : 21.16;
+
+  let discountAmount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.type === "Percentage") {
+      const pct = parseFloat(appliedCoupon.value) / 100;
+      discountAmount = subtotal * pct;
+    } else if (appliedCoupon.type === "Fixed Amount") {
+      discountAmount = parseFloat(appliedCoupon.value);
+    }
+  }
 
   const getShippingCost = () => {
     if (activeStep === "shipping") return "Calculated next step";
@@ -61,13 +92,17 @@ export default function CheckoutClient() {
   const getShippingCostDisplay = () => {
     const cost = getShippingCost();
     if (typeof cost === "string") return cost;
+    if (appliedCoupon && appliedCoupon.type === "Free Shipping") return "Free (Coupon Applied)";
     return cost === 0 ? "Free" : `$${cost.toFixed(2)}`;
   };
 
   const getGrandTotal = () => {
     const cost = getShippingCost();
-    const shippingNum = typeof cost === "string" ? 0 : cost;
-    return subtotal + tax + shippingNum;
+    let shippingNum = typeof cost === "string" ? 0 : cost;
+    if (appliedCoupon && appliedCoupon.type === "Free Shipping") {
+      shippingNum = 0;
+    }
+    return Math.max(0, subtotal + tax + shippingNum - discountAmount);
   };
 
   const getSubtotalLabel = () => {
@@ -984,13 +1019,25 @@ export default function CheckoutClient() {
                         />
                         <button
                           type="button"
-                          onClick={() => {
-                            toast.success(`Promo code "${promoCode}" applied!`);
-                            setPromoCode("");
+                          disabled={isValidatingCoupon}
+                          onClick={async () => {
+                            const code = promoCode.trim().toUpperCase();
+                            if (!code) return;
+                            try {
+                              const result = await validateCoupon({ code }).unwrap();
+                              if (result.success && result.data) {
+                                setAppliedCoupon(result.data);
+                                sessionStorage.setItem("appliedCoupon", JSON.stringify(result.data));
+                                toast.success(`Promo code "${result.data.code}" applied!`);
+                                setPromoCode("");
+                              }
+                            } catch (err: any) {
+                              toast.error(err?.data?.message || "Invalid promo code");
+                            }
                           }}
-                          className="rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 px-4 py-2 text-xs font-bold transition-colors cursor-pointer"
+                          className="rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 px-4 py-2 text-xs font-bold transition-colors cursor-pointer disabled:opacity-50"
                         >
-                          Apply
+                          {isValidatingCoupon ? "Applying..." : "Apply"}
                         </button>
                       </div>
                     )}
@@ -1066,13 +1113,9 @@ export default function CheckoutClient() {
                   {/* Shipping */}
                   <div className="flex justify-between items-center text-zinc-500 font-semibold">
                     <span>Shipping</span>
-                    {activeStep === "shipping" ? (
-                      <span className="italic text-zinc-450 font-medium">Calculated next step</span>
-                    ) : (
-                      <span className="font-extrabold text-zinc-800 dark:text-zinc-200">
-                        {getShippingCost() === 0 ? "Free" : `$${(getShippingCost() as number).toFixed(2)}`}
-                      </span>
-                    )}
+                    <span className="font-extrabold text-zinc-800 dark:text-zinc-200">
+                      {getShippingCostDisplay()}
+                    </span>
                   </div>
 
                   {/* Taxes */}
@@ -1080,6 +1123,14 @@ export default function CheckoutClient() {
                     <span>{getTaxLabel()}</span>
                     <span className="font-extrabold text-zinc-800 dark:text-zinc-200">${tax.toFixed(2)}</span>
                   </div>
+
+                  {/* Discount */}
+                  {appliedCoupon && (
+                    <div className="flex justify-between items-center text-green-600 font-bold">
+                      <span>Discount ({appliedCoupon.code})</span>
+                      <span>-${discountAmount.toFixed(2)}</span>
+                    </div>
+                  )}
 
                   {/* Divider */}
                   <div className="border-t border-zinc-100 dark:border-zinc-900 pt-3.5 mt-2 flex justify-between items-baseline">

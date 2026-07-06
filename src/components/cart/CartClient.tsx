@@ -14,6 +14,8 @@ import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { updateQuantity, removeFromCart, clearCart, addToCart } from "@/lib/features/cart/cartSlice";
 import { useGetProductsQuery } from "@/lib/features/api/productApi";
 import { useSyncDbCartMutation, useRemoveDbCartItemMutation, useClearDbCartMutation } from "@/lib/features/api/cartApi";
+import { useAddToWishlistMutation } from "@/lib/features/api/wishlistApi";
+import { useValidateCouponMutation } from "@/lib/features/api/couponApi";
 
 interface CartClientProps {
   initialItems: CartItem[];
@@ -30,9 +32,11 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
   const [syncDbCart] = useSyncDbCartMutation();
   const [removeDbCartItem] = useRemoveDbCartItemMutation();
   const [clearDbCart] = useClearDbCartMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
+  const [validateCoupon, { isLoading: isValidatingCoupon }] = useValidateCouponMutation();
 
   const [promoInput, setPromoInput] = useState("");
-  const [appliedDiscount, setAppliedDiscount] = useState(0); // 0 = 0%, 0.2 = 20%
+  const [appliedCoupon, setAppliedCoupon] = useState<{ id: string; code: string; type: string; value: string } | null>(null);
   const [promoError, setPromoError] = useState("");
   const [promoSuccess, setPromoSuccess] = useState("");
   const [activeMobileTab, setActiveMobileTab] = useState("cart");
@@ -66,11 +70,19 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
   const itemsCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const tax = subtotal * 0.08; // 8% sales tax matching desktop screenshot estimates
-  const discountAmount = subtotal * appliedDiscount;
-  const total = subtotal + tax - discountAmount;
+  let discountAmount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.type === "Percentage") {
+      const pct = parseFloat(appliedCoupon.value) / 100;
+      discountAmount = subtotal * pct;
+    } else if (appliedCoupon.type === "Fixed Amount") {
+      discountAmount = parseFloat(appliedCoupon.value);
+    }
+  }
+  const total = Math.max(0, subtotal + tax - discountAmount);
 
   // Mobile total (matches screenshot with no tax logic, simple subtotal and discount)
-  const mobileTotal = subtotal - discountAmount;
+  const mobileTotal = Math.max(0, subtotal - discountAmount);
 
   // Quantity updates
   const handleUpdateQuantity = async (id: string | number, currentQty: number, delta: number) => {
@@ -106,8 +118,22 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
   };
 
   // Save for later
-  const handleSaveForLater = (name: string) => {
-    toast.success(`Saved ${name} for later!`);
+  const handleSaveForLater = async (id: string | number, name: string) => {
+    if (!isAuthenticated) {
+      localStorage.setItem("pendingWishlistAdd", String(id));
+      toast.info("Please log in to save items for later.");
+      router.push("/sign-in");
+      return;
+    }
+
+    try {
+      await addToWishlist({ productId: String(id) }).unwrap();
+      dispatch(removeFromCart({ id }));
+      await removeDbCartItem({ productId: String(id) }).unwrap();
+      toast.success(`Saved ${name} for later (moved to wishlist)!`);
+    } catch (err) {
+      toast.error("Failed to save item for later");
+    }
   };
 
   // Clear cart
@@ -125,7 +151,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
   };
 
   // Promo code
-  const handleApplyPromo = (e: React.FormEvent) => {
+  const handleApplyPromo = async (e: React.FormEvent) => {
     e.preventDefault();
     setPromoError("");
     setPromoSuccess("");
@@ -133,17 +159,27 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
     const code = promoInput.trim().toUpperCase();
     if (!code) return;
 
-    if (code === "LUXE20" || code === "ELARA20") {
-      setAppliedDiscount(0.2);
-      setPromoSuccess(`Promo code ${code} applied: 20% off!`);
-      toast.success(`Promo code ${code} applied successfully!`);
-    } else if (code === "DISCOUNT10") {
-      setAppliedDiscount(0.1);
-      setPromoSuccess("Promo code DISCOUNT10 applied: 10% off!");
-      toast.success("Promo code DISCOUNT10 applied successfully!");
-    } else {
-      setPromoError("Invalid promo code or gift card");
-      toast.error("Invalid promo code");
+    try {
+      const result = await validateCoupon({ code }).unwrap();
+      if (result.success && result.data) {
+        const coupon = result.data;
+        setAppliedCoupon(coupon);
+        let desc = "";
+        if (coupon.type === "Percentage") {
+          desc = `${coupon.value}% off`;
+        } else if (coupon.type === "Fixed Amount") {
+          desc = `$${coupon.value} off`;
+        } else {
+          desc = "Free Shipping";
+        }
+        setPromoSuccess(`Promo code ${coupon.code} applied: ${desc}!`);
+        toast.success(`Promo code ${coupon.code} applied successfully!`);
+      }
+    } catch (err: any) {
+      const errorMsg = err?.data?.message || "Invalid promo code or gift card";
+      setPromoError(errorMsg);
+      toast.error(errorMsg);
+      setAppliedCoupon(null);
     }
   };
 
@@ -175,6 +211,11 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
 
   // Checkout Simulation
   const handleCheckout = () => {
+    if (appliedCoupon) {
+      sessionStorage.setItem("appliedCoupon", JSON.stringify(appliedCoupon));
+    } else {
+      sessionStorage.removeItem("appliedCoupon");
+    }
     router.push("/checkout");
   };
 
@@ -260,7 +301,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                         </button>
                         
                         <button
-                          onClick={() => handleSaveForLater(item.name)}
+                          onClick={() => handleSaveForLater(item.id, item.name)}
                           className="flex items-center gap-1.5 hover:text-zinc-600 dark:hover:text-zinc-200 text-zinc-450 transition-colors cursor-pointer"
                           title="Save for Later"
                         >
@@ -321,9 +362,9 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                   <span>Estimated Tax</span>
                   <span className="text-zinc-900 dark:text-zinc-100 font-extrabold">${tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
-                {appliedDiscount > 0 && (
+                {appliedCoupon && (
                   <div className="flex justify-between text-green-600 font-bold">
-                    <span>Discount ({appliedDiscount * 100}%)</span>
+                    <span>Discount ({appliedCoupon.code})</span>
                     <span>-${discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                 )}
@@ -522,7 +563,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                       {/* Text links Save and Remove */}
                       <div className="flex items-center gap-3.5 text-xs font-semibold">
                         <button
-                          onClick={() => handleSaveForLater(item.name)}
+                          onClick={() => handleSaveForLater(item.id, item.name)}
                           className="text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors cursor-pointer"
                         >
                           Save
@@ -623,9 +664,9 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                   Calculated at next step
                 </span>
               </div>
-              {appliedDiscount > 0 && (
+              {appliedCoupon && (
                 <div className="flex justify-between items-center text-green-600 font-bold">
-                  <span>Discount</span>
+                  <span>Discount ({appliedCoupon.code})</span>
                   <span>-${discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
               )}
