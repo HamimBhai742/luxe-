@@ -153,7 +153,14 @@ export default function DashboardOrdersClient() {
         );
         toast.success(`Order ${displayId} has been successfully cancelled.`, { id: toastId });
       } else {
-        toast.error(json.message || "Failed to cancel order.", { id: toastId });
+        let errMsg = json.message || "Failed to cancel order.";
+        if (json.errors) {
+          const firstErrKey = Object.keys(json.errors)[0];
+          if (firstErrKey) {
+            errMsg = json.errors[firstErrKey];
+          }
+        }
+        toast.error(errMsg, { id: toastId });
       }
     } catch (err) {
       console.error("Error cancelling order:", err);

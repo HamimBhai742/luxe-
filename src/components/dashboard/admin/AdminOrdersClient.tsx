@@ -258,7 +258,14 @@ export default function AdminOrdersClient() {
         setRefreshTrigger((prev) => prev + 1);
         closeModal();
       } else {
-        toast.error(responseData.message || "Failed to save order.", { id: toastId });
+        let errMsg = responseData.message || "Failed to save order.";
+        if (responseData.errors) {
+          const firstErrKey = Object.keys(responseData.errors)[0];
+          if (firstErrKey) {
+            errMsg = responseData.errors[firstErrKey];
+          }
+        }
+        toast.error(errMsg, { id: toastId });
       }
     } catch (error) {
       console.error("Error saving order:", error);
