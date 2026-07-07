@@ -392,6 +392,7 @@ export interface RecommendedProduct {
 
 export const INITIAL_CART_ITEMS: CartItem[] = [
   {
+    productId: "201",
     id: 201,
     name: "AuraBook Pro 14\"",
     brand: "AURATECH",
@@ -401,6 +402,7 @@ export const INITIAL_CART_ITEMS: CartItem[] = [
     specsText: "Space Gray • M3 Pro • 1TB SSD • 18GB RAM",
   },
   {
+    productId: "202",
     id: 202,
     name: "Aura Noise-Cancelling Headphones",
     brand: "AURATECH",
@@ -410,6 +412,7 @@ export const INITIAL_CART_ITEMS: CartItem[] = [
     specsText: "Matte Black • Wireless • Over-Ear",
   },
   {
+    productId: "203",
     id: 203,
     name: "Minimalist Leather Desk Mat",
     brand: "AURATECH",

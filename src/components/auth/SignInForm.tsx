@@ -44,6 +44,7 @@ export default function SignInForm() {
         if (syncResult.success && syncResult.data) {
           const mapped = syncResult.data.map((item: any) => ({
             id: item.productId,
+            productId: String(item.productId),
             name: item.product.name,
             brand: item.product.brand || "LUXE",
             price: item.product.price,

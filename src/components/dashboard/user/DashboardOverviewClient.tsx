@@ -86,6 +86,7 @@ export default function DashboardOverviewClient() {
     dispatch(
       addToCart({
         id: item.id,
+        productId: String(item.id),
         name: item.name,
         brand: "LUXE",
         price: item.price,

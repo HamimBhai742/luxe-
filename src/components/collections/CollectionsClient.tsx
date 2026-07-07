@@ -157,6 +157,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
     dispatch(
       addToCart({
         id: product.id,
+        productId: String(product.id),
         name: product.name,
         brand: product.brand || "LUXE",
         price: product.price,

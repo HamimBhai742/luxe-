@@ -34,7 +34,7 @@ const cartSlice = createSlice({
       }
     },
     addToCart: (state, action: PayloadAction<Omit<CartItem, "quantity"> & { quantity?: number }>) => {
-      const { id, name, brand, price, image, specsText, quantity = 1 } = action.payload;
+      const { id, productId, name, brand, price, image, specsText, quantity = 1 } = action.payload;
       const existing = state.items.find(
         (item) => item.id === id || (item.name === name && item.specsText === specsText)
       );
@@ -43,6 +43,7 @@ const cartSlice = createSlice({
       } else {
         state.items.push({
           id,
+          productId: productId || String(id),
           name,
           brand,
           price,

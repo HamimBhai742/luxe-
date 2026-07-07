@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -110,6 +111,7 @@ export default function CollectionDetailsClient({
     dispatch(
       addToCart({
         id: product.id,
+        productId: String(product.id),
         name: product.name,
         brand: product.brand || "LUXE",
         price: product.price,
@@ -135,6 +137,7 @@ export default function CollectionDetailsClient({
     dispatch(
       addToCart({
         id: product.id,
+        productId: String(product.id),
         name: product.name,
         brand: product.brand || "LUXE",
         price: product.price,

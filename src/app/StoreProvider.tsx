@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -23,6 +24,7 @@ function AuthInitializer({ children }: { children: React.ReactNode }) {
     if (dbCartData?.success && dbCartData.data) {
       const mapped = dbCartData.data.map((item: any) => ({
         id: item.productId,
+        productId: String(item.productId),
         name: item.product.name,
         brand: item.product.brand || "LUXE",
         price: item.product.price,

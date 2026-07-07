@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "sonner";
 
 interface OrderItem {
@@ -364,7 +365,13 @@ export default function DashboardOrdersClient() {
                   {ord.items.map((item, index) => (
                     <div key={index} className="flex items-center gap-6 pt-5 first:pt-0">
                       <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
-                        <img src={item.image} alt={item.name} className="object-contain max-h-full max-w-full" />
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          width={64}
+                          height={64}
+                          className="object-contain max-h-full max-w-full"
+                        />
                       </div>
                       <div className="flex-1">
                         <h4 className="text-sm font-extrabold text-zinc-900 dark:text-white leading-snug">{item.name}</h4>
@@ -639,7 +646,13 @@ export default function DashboardOrdersClient() {
                   {ord.items.map((item, idx) => (
                     <div key={idx} className="flex gap-4 items-center pt-3 first:pt-0">
                       <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
-                        <img src={item.image} alt={item.name} className="object-contain max-h-full max-w-full" />
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          width={64}
+                          height={64}
+                          className="object-contain max-h-full max-w-full"
+                        />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h5 className="text-xs font-bold text-zinc-800 dark:text-white leading-tight truncate">

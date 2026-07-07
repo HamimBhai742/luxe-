@@ -189,6 +189,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
     dispatch(
       addToCart({
         id: rec.id,
+        productId: String(rec.id),
         name: rec.name,
         brand,
         price: rec.price,

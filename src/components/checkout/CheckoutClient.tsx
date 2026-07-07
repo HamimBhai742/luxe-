@@ -204,6 +204,41 @@ export default function CheckoutClient() {
     }
   }, []);
 
+  useEffect(() => {
+    const loadDefaultAddress = async () => {
+      const token = localStorage.getItem("accessToken");
+      if (!token) return;
+
+      try {
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+        const res = await fetch(`${baseUrl}/addresses`, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data)) {
+          const defaultAddr = data.data.find((addr: any) => addr.isDefault);
+          if (defaultAddr) {
+            setFullName(defaultAddr.fullName || "");
+            setPhone(defaultAddr.phone || "");
+            setAddressLine1(defaultAddr.addressLine1 || "");
+            setAddressLine2(defaultAddr.addressLine2 || "");
+            setCity(defaultAddr.city || "");
+            setState(defaultAddr.state || "");
+            setZipCode(defaultAddr.zipCode || "");
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load default address:", err);
+      }
+    };
+
+    if (isAuthenticated) {
+      loadDefaultAddress();
+    }
+  }, [isAuthenticated]);
+
   // Calculations: Dynamic based on cart items!
   const isPaymentStage = activeStep === "payment";
   const isReviewStage = activeStep === "review";
@@ -313,6 +348,35 @@ export default function CheckoutClient() {
       };
       const orderResult = await createOrder(orderPayload).unwrap();
       if (orderResult.success && orderResult.data) {
+        if (addToAddressBook && isAuthenticated) {
+          try {
+            const token = localStorage.getItem("accessToken");
+            if (token) {
+              const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v1";
+              await fetch(`${baseUrl}/addresses`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  fullName: fullName,
+                  phone: phone,
+                  addressLine1: addressLine1,
+                  addressLine2: addressLine2 || null,
+                  city: city,
+                  state: state,
+                  zipCode: zipCode,
+                  isDefault: false,
+                  addressType: "Shipping",
+                }),
+              });
+            }
+          } catch (addrErr) {
+            console.error("Failed to auto-save address to book:", addrErr);
+          }
+        }
+
         setOrderedItems(cartItems);
         setCreatedOrder(orderResult.data);
         dispatch(clearCart());

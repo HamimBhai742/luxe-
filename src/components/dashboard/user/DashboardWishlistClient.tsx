@@ -105,6 +105,7 @@ export default function DashboardWishlistClient() {
     dispatch(
       addToCart({
         id: item.id,
+        productId: String(item.id),
         name: item.name,
         brand: item.brand || "LUXE",
         price: item.price,
