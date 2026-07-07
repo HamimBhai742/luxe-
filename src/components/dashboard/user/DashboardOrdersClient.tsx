@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
 
@@ -14,97 +14,119 @@ interface OrderItem {
 
 interface Order {
   id: string;
+  orderId: string;
   date: string;
-  status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
+  status: string;
   total: number;
   items: OrderItem[];
   deliveryDate?: string;
   progressStep?: number; // 1: Confirmed, 2: Packed, 3: Shipped, 4: Delivered
 }
 
-const MOCK_ORDERS: Order[] = [
-  {
-    id: "#ORD-7732",
-    date: "Oct 24, 2023",
-    status: "Delivered",
-    total: 349.99,
-    deliveryDate: "Oct 27, 2023",
-    items: [
-      {
-        name: "Aura Sonic Pro ANC Headphones",
-        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop",
-        specs: "Matte Black • Qty: 1",
-        qty: 1,
-        price: 299.99,
-      },
-      {
-        name: "Nylon Braided USB-C Cable",
-        image: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?q=80&w=400&auto=format&fit=crop",
-        specs: "2 Meters • Qty: 2",
-        qty: 2,
-        price: 25.00,
-      },
-    ],
-  },
-  {
-    id: "#ORD-8105",
-    date: "Nov 02, 2023",
-    status: "Shipped",
-    total: 1299.00,
-    deliveryDate: "Nov 05, 2023",
-    progressStep: 3,
-    items: [
-      {
-        name: "NovaBook Pro 14\"",
-        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=400&auto=format&fit=crop",
-        specs: "Silver • 16GB RAM • 512GB SSD",
-        qty: 1,
-        price: 1299.00,
-      },
-    ],
-  },
-  {
-    id: "#ORD-8921",
-    date: "Nov 12, 2023",
-    status: "Shipped",
-    total: 349.99,
-    progressStep: 3,
-    items: [
-      {
-        name: "Aura Sonic Pro ANC Headphones - Matte Black",
-        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop",
-        specs: "Matte Black",
-        qty: 1,
-        price: 349.99,
-      },
-    ],
-  },
-  {
-    id: "#ORD-8844",
-    date: "Oct 24, 2023",
-    status: "Delivered",
-    total: 129.50,
-    deliveryDate: "Oct 27, 2023",
-    items: [
-      {
-        name: "Keychron K3 Ultra-slim Wireless Mechanical Keyboard",
-        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=400&auto=format&fit=crop",
-        specs: "White Backlight • Gateron Low Profile Red",
-        qty: 1,
-        price: 129.50,
-      },
-    ],
-  },
-];
-
 export default function DashboardOrdersClient() {
-  const [orders, setOrders] = useState<Order[]>(MOCK_ORDERS);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeMobileTab, setActiveMobileTab] = useState("wishlist"); // Highlight wishlist icon in mockup bottom nav
 
-  const handleInvoice = (orderId: string) => {
+  useEffect(() => {
+    const fetchUserOrders = async () => {
+      try {
+        const authUserStr = localStorage.getItem("authUser");
+        if (!authUserStr) {
+          setIsLoading(false);
+          return;
+        }
+        const authUser = JSON.parse(authUserStr);
+        const userEmail = authUser.email;
+        if (!userEmail) {
+          setIsLoading(false);
+          return;
+        }
+
+        const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
+        // Query backend for this user's email
+        const res = await fetch(`${baseUrl}/orders?search=${encodeURIComponent(userEmail)}&limit=100`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const mappedOrders = json.data.map((ord: any) => {
+            const rawItems = ord.items ? (typeof ord.items === "string" ? JSON.parse(ord.items) : ord.items) : [];
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const mappedItems = rawItems.map((item: any) => ({
+              name: item.name || "Product Item",
+              image: item.image || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=150",
+              specs: item.specsText || "",
+              qty: item.quantity || 1,
+              price: item.price || 0,
+            }));
+
+            // Map status
+            let status = ord.fulfillmentStatus || "Processing";
+            if (ord.fulfillmentStatus === "Canceled") {
+              status = "Cancelled";
+            }
+
+            let progressStep = 1;
+            if (ord.fulfillmentStatus === "Processing") progressStep = 1;
+            else if (ord.fulfillmentStatus === "Confirmed") progressStep = 2;
+            else if (ord.fulfillmentStatus === "Packed") progressStep = 3;
+            else if (ord.fulfillmentStatus === "Shipped") progressStep = 4;
+            else if (ord.fulfillmentStatus === "Delivered") progressStep = 5;
+            else progressStep = 0;
+
+            // Delivery Date
+            let deliveryDate = "3-5 Days";
+            if (ord.fulfillmentStatus === "Delivered") {
+              deliveryDate = new Date(ord.updatedAt).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              });
+            } else {
+              deliveryDate = new Date(new Date(ord.createdAt).getTime() + 4 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              });
+            }
+
+            return {
+              id: ord.id,
+              orderId: ord.orderId,
+              date: ord.date,
+              status,
+              total: ord.total,
+              items: mappedItems,
+              deliveryDate,
+              progressStep,
+            };
+          });
+          setOrders(mappedOrders);
+        }
+      } catch (err) {
+        console.error("Failed to fetch user orders:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUserOrders();
+  }, []);
+
+  const handleInvoice = (dbId: string, orderId: string) => {
+    const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
+    const downloadUrl = `${baseUrl}/orders/${dbId}/invoice/download`;
+    
     toast.success(`Downloading invoice for order ${orderId}...`);
+    
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.setAttribute("download", `invoice-${orderId}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleReview = (name: string) => {
@@ -115,11 +137,28 @@ export default function DashboardOrdersClient() {
     toast.success(`Re-added ${name} to shopping cart!`);
   };
 
-  const handleCancelOrder = (orderId: string) => {
-    setOrders((prev) =>
-      prev.map((ord) => (ord.id === orderId ? { ...ord, status: "Cancelled" } : ord))
-    );
-    toast.success(`Cancelled order ${orderId}`);
+  const handleCancelOrder = async (orderId: string, displayId: string) => {
+    const toastId = toast.loading(`Cancelling order ${displayId}...`);
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
+      const res = await fetch(`${baseUrl}/orders/${orderId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fulfillmentStatus: "Canceled" }),
+      });
+      const json = await res.json();
+      if (res.ok && json.success) {
+        setOrders((prev) =>
+          prev.map((ord) => (ord.id === orderId ? { ...ord, status: "Cancelled", progressStep: 0 } : ord))
+        );
+        toast.success(`Order ${displayId} has been successfully cancelled.`, { id: toastId });
+      } else {
+        toast.error(json.message || "Failed to cancel order.", { id: toastId });
+      }
+    } catch (err) {
+      console.error("Error cancelling order:", err);
+      toast.error("Failed to cancel order due to a network error.", { id: toastId });
+    }
   };
 
   const handleTrackOrder = (orderId: string) => {
@@ -136,7 +175,7 @@ export default function DashboardOrdersClient() {
       // Search Box Query
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
-        const matchesId = ord.id.toLowerCase().includes(query);
+        const matchesId = ord.orderId.toLowerCase().includes(query) || ord.id.toLowerCase().includes(query);
         const matchesItems = ord.items.some((item) =>
           item.name.toLowerCase().includes(query)
         );
@@ -145,6 +184,15 @@ export default function DashboardOrdersClient() {
       return true;
     });
   }, [orders, activeFilter, searchQuery]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-zinc-500 font-bold space-y-4">
+        <div className="h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-xs animate-pulse">Loading your orders...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -232,7 +280,7 @@ export default function DashboardOrdersClient() {
                   <div className="flex gap-8 text-xs font-bold uppercase tracking-wider text-zinc-400">
                     <div>
                       <span className="text-[10px] text-zinc-400 block mb-1">Order ID</span>
-                      <span className="text-zinc-850 dark:text-white">{ord.id}</span>
+                      <span className="text-zinc-850 dark:text-white">{ord.orderId}</span>
                     </div>
                     <div>
                       <span className="text-[10px] text-zinc-400 block mb-1">Date Placed</span>
@@ -254,9 +302,21 @@ export default function DashboardOrdersClient() {
                       <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-600 dark:bg-blue-950/20 dark:text-blue-450 border border-blue-100/50 dark:border-blue-900/10">
                         &#8226; Shipped
                       </span>
-                    ) : ord.status === "Cancelled" ? (
+                    ) : ord.status === "Confirmed" ? (
+                      <span className="inline-flex items-center rounded-full bg-purple-50 px-3 py-1 text-xs font-bold text-purple-700 dark:bg-purple-950/20 dark:text-purple-400 border border-purple-100/50 dark:border-purple-900/10">
+                        &#8226; Confirmed
+                      </span>
+                    ) : ord.status === "Packed" ? (
+                      <span className="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-600 dark:bg-amber-950/20 dark:text-amber-450 border border-amber-100/50 dark:border-amber-900/10">
+                        &#8226; Packed
+                      </span>
+                    ) : ord.status === "Cancelled" || ord.status === "Canceled" ? (
                       <span className="inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-650 dark:bg-red-950/20 dark:text-red-450">
                         Cancelled
+                      </span>
+                    ) : ord.status === "Returned" ? (
+                      <span className="inline-flex items-center rounded-full bg-zinc-50 px-3 py-1 text-xs font-bold text-zinc-500 border border-zinc-100 dark:bg-zinc-950/20">
+                        Returned
                       </span>
                     ) : (
                       <span className="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-xs font-bold text-zinc-800">
@@ -285,16 +345,16 @@ export default function DashboardOrdersClient() {
                 </div>
 
                 {/* Progress tracker widget (if active) */}
-                {ord.status === "Shipped" && ord.progressStep && (
-                  <div className="px-6 pb-6 pt-2">
+                {(ord.status === "Processing" || ord.status === "Confirmed" || ord.status === "Packed" || ord.status === "Shipped") && ord.progressStep && (
+                  <div className="px-6 pb-8 pt-4">
                     <div className="max-w-xl mx-auto">
-                      <div className="relative flex items-center justify-between">
+                      <div className="relative flex items-center justify-between z-0">
                         {/* Connecting Line background */}
-                        <div className="absolute left-0 right-0 h-1 bg-zinc-100 dark:bg-zinc-800 -z-10 rounded-full" />
+                        <div className="absolute left-[12.5%] right-[12.5%] h-0.5 bg-zinc-200 dark:bg-zinc-800 -translate-y-1/2 top-4 z-0 rounded-full" />
                         {/* Active Line indicator */}
                         <div
-                          className="absolute left-0 h-1 bg-blue-600 -z-10 rounded-full transition-all"
-                          style={{ width: `${((ord.progressStep - 1) / 3) * 100}%` }}
+                          className="absolute left-[12.5%] h-0.5 bg-blue-600 -translate-y-1/2 top-4 z-0 rounded-full transition-all duration-500 ease-out"
+                          style={{ width: `${((Math.min(4, ord.progressStep) - 1) / 3) * 75}%` }}
                         />
 
                         {/* Steps circles */}
@@ -307,26 +367,22 @@ export default function DashboardOrdersClient() {
                           const isDone = s.step < ord.progressStep!;
                           const isCurrent = s.step === ord.progressStep!;
                           return (
-                            <div key={s.label} className="flex flex-col items-center">
-                              <div
-                                className={`h-6 w-6 rounded-full flex items-center justify-center border-2 transition-all ${
-                                  isDone
-                                    ? "bg-blue-600 border-blue-600 text-white"
-                                    : isCurrent
-                                    ? "bg-white border-blue-600 dark:bg-zinc-900 text-blue-600 ring-4 ring-blue-50 dark:ring-blue-950/20"
-                                    : "bg-white border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 text-zinc-300"
-                                }`}
-                              >
-                                {isDone ? (
-                                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
+                            <div key={s.label} className="flex flex-col items-center flex-1 relative z-10">
+                              {isDone ? (
+                                <div className="h-8 w-8 rounded-full flex items-center justify-center bg-blue-600 text-white shadow-md shadow-blue-500/10">
+                                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                   </svg>
-                                ) : isCurrent ? (
-                                  <span className="h-2 w-2 rounded-full bg-blue-600" />
-                                ) : null}
-                              </div>
-                              <span className={`text-[10px] font-extrabold mt-2.5 uppercase tracking-wide ${
-                                isDone || isCurrent ? "text-zinc-800 dark:text-zinc-200" : "text-zinc-400"
+                                </div>
+                              ) : isCurrent ? (
+                                <div className="h-8 w-8 rounded-full flex items-center justify-center border-2 border-blue-600 bg-blue-50/80 dark:bg-blue-950/30 ring-4 ring-blue-100/50 dark:ring-blue-900/30 shadow-md">
+                                  <span className="h-2.5 w-2.5 rounded-full bg-blue-600 animate-pulse" />
+                                </div>
+                              ) : (
+                                <div className="h-8 w-8 rounded-full border-2 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950" />
+                              )}
+                              <span className={`text-[10px] font-black mt-3 uppercase tracking-wider ${
+                                isDone || isCurrent ? "text-zinc-800 dark:text-zinc-200" : "text-zinc-400 dark:text-zinc-650"
                               }`}>
                                 {s.label}
                               </span>
@@ -362,7 +418,7 @@ export default function DashboardOrdersClient() {
 
                   <div className="flex gap-3">
                     <button
-                      onClick={() => handleInvoice(ord.id)}
+                      onClick={() => handleInvoice(ord.id, ord.orderId)}
                       className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
                     >
                       <svg className="h-4 w-4 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -389,14 +445,26 @@ export default function DashboardOrdersClient() {
                           <span>Buy Again</span>
                         </button>
                       </>
-                    ) : ord.status === "Shipped" ? (
+                    ) : ord.status === "Cancelled" || ord.status === "Returned" ? (
+                      <button
+                        onClick={() => handleBuyAgain(ord.items[0]?.name || "item")}
+                        className="rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center gap-1.5"
+                      >
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        <span>Buy Again</span>
+                      </button>
+                    ) : (
                       <>
-                        <button
-                          onClick={() => handleCancelOrder(ord.id)}
-                          className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-350 shadow-sm transition-all cursor-pointer"
-                        >
-                          Cancel Order
-                        </button>
+                        {(ord.status === "Processing" || ord.status === "Confirmed" || ord.status === "Packed") && (
+                          <button
+                            onClick={() => handleCancelOrder(ord.id, ord.orderId)}
+                            className="rounded-xl border border-red-200 dark:border-red-900 bg-white hover:bg-red-50 dark:bg-zinc-900 dark:hover:bg-red-950/20 px-4 py-2.5 text-xs font-bold text-red-650 dark:text-red-400 shadow-sm transition-all cursor-pointer"
+                          >
+                            Cancel Order
+                          </button>
+                        )}
                         <button
                           onClick={() => handleTrackOrder(ord.id)}
                           className="rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 px-4 py-2.5 text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-1.5"
@@ -408,7 +476,7 @@ export default function DashboardOrdersClient() {
                           <span>Track Order</span>
                         </button>
                       </>
-                    ) : null}
+                    )}
                   </div>
                 </div>
 
@@ -475,13 +543,29 @@ export default function DashboardOrdersClient() {
                 {/* Mobile Card Header */}
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="text-sm font-black text-zinc-850 dark:text-white font-serif">{ord.id}</h4>
+                    <h4 className="text-sm font-black text-zinc-850 dark:text-white font-serif">{ord.orderId}</h4>
                     <span className="text-[10px] font-bold text-zinc-400 block mt-0.5">{ord.date}</span>
                   </div>
                   <div>
                     {ord.status === "Delivered" ? (
                       <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400">
                         Delivered
+                      </span>
+                    ) : ord.status === "Confirmed" ? (
+                      <span className="inline-flex items-center rounded-full bg-purple-50 px-2.5 py-0.5 text-[10px] font-bold text-purple-700 dark:bg-purple-950/20 dark:text-purple-400">
+                        Confirmed
+                      </span>
+                    ) : ord.status === "Packed" ? (
+                      <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-[10px] font-bold text-amber-700 dark:bg-amber-950/20 dark:text-amber-400">
+                        Packed
+                      </span>
+                    ) : ord.status === "Cancelled" || ord.status === "Canceled" ? (
+                      <span className="inline-flex items-center rounded-full bg-red-50 px-2.5 py-0.5 text-[10px] font-bold text-red-700 dark:bg-red-950/20 dark:text-red-400">
+                        Cancelled
+                      </span>
+                    ) : ord.status === "Returned" ? (
+                      <span className="inline-flex items-center rounded-full bg-zinc-50 px-2.5 py-0.5 text-[10px] font-bold text-zinc-500 border dark:bg-zinc-950/20">
+                        Returned
                       </span>
                     ) : (
                       <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-[10px] font-bold text-blue-600 dark:bg-blue-950/20 dark:text-blue-400">
@@ -492,38 +576,69 @@ export default function DashboardOrdersClient() {
                 </div>
 
                 {/* Mobile Item Info */}
-                <div className="flex gap-4 items-center">
-                  <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1 shrink-0">
-                    <img src={ord.items[0]?.image} alt={ord.items[0]?.name} className="object-contain max-h-full max-w-full" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h5 className="text-xs font-bold text-zinc-800 dark:text-white leading-tight truncate">
-                      {ord.items[0]?.name}
-                    </h5>
-                    <span className="text-[10px] font-semibold text-zinc-400 block mt-1">
-                      Qty: {ord.items[0]?.qty}
-                    </span>
-                  </div>
+                <div className="divide-y divide-zinc-100 dark:divide-zinc-800/80 space-y-4">
+                  {ord.items.map((item, idx) => (
+                    <div key={idx} className="flex gap-4 items-center pt-3 first:pt-0">
+                      <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
+                        <img src={item.image} alt={item.name} className="object-contain max-h-full max-w-full" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h5 className="text-xs font-bold text-zinc-800 dark:text-white leading-tight truncate">
+                          {item.name}
+                        </h5>
+                        <p className="text-[10px] text-zinc-400 mt-1 font-semibold">{item.specs}</p>
+                        <span className="text-[10px] font-semibold text-zinc-450 block mt-0.5">
+                          Qty: {item.qty} • ${item.price.toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
                 {/* Milestone Progress Indicators (if active) */}
-                {ord.status === "Shipped" && (
-                  <div className="py-2 border-t border-b border-zinc-100 dark:border-zinc-800 flex justify-between items-center text-[10px] font-bold text-zinc-400">
-                    <div className="flex items-center gap-1">
-                      <span className="h-4.5 w-4.5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[8px] font-black">✓</span>
-                      <span className="text-zinc-800 dark:text-zinc-200">Confirmed</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className="h-4.5 w-4.5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[8px] font-black">✓</span>
-                      <span className="text-zinc-800 dark:text-zinc-200">Packed</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className="h-4.5 w-4.5 rounded-full border-2 border-blue-650 flex items-center justify-center"><span className="h-1.5 w-1.5 rounded-full bg-blue-600" /></span>
-                      <span className="text-blue-650 dark:text-blue-400">Shipped</span>
-                    </div>
-                    <div className="flex items-center gap-1 opacity-40">
-                      <span className="h-4.5 w-4.5 rounded-full border-2 border-zinc-200" />
-                      <span>Delivered</span>
+                {(ord.status === "Processing" || ord.status === "Confirmed" || ord.status === "Packed" || ord.status === "Shipped") && ord.progressStep && (
+                  <div className="px-2 py-4 border-t border-b border-zinc-100 dark:border-zinc-800/80">
+                    <div className="relative flex items-center justify-between z-0">
+                      {/* Connecting Line background */}
+                      <div className="absolute left-[12.5%] right-[12.5%] h-0.5 bg-zinc-200 dark:bg-zinc-800 -translate-y-1/2 top-3.5 z-0" />
+                      {/* Active Line indicator */}
+                      <div
+                        className="absolute left-[12.5%] h-0.5 bg-blue-600 -translate-y-1/2 top-3.5 z-0 rounded-full transition-all duration-500 ease-out"
+                        style={{ width: `${((Math.min(4, ord.progressStep) - 1) / 3) * 75}%` }}
+                      />
+
+                      {/* Steps circles */}
+                      {[
+                        { label: "Confirmed", step: 1 },
+                        { label: "Packed", step: 2 },
+                        { label: "Shipped", step: 3 },
+                        { label: "Delivered", step: 4 },
+                      ].map((s) => {
+                        const isDone = s.step < ord.progressStep!;
+                        const isCurrent = s.step === ord.progressStep!;
+                        return (
+                          <div key={s.label} className="flex flex-col items-center flex-1 relative z-10">
+                            {isDone ? (
+                              <div className="h-7 w-7 rounded-full flex items-center justify-center bg-blue-600 text-white shadow-sm">
+                                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                </svg>
+                              </div>
+                            ) : isCurrent ? (
+                              <div className="h-7 w-7 rounded-full flex items-center justify-center border-2 border-blue-600 bg-blue-50/80 dark:bg-blue-950/30 ring-4 ring-blue-100/50 dark:ring-blue-900/30 shadow-sm">
+                                <span className="h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
+                              </div>
+                            ) : (
+                              <div className="h-7 w-7 rounded-full border-2 border-zinc-200 dark:border-zinc-850 bg-white dark:bg-zinc-950" />
+                            )}
+                            <span className={`text-[8px] font-black mt-2 uppercase tracking-wide ${
+                              isDone || isCurrent ? "text-zinc-800 dark:text-zinc-200" : "text-zinc-400 dark:text-zinc-650"
+                            }`}>
+                              {s.label}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -550,10 +665,25 @@ export default function DashboardOrdersClient() {
                           Buy Again
                         </button>
                       </>
+                    ) : ord.status === "Cancelled" || ord.status === "Returned" ? (
+                      <button
+                        onClick={() => handleBuyAgain(ord.items[0]?.name || "item")}
+                        className="rounded-xl bg-blue-600 text-white px-4 py-2 text-xs font-bold"
+                      >
+                        Buy Again
+                      </button>
                     ) : (
                       <>
+                        {(ord.status === "Processing" || ord.status === "Confirmed" || ord.status === "Packed") && (
+                          <button
+                            onClick={() => handleCancelOrder(ord.id, ord.orderId)}
+                            className="rounded-xl border border-red-200 dark:border-red-900 bg-white hover:bg-red-50 dark:bg-zinc-900 dark:hover:bg-red-950/20 px-3.5 py-2 text-xs font-bold text-red-650 dark:text-red-400 cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                        )}
                         <button
-                          onClick={() => handleInvoice(ord.id)}
+                          onClick={() => handleInvoice(ord.id, ord.orderId)}
                           className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3.5 py-2 text-xs font-bold text-zinc-650 dark:text-zinc-300"
                         >
                           Invoice

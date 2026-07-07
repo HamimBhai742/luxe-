@@ -13,7 +13,7 @@ interface OrderItem {
   customerEmail: string;
   total: number;
   paymentStatus: "Paid" | "Pending" | "Refunded";
-  fulfillmentStatus: "Shipped" | "Processing" | "Delivered" | "Canceled" | "Returned";
+  fulfillmentStatus: "Shipped" | "Processing" | "Delivered" | "Canceled" | "Returned" | "Confirmed" | "Packed";
 }
 
 const INITIAL_ORDERS: OrderItem[] = [
@@ -130,7 +130,7 @@ export default function AdminOrdersClient() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [total, setTotal] = useState("");
   const [paymentStatus, setPaymentStatus] = useState<"Paid" | "Pending" | "Refunded">("Paid");
-  const [fulfillmentStatus, setFulfillmentStatus] = useState<"Shipped" | "Processing" | "Delivered" | "Canceled" | "Returned">("Processing");
+  const [fulfillmentStatus, setFulfillmentStatus] = useState<"Shipped" | "Processing" | "Delivered" | "Canceled" | "Returned" | "Confirmed" | "Packed">("Processing");
 
   // View detail modal states
   const [viewingOrder, setViewingOrder] = useState<OrderItem | null>(null);
@@ -322,6 +322,18 @@ export default function AdminOrdersClient() {
             Shipped
           </span>
         );
+      case "Confirmed":
+        return (
+          <span className="inline-flex items-center rounded-full bg-purple-50 border border-purple-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-purple-700 dark:bg-purple-950/20 dark:text-purple-400">
+            Confirmed
+          </span>
+        );
+      case "Packed":
+        return (
+          <span className="inline-flex items-center rounded-full bg-amber-50 border border-amber-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-amber-700 dark:bg-amber-950/20 dark:text-amber-400">
+            Packed
+          </span>
+        );
       case "Processing":
         return (
           <span className="inline-flex items-center rounded-full bg-blue-50/50 border border-blue-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-blue-600 dark:bg-blue-950/10 dark:border-blue-900/30 dark:text-blue-350">
@@ -418,8 +430,10 @@ export default function AdminOrdersClient() {
                 className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-750 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">Status</option>
-                <option value="Shipped">Shipped</option>
                 <option value="Processing">Processing</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Packed">Packed</option>
+                <option value="Shipped">Shipped</option>
                 <option value="Delivered">Delivered</option>
                 <option value="Canceled">Canceled</option>
                 <option value="Returned">Returned</option>
@@ -808,6 +822,8 @@ export default function AdminOrdersClient() {
                       className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-950 transition-all cursor-pointer"
                     >
                       <option value="Processing">Processing</option>
+                      <option value="Confirmed">Confirmed</option>
+                      <option value="Packed">Packed</option>
                       <option value="Shipped">Shipped</option>
                       <option value="Delivered">Delivered</option>
                       <option value="Canceled">Canceled</option>
