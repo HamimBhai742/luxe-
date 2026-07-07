@@ -296,6 +296,12 @@ export default function CheckoutClient() {
         paymentMethod: paymentMethod,
         deliveryMethod: deliveryMethod,
         estimatedDelivery: deliveryMethod === "express" ? "1-2 Days (Express)" : getEstimatedDeliveryRange(state),
+        phone: phone,
+        addressLine1: addressLine1,
+        addressLine2: addressLine2 || null,
+        city: city,
+        state: state,
+        zipCode: zipCode,
         items: cartItems.map((item) => ({
           id: item.id || item?.productId,
           name: item.name,
