@@ -21,6 +21,8 @@ interface Order {
   items: OrderItem[];
   deliveryDate?: string;
   progressStep?: number; // 1: Confirmed, 2: Packed, 3: Shipped, 4: Delivered
+  paymentStatus?: string;
+  paymentMethod?: string;
 }
 
 export default function DashboardOrdersClient() {
@@ -101,6 +103,8 @@ export default function DashboardOrdersClient() {
               items: mappedItems,
               deliveryDate,
               progressStep,
+              paymentStatus: ord.paymentStatus || "Pending",
+              paymentMethod: ord.paymentMethod || "card",
             };
           });
           setOrders(mappedOrders);
@@ -284,7 +288,7 @@ export default function DashboardOrdersClient() {
               >
                 {/* Header strip */}
                 <div className="bg-zinc-50/50 dark:bg-zinc-900 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-b border-zinc-150 dark:border-zinc-800">
-                  <div className="flex gap-8 text-xs font-bold uppercase tracking-wider text-zinc-400">
+                  <div className="flex flex-wrap gap-8 text-xs font-bold uppercase tracking-wider text-zinc-400">
                     <div>
                       <span className="text-[10px] text-zinc-400 block mb-1">Order ID</span>
                       <span className="text-zinc-850 dark:text-white">{ord.orderId}</span>
@@ -292,6 +296,28 @@ export default function DashboardOrdersClient() {
                     <div>
                       <span className="text-[10px] text-zinc-400 block mb-1">Date Placed</span>
                       <span className="text-zinc-800 dark:text-zinc-200">{ord.date}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-zinc-400 block mb-1">Payment Method</span>
+                      <span className="text-zinc-800 dark:text-zinc-200 capitalize">
+                        {ord.paymentMethod === "card" 
+                          ? "Stripe (Card)" 
+                          : ord.paymentMethod === "bkash" 
+                            ? "bKash" 
+                            : "Cash on Delivery"}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-zinc-400 block mb-1">Payment Status</span>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${
+                        ord.paymentStatus === "Paid" 
+                          ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-450 border border-emerald-100/50"
+                          : ord.paymentStatus === "Refunded"
+                            ? "bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-450"
+                            : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-350"
+                      }`}>
+                        {ord.paymentStatus}
+                      </span>
                     </div>
                     <div>
                       <span className="text-[10px] text-zinc-400 block mb-1">Total Amount</span>
@@ -579,6 +605,32 @@ export default function DashboardOrdersClient() {
                         {ord.status}
                       </span>
                     )}
+                  </div>
+                </div>
+
+                {/* Mobile Payment details row */}
+                <div className="flex justify-between items-center text-[10px] font-bold text-zinc-400 border-b border-zinc-100 dark:border-zinc-800 pb-2">
+                  <div>
+                    <span className="text-[9px] text-zinc-450 block">Payment Method</span>
+                    <span className="text-zinc-850 dark:text-zinc-200 capitalize">
+                      {ord.paymentMethod === "card" 
+                        ? "Stripe (Card)" 
+                        : ord.paymentMethod === "bkash" 
+                          ? "bKash" 
+                          : "Cash on Delivery"}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[9px] text-zinc-450 block">Payment Status</span>
+                    <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-extrabold ${
+                      ord.paymentStatus === "Paid" 
+                        ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400"
+                        : ord.paymentStatus === "Refunded"
+                          ? "bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-400"
+                          : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
+                    }`}>
+                      {ord.paymentStatus}
+                    </span>
                   </div>
                 </div>
 

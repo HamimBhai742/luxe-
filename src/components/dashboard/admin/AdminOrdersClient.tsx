@@ -13,6 +13,7 @@ interface OrderItem {
   customerEmail: string;
   total: number;
   paymentStatus: "Paid" | "Pending" | "Refunded";
+  paymentMethod?: "card" | "bkash" | "cod";
   fulfillmentStatus: "Shipped" | "Processing" | "Delivered" | "Canceled" | "Returned" | "Confirmed" | "Packed";
 }
 
@@ -130,6 +131,7 @@ export default function AdminOrdersClient() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [total, setTotal] = useState("");
   const [paymentStatus, setPaymentStatus] = useState<"Paid" | "Pending" | "Refunded">("Paid");
+  const [paymentMethod, setPaymentMethod] = useState<"card" | "bkash" | "cod">("card");
   const [fulfillmentStatus, setFulfillmentStatus] = useState<"Shipped" | "Processing" | "Delivered" | "Canceled" | "Returned" | "Confirmed" | "Packed">("Processing");
 
   // View detail modal states
@@ -161,6 +163,7 @@ export default function AdminOrdersClient() {
     setCustomerEmail("");
     setTotal("");
     setPaymentStatus("Paid");
+    setPaymentMethod("card");
     setFulfillmentStatus("Processing");
     setEditingOrderId(null);
   };
@@ -175,6 +178,7 @@ export default function AdminOrdersClient() {
     setCustomerEmail(order.customerEmail);
     setTotal(String(order.total));
     setPaymentStatus(order.paymentStatus);
+    setPaymentMethod((order.paymentMethod as any) || "card");
     setFulfillmentStatus(order.fulfillmentStatus);
     setLocalIsModalOpen(true);
     setActiveMenuId(null);
@@ -233,6 +237,7 @@ export default function AdminOrdersClient() {
         customerEmail,
         total: Number(total),
         paymentStatus,
+        paymentMethod,
         fulfillmentStatus,
       };
 
@@ -589,8 +594,19 @@ export default function AdminOrdersClient() {
                       </td>
 
                       {/* Payment */}
-                      <td className="py-4 px-4 border-0">
-                        {renderPaymentBadge(o.paymentStatus)}
+                      <td className="py-4 px-4 text-xs font-bold border-0 align-middle">
+                        <div className="flex flex-col gap-1">
+                          {renderPaymentBadge(o.paymentStatus)}
+                          <span className="text-[10px] text-zinc-400 capitalize">
+                            {o.paymentMethod === "card" 
+                              ? "Stripe (Card)" 
+                              : o.paymentMethod === "bkash" 
+                                ? "bKash" 
+                                : o.paymentMethod === "cod"
+                                  ? "Cash on Delivery"
+                                  : o.paymentMethod || "Stripe (Card)"}
+                          </span>
+                        </div>
                       </td>
 
                       {/* Fulfillment */}
@@ -779,7 +795,7 @@ export default function AdminOrdersClient() {
                 />
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 {/* Total */}
                 <div className="col-span-1">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
@@ -796,10 +812,35 @@ export default function AdminOrdersClient() {
                   />
                 </div>
 
+                {/* Fulfillment Status */}
+                <div className="col-span-1">
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
+                    Fulfillment Status *
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={fulfillmentStatus}
+                      onChange={(e) => setFulfillmentStatus(e.target.value as any)}
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-950 transition-all cursor-pointer"
+                    >
+                      <option value="Processing">Processing</option>
+                      <option value="Confirmed">Confirmed</option>
+                      <option value="Packed">Packed</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Canceled">Canceled</option>
+                      <option value="Returned">Returned</option>
+                    </select>
+                    <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </div>
+                </div>
+
                 {/* Payment Status */}
                 <div className="col-span-1">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
-                    Payment *
+                    Payment Status *
                   </label>
                   <div className="relative">
                     <select
@@ -817,24 +858,20 @@ export default function AdminOrdersClient() {
                   </div>
                 </div>
 
-                {/* Fulfillment Status */}
+                {/* Payment Method */}
                 <div className="col-span-1">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
-                    Fulfillment *
+                    Payment Method *
                   </label>
                   <div className="relative">
                     <select
-                      value={fulfillmentStatus}
-                      onChange={(e) => setFulfillmentStatus(e.target.value as any)}
+                      value={paymentMethod}
+                      onChange={(e) => setPaymentMethod(e.target.value as any)}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-950 transition-all cursor-pointer"
                     >
-                      <option value="Processing">Processing</option>
-                      <option value="Confirmed">Confirmed</option>
-                      <option value="Packed">Packed</option>
-                      <option value="Shipped">Shipped</option>
-                      <option value="Delivered">Delivered</option>
-                      <option value="Canceled">Canceled</option>
-                      <option value="Returned">Returned</option>
+                      <option value="card">Stripe (Card)</option>
+                      <option value="bkash">bKash</option>
+                      <option value="cod">Cash on Delivery</option>
                     </select>
                     <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -903,10 +940,22 @@ export default function AdminOrdersClient() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Payment Status</span>
                   {renderPaymentBadge(viewingOrder.paymentStatus)}
+                </div>
+                <div>
+                  <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Payment Method</span>
+                  <span className="text-xs font-black text-zinc-800 dark:text-zinc-250 block mt-1 capitalize">
+                    {viewingOrder.paymentMethod === "card" 
+                      ? "Stripe (Card)" 
+                      : viewingOrder.paymentMethod === "bkash" 
+                        ? "bKash" 
+                        : viewingOrder.paymentMethod === "cod"
+                          ? "Cash on Delivery"
+                          : viewingOrder.paymentMethod || "Stripe (Card)"}
+                  </span>
                 </div>
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Fulfillment Status</span>
