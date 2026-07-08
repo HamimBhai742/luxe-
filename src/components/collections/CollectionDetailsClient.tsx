@@ -18,6 +18,7 @@ interface ProductReview {
   rating: number;
   content: string;
   createdAt?: string;
+  images?: string[];
 }
 
 interface ProductSpecs {
@@ -86,6 +87,18 @@ export default function CollectionDetailsClient({
   const [hoveredRating, setHoveredRating] = useState<number | null>(null);
   const { user } = useAppSelector((state) => state.auth);
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!commentInput.trim()) {
@@ -93,21 +106,45 @@ export default function CollectionDetailsClient({
       return;
     }
 
+    const toastId = toast.loading("Submitting your review...");
     try {
+      let uploadedImages: string[] = [];
+
+      if (selectedFile) {
+        toast.loading("Uploading review image...", { id: toastId });
+        const base64Image = await fileToBase64(selectedFile);
+        const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
+        
+        const uploadRes = await fetch(`${baseUrl}/upload/image`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: base64Image }),
+        });
+
+        const uploadData = await uploadRes.json();
+        if (!uploadRes.ok || !uploadData.success) {
+          throw new Error(uploadData.message || "Failed to upload review image.");
+        }
+        uploadedImages = [uploadData.url];
+      }
+
+      toast.loading("Saving review...", { id: toastId });
       const res = await submitReview({
         productId: String(product.id),
         rating: ratingInput,
         comment: commentInput.trim(),
+        images: uploadedImages,
       }).unwrap();
 
       if (res.success) {
-        toast.success("Review submitted successfully!");
+        toast.success("Review submitted successfully!", { id: toastId });
         
         const newReviewObj: ProductReview = {
           author: user?.name || "You",
           rating: ratingInput,
           content: commentInput.trim(),
           createdAt: new Date().toISOString(),
+          images: uploadedImages,
         };
         const updatedReviews = [newReviewObj, ...reviewsList];
         setReviewsList(updatedReviews);
@@ -121,12 +158,14 @@ export default function CollectionDetailsClient({
         
         setCommentInput("");
         setRatingInput(5);
+        setSelectedFile(null);
+        setFilePreview(null);
         refetchEligibility();
         router.refresh();
       }
     } catch (err: any) {
       console.error("Failed to submit review:", err);
-      toast.error(err?.data?.message || "Failed to submit review. Please try again.");
+      toast.error(err?.message || err?.data?.message || "Failed to submit review. Please try again.", { id: toastId });
     }
   };
 
@@ -542,6 +581,57 @@ export default function CollectionDetailsClient({
                   />
                 </div>
 
+                {/* Image upload field */}
+                <div className="mb-6">
+                  <label className="block text-xs font-bold text-zinc-555 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Image (Optional)</label>
+                  <div className="flex flex-wrap items-center gap-4">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="product-review-image"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setSelectedFile(file);
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setFilePreview(reader.result as string);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="product-review-image"
+                      className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-sm transition-all cursor-pointer inline-flex items-center gap-1.5"
+                    >
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                      </svg>
+                      <span>Choose Image</span>
+                    </label>
+
+                    {filePreview && (
+                      <div className="relative h-16 w-16 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
+                        <img src={filePreview} alt="Review preview" className="object-cover h-full w-full" />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedFile(null);
+                            setFilePreview(null);
+                          }}
+                          className="absolute top-1 right-1 bg-zinc-900/80 hover:bg-zinc-900 rounded-full p-0.5 text-white transition-all cursor-pointer"
+                        >
+                          <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 {/* Submit button */}
                 <button
                   type="submit"
@@ -594,7 +684,23 @@ export default function CollectionDetailsClient({
                       )}
                     </div>
                   </div>
-                  <p className="text-xs text-zinc-550 dark:text-zinc-400 font-normal leading-relaxed">{rev.content}</p>
+                  <p className="text-xs text-zinc-555 dark:text-zinc-400 font-normal leading-relaxed">{rev.content}</p>
+                  
+                  {/* Uploaded images display */}
+                  {rev.images && rev.images.length > 0 && (
+                    <div className="flex flex-wrap gap-2.5 mt-3">
+                      {rev.images.map((imgUrl, imgIdx) => (
+                        <div key={imgIdx} className="relative h-20 w-20 rounded-xl overflow-hidden border border-zinc-150 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950">
+                          <img
+                            src={imgUrl}
+                            alt={`Review asset ${imgIdx + 1}`}
+                            className="object-cover h-full w-full cursor-zoom-in hover:scale-105 transition-all duration-300"
+                            onClick={() => window.open(imgUrl, "_blank")}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

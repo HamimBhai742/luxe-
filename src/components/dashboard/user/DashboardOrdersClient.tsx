@@ -5,7 +5,7 @@ import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
-import { useSubmitReviewMutation } from "@/lib/features/api/reviewApi";
+import { useSubmitReviewMutation, useGetUserReviewsQuery } from "@/lib/features/api/reviewApi";
 
 interface OrderItem {
   id: string;
@@ -138,12 +138,25 @@ export default function DashboardOrdersClient() {
     document.body.removeChild(link);
   };
 
+  const { data: userReviewsData } = useGetUserReviewsQuery();
   const [submitReview] = useSubmitReviewMutation();
   const [reviewProduct, setReviewProduct] = useState<{ id: string; name: string; image: string } | null>(null);
   const [modalRating, setModalRating] = useState(5);
   const [modalComment, setModalComment] = useState("");
   const [modalHoveredRating, setModalHoveredRating] = useState<number | null>(null);
   const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   const handleModalReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,22 +167,47 @@ export default function DashboardOrdersClient() {
     }
 
     setIsSubmittingReview(true);
+    const toastId = toast.loading("Uploading image and submitting review...");
     try {
+      let uploadedImages: string[] = [];
+
+      if (selectedFile) {
+        toast.loading("Uploading review image...", { id: toastId });
+        const base64Image = await fileToBase64(selectedFile);
+        const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
+        
+        const uploadRes = await fetch(`${baseUrl}/upload/image`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: base64Image }),
+        });
+
+        const uploadData = await uploadRes.json();
+        if (!uploadRes.ok || !uploadData.success) {
+          throw new Error(uploadData.message || "Failed to upload review image.");
+        }
+        uploadedImages = [uploadData.url];
+      }
+
+      toast.loading("Saving review...", { id: toastId });
       const res = await submitReview({
         productId: reviewProduct.id,
         rating: modalRating,
         comment: modalComment.trim(),
+        images: uploadedImages,
       }).unwrap();
 
       if (res.success) {
-        toast.success("Review submitted successfully!");
+        toast.success("Review submitted successfully!", { id: toastId });
         setReviewProduct(null);
         setModalComment("");
         setModalRating(5);
+        setSelectedFile(null);
+        setFilePreview(null);
       }
     } catch (err: any) {
       console.error("Failed to submit review:", err);
-      toast.error(err?.data?.message || "Failed to submit review. You might have already reviewed this item.");
+      toast.error(err?.message || err?.data?.message || "Failed to submit review. You might have already reviewed this item.", { id: toastId });
     } finally {
       setIsSubmittingReview(false);
     }
@@ -416,7 +454,7 @@ export default function DashboardOrdersClient() {
                       </div>
                       <div className="text-right shrink-0 flex flex-col items-end gap-1.5">
                         <span className="text-sm font-extrabold text-zinc-900 dark:text-zinc-100">${item.price.toFixed(2)}</span>
-                        {ord.status === "Delivered" && (
+                        {ord.status === "Delivered" && !(userReviewsData?.data?.some((rev: any) => String(rev.productId) === String(item.id))) && (
                           <button
                             onClick={() => setReviewProduct({ id: item.id, name: item.name, image: item.image })}
                             className="text-[10px] font-extrabold text-blue-600 hover:text-blue-500 dark:text-blue-450 dark:hover:text-blue-400 uppercase tracking-wider hover:underline cursor-pointer"
@@ -514,17 +552,17 @@ export default function DashboardOrdersClient() {
 
                     {ord.status === "Delivered" ? (
                       <>
-                        <button
-                          onClick={() => {
-                            if (ord.items.length > 0) {
+                        {ord.items.length > 0 && !(userReviewsData?.data?.some((rev: any) => String(rev.productId) === String(ord.items[0].id))) && (
+                          <button
+                            onClick={() => {
                               const itm = ord.items[0];
                               setReviewProduct({ id: itm.id, name: itm.name, image: itm.image });
-                            }
-                          }}
-                          className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-sm transition-all cursor-pointer"
-                        >
-                          Write a Review
-                        </button>
+                            }}
+                            className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-sm transition-all cursor-pointer"
+                          >
+                            Write a Review
+                          </button>
+                        )}
                         <button
                           onClick={() => handleBuyAgain(ord.items[0]?.name || "item")}
                           className="rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center gap-1.5"
@@ -957,6 +995,57 @@ export default function DashboardOrdersClient() {
                   className="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-4 py-3 text-xs text-zinc-800 dark:text-zinc-100 placeholder-zinc-400 focus:border-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-400 transition-all font-medium"
                   required
                 />
+              </div>
+
+              {/* Image upload field */}
+              <div className="mb-6">
+                <label className="block text-xs font-bold text-zinc-555 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Image (Optional)</label>
+                <div className="flex flex-wrap items-center gap-4">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="modal-review-image"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setSelectedFile(file);
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          setFilePreview(reader.result as string);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="modal-review-image"
+                    className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-sm transition-all cursor-pointer inline-flex items-center gap-1.5"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                    </svg>
+                    <span>Choose Image</span>
+                  </label>
+
+                  {filePreview && (
+                    <div className="relative h-16 w-16 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
+                      <img src={filePreview} alt="Review preview" className="object-cover h-full w-full" />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedFile(null);
+                          setFilePreview(null);
+                        }}
+                        className="absolute top-1 right-1 bg-zinc-900/80 hover:bg-zinc-900 rounded-full p-0.5 text-white transition-all cursor-pointer"
+                      >
+                        <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Submit / Cancel Buttons */}

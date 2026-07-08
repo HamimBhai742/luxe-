@@ -69,6 +69,7 @@ export default async function CollectionDetailPage({ params }: PageProps) {
           rating: r.rating,
           content: r.comment,
           createdAt: r.createdAt,
+          images: r.images || [],
         }))
       : [
           { author: "Edward N.", rating: 5, content: "Superb build quality. The leather strap is extremely premium.", createdAt: "2024-10-24T12:00:00Z" },

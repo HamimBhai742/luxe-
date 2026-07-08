@@ -21,9 +21,13 @@ export const reviewApi = baseApi.injectEndpoints({
     >({
       query: (productId) => `/reviews/eligibility/${productId}`,
     }),
+    getUserReviews: builder.query<{ success: boolean; data: any[] }, void>({
+      query: () => "/reviews/user-reviews",
+      providesTags: ["Reviews"],
+    }),
     submitReview: builder.mutation<
       { success: boolean; message: string; data: Review },
-      { productId: string; rating: number; comment: string }
+      { productId: string; rating: number; comment: string; images?: string[] }
     >({
       query: (body) => ({
         url: "/reviews",
@@ -33,11 +37,16 @@ export const reviewApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error, { productId }) => [
         { type: "Products", id: productId },
         { type: "Products", id: "LIST" },
+        { type: "Reviews" },
       ],
     }),
   }),
   overrideExisting: true,
 });
 
-export const { useCheckReviewEligibilityQuery, useSubmitReviewMutation } = reviewApi;
+export const {
+  useCheckReviewEligibilityQuery,
+  useGetUserReviewsQuery,
+  useSubmitReviewMutation,
+} = reviewApi;
 export default reviewApi;
