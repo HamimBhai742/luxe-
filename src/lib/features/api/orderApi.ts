@@ -13,8 +13,13 @@ export interface DbOrder {
 
 export const orderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getOrders: builder.query<{ success: boolean; data: DbOrder[] }, void>({
-      query: () => "/orders",
+    getOrders: builder.query<{ success: boolean; data: DbOrder[] }, { search?: string } | void>({
+      query: (params) => {
+        const search = params?.search;
+        return {
+          url: search ? `/orders?search=${encodeURIComponent(search)}&limit=100` : "/orders",
+        };
+      },
       providesTags: (result) =>
         result
           ? [
