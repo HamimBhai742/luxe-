@@ -1,39 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
-
-interface SupportTicket {
-  id: string;
-  subject: string;
-  updated: string;
-  status: "Open" | "In-Progress" | "Resolved";
-}
-
-const INITIAL_TICKETS: SupportTicket[] = [
-  {
-    id: "#TCK-8924",
-    subject: "Defective item received in recent order",
-    updated: "2 hours ago",
-    status: "Open",
-  },
-  {
-    id: "#TCK-8810",
-    subject: "Update shipping address for pending order",
-    updated: "1 day ago",
-    status: "In-Progress",
-  },
-  {
-    id: "#TCK-8501",
-    subject: "Missing warranty documentation",
-    updated: "3 days ago",
-    status: "Resolved",
-  },
-];
+import { useGetTicketsQuery, useCreateTicketMutation } from "@/lib/features/api/supportApi";
 
 export default function DashboardSupportClient() {
-  const [tickets, setTickets] = useState<SupportTicket[]>(INITIAL_TICKETS);
+  const { data: ticketsData, isLoading } = useGetTicketsQuery();
+  const [createTicket, { isLoading: isCreating }] = useCreateTicketMutation();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [showVipNumber, setShowVipNumber] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState("wishlist");
@@ -43,30 +19,33 @@ export default function DashboardSupportClient() {
   const [ticketSubject, setTicketSubject] = useState("");
   const [ticketDetails, setTicketDetails] = useState("");
 
+  const tickets = ticketsData?.success && ticketsData.data ? ticketsData.data : [];
+
   const handleStartChat = () => {
     toast.success("Connecting to a live support agent... Average wait time is under 1 minute!");
   };
 
-  const handleCreateTicketSubmit = (e: React.FormEvent) => {
+  const handleCreateTicketSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!ticketSubject.trim() || !ticketDetails.trim()) {
       toast.error("Please fill in both the subject and description details.");
       return;
     }
 
-    const newTicket: SupportTicket = {
-      id: `#TCK-${Math.floor(1000 + Math.random() * 9000)}`,
-      subject: ticketSubject,
-      updated: "Just now",
-      status: "Open",
-    };
+    try {
+      const result = await createTicket({
+        subject: ticketSubject,
+        description: ticketDetails,
+      }).unwrap();
 
-    setTickets((prev) => [newTicket, ...prev]);
-    toast.success(`Ticket ${newTicket.id} created successfully! Our support agents will respond shortly.`);
-    
-    setIsModalOpen(false);
-    setTicketSubject("");
-    setTicketDetails("");
+      toast.success(`Ticket ${result.data.ticketId} created successfully! Our support agents will respond shortly.`);
+      
+      setIsModalOpen(false);
+      setTicketSubject("");
+      setTicketDetails("");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to create support ticket. Please try again.");
+    }
   };
 
   const handleViewTicket = (ticketId: string, subject: string) => {
@@ -84,7 +63,29 @@ export default function DashboardSupportClient() {
     }
   };
 
-  const renderStatusPill = (status: SupportTicket["status"]) => {
+  const formatTicketDate = (dateStr: string) => {
+    try {
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) return dateStr;
+      
+      const now = new Date();
+      const diffMs = now.getTime() - date.getTime();
+      const diffMins = Math.floor(diffMs / (1000 * 60));
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      
+      if (diffMins < 1) return "Just now";
+      if (diffMins < 60) return `${diffMins} min${diffMins > 1 ? "s" : ""} ago`;
+      if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
+      if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
+      
+      return date.toLocaleDateString();
+    } catch {
+      return dateStr;
+    }
+  };
+
+  const renderStatusPill = (status: string) => {
     switch (status) {
       case "Open":
         return (
@@ -272,22 +273,40 @@ export default function DashboardSupportClient() {
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-100 dark:divide-zinc-850 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              {tickets.map((t) => (
-                <tr key={t.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-850/30 transition-colors">
-                  <td className="py-4.5 pl-3 font-bold text-zinc-900 dark:text-white">{t.id}</td>
-                  <td className="py-4.5 text-zinc-850 dark:text-zinc-200">{t.subject}</td>
-                  <td className="py-4.5 text-zinc-450 dark:text-zinc-500">{t.updated}</td>
-                  <td className="py-4.5">{renderStatusPill(t.status)}</td>
-                  <td className="py-4.5 text-right pr-3">
-                    <button
-                      onClick={() => handleViewTicket(t.id, t.subject)}
-                      className="text-xs font-bold text-blue-650 hover:underline cursor-pointer"
-                    >
-                      View
-                    </button>
+              {isLoading ? (
+                [1, 2, 3].map((i) => (
+                  <tr key={i} className="animate-pulse">
+                    <td className="py-4.5 pl-3"><div className="h-4 w-16 bg-zinc-200 dark:bg-zinc-800 rounded"></div></td>
+                    <td className="py-4.5"><div className="h-4 w-48 bg-zinc-200 dark:bg-zinc-800 rounded"></div></td>
+                    <td className="py-4.5"><div className="h-4 w-20 bg-zinc-200 dark:bg-zinc-800 rounded"></div></td>
+                    <td className="py-4.5"><div className="h-6 w-14 bg-zinc-200 dark:bg-zinc-800 rounded-full"></div></td>
+                    <td className="py-4.5 text-right pr-3"><div className="h-4 w-8 bg-zinc-200 dark:bg-zinc-800 rounded ml-auto"></div></td>
+                  </tr>
+                ))
+              ) : tickets.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="py-8 text-center text-zinc-400 font-semibold">
+                    You have no active support tickets. Click 'Create Ticket' to submit one.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                tickets.map((t) => (
+                  <tr key={t.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-850/30 transition-colors">
+                    <td className="py-4.5 pl-3 font-bold text-zinc-900 dark:text-white">{t.ticketId}</td>
+                    <td className="py-4.5 text-zinc-850 dark:text-zinc-200">{t.subject}</td>
+                    <td className="py-4.5 text-zinc-450 dark:text-zinc-500">{formatTicketDate(t.createdAt)}</td>
+                    <td className="py-4.5">{renderStatusPill(t.status)}</td>
+                    <td className="py-4.5 text-right pr-3">
+                      <button
+                        onClick={() => handleViewTicket(t.ticketId, t.subject)}
+                        className="text-xs font-bold text-blue-650 hover:underline cursor-pointer"
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -489,36 +508,53 @@ export default function DashboardSupportClient() {
           </div>
 
           <div className="space-y-3">
-            {tickets.map((t) => (
-              <div
-                key={t.id}
-                onClick={() => handleViewTicket(t.id, t.subject)}
-                className={`bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-3.5 shadow-xs space-y-2 ${
-                  t.status === "In-Progress" ? "border-l-4 border-l-blue-600" : ""
-                }`}
-              >
-                <div className="flex justify-between items-center">
-                  <span className="text-xs font-extrabold text-zinc-800 dark:text-white">{t.id}</span>
-                  {t.status === "Resolved" ? (
-                    <span className="inline-flex items-center rounded bg-zinc-100 px-2 py-0.5 text-[9px] font-bold text-zinc-650">
-                      &#8226; Resolved
-                    </span>
-                  ) : t.status === "In-Progress" ? (
-                    <span className="inline-flex items-center rounded bg-blue-50 px-2 py-0.5 text-[9px] font-bold text-blue-600">
-                      &#8226; In-Progress
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center rounded bg-emerald-50 px-2 py-0.5 text-[9px] font-bold text-emerald-700">
-                      &#8226; Open
-                    </span>
-                  )}
+            {isLoading ? (
+              [1, 2].map((i) => (
+                <div key={i} className="bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-3.5 space-y-2 animate-pulse">
+                  <div className="flex justify-between items-center">
+                    <div className="h-4 w-16 bg-zinc-200 dark:bg-zinc-800 rounded"></div>
+                    <div className="h-4 w-12 bg-zinc-200 dark:bg-zinc-800 rounded"></div>
+                  </div>
+                  <div className="h-4 w-full bg-zinc-200 dark:bg-zinc-800 rounded"></div>
+                  <div className="h-3.5 w-24 bg-zinc-200 dark:bg-zinc-800 rounded"></div>
                 </div>
-                <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200 line-clamp-1">
-                  {t.subject}
-                </p>
-                <span className="text-[10px] text-zinc-400 block mt-1">Updated {t.updated}</span>
+              ))
+            ) : tickets.length === 0 ? (
+              <div className="bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-6 text-center text-xs text-zinc-400 font-semibold">
+                You have no active support tickets. Click 'Create Ticket' to submit one.
               </div>
-            ))}
+            ) : (
+              tickets.map((t) => (
+                <div
+                  key={t.id}
+                  onClick={() => handleViewTicket(t.ticketId, t.subject)}
+                  className={`bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-3.5 shadow-xs space-y-2 ${
+                    t.status === "In-Progress" ? "border-l-4 border-l-blue-600" : ""
+                  }`}
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-extrabold text-zinc-800 dark:text-white">{t.ticketId}</span>
+                    {t.status === "Resolved" ? (
+                      <span className="inline-flex items-center rounded bg-zinc-100 px-2 py-0.5 text-[9px] font-bold text-zinc-650">
+                        &#8226; Resolved
+                      </span>
+                    ) : t.status === "In-Progress" ? (
+                      <span className="inline-flex items-center rounded bg-blue-50 px-2 py-0.5 text-[9px] font-bold text-blue-600">
+                        &#8226; In-Progress
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center rounded bg-emerald-50 px-2 py-0.5 text-[9px] font-bold text-emerald-700">
+                        &#8226; Open
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200 line-clamp-1">
+                    {t.subject}
+                  </p>
+                  <span className="text-[10px] text-zinc-400 block mt-1">Updated {formatTicketDate(t.createdAt)}</span>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -663,16 +699,28 @@ export default function DashboardSupportClient() {
             <div className="flex gap-3 justify-end pt-4 border-t border-zinc-100 dark:border-zinc-900">
               <button
                 type="button"
+                disabled={isCreating}
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 px-4 py-2.5 text-xs font-bold text-zinc-750 dark:text-zinc-350 cursor-pointer"
+                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 disabled:opacity-50 px-4 py-2.5 text-xs font-bold text-zinc-750 dark:text-zinc-350 cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-colors cursor-pointer"
+                disabled={isCreating}
+                className="rounded-xl bg-blue-600 hover:bg-blue-500 disabled:bg-blue-400 text-white px-5 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-colors cursor-pointer flex items-center gap-1.5"
               >
-                Submit Ticket
+                {isCreating ? (
+                  <>
+                    <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Submitting...</span>
+                  </>
+                ) : (
+                  "Submit Ticket"
+                )}
               </button>
             </div>
           </form>
