@@ -30,6 +30,24 @@ export const supportApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Tickets", id: "LIST" }],
     }),
+    getAllTickets: builder.query<{ success: boolean; data: (SupportTicket & { user: { name: string; email: string } })[] }, void>({
+      query: () => "/support/all",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: "Tickets" as const, id })),
+              { type: "Tickets", id: "LIST" },
+            ]
+          : [{ type: "Tickets", id: "LIST" }],
+    }),
+    updateTicketStatus: builder.mutation<{ success: boolean; data: SupportTicket }, { id: string; status: string }>({
+      query: ({ id, status }) => ({
+        url: `/support/${id}/status`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: [{ type: "Tickets", id: "LIST" }],
+    }),
   }),
   overrideExisting: true,
 });
@@ -37,4 +55,6 @@ export const supportApi = baseApi.injectEndpoints({
 export const {
   useGetTicketsQuery,
   useCreateTicketMutation,
+  useGetAllTicketsQuery,
+  useUpdateTicketStatusMutation,
 } = supportApi;
