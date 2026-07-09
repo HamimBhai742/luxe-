@@ -3,7 +3,7 @@
 /* eslint-disable react-hooks/purity */
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useAppSelector } from "@/lib/hooks";
 import { useGetProductsQuery } from "@/lib/features/api/productApi";
 import { useGetOrdersQuery } from "@/lib/features/api/orderApi";
@@ -152,6 +152,52 @@ export default function ChatBot() {
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Draggable bubble button position (from viewport bottom-right)
+  const [btnPos, setBtnPos] = useState({ right: 24, bottom: 24 });
+  const isDragging = useRef(false);
+  const hasMoved = useRef(false);
+  const dragStart = useRef({ mx: 0, my: 0, right: 24, bottom: 24 });
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const onBubblePointerDown = useCallback((e: React.PointerEvent<HTMLButtonElement>) => {
+    isDragging.current = true;
+    hasMoved.current = false;
+    dragStart.current = {
+      mx: e.clientX,
+      my: e.clientY,
+      right: btnPos.right,
+      bottom: btnPos.bottom,
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }, [btnPos]);
+
+  const onBubblePointerMove = useCallback((e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!isDragging.current) return;
+    const dx = e.clientX - dragStart.current.mx;
+    const dy = e.clientY - dragStart.current.my;
+    // Only start moving after 4px threshold to avoid accidental drags
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+      hasMoved.current = true;
+    }
+    if (!hasMoved.current) return;
+    const BTN_SIZE = 56;
+    setBtnPos({
+      right: Math.max(8, Math.min(window.innerWidth - BTN_SIZE - 8, dragStart.current.right - dx)),
+      bottom: Math.max(8, Math.min(window.innerHeight - BTN_SIZE - 8, dragStart.current.bottom - dy)),
+    });
+  }, []);
+
+  const onBubblePointerUp = useCallback((e: React.PointerEvent<HTMLButtonElement>) => {
+    isDragging.current = false;
+    // Only toggle chat if the user just clicked (didn't drag)
+    if (!hasMoved.current) {
+      setIsOpen((prev) => !prev);
+    }
+    hasMoved.current = false;
+    e.preventDefault();
+  }, []);
 
   const { user } = useAppSelector((state) => state.auth);
   const userEmail = user?.email || (typeof window !== "undefined" ? localStorage.getItem("userEmail") : "");
@@ -333,12 +379,16 @@ export default function ChatBot() {
   return (
     <>
       {/* ========================================================================= */}
-      {/* FLOATING ACTION TRIGGER BUBBLE */}
+      {/* FLOATING ACTION TRIGGER BUBBLE — draggable */}
       {/* ========================================================================= */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 hover:bg-blue-500 dark:bg-blue-600 dark:hover:bg-blue-500 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer focus:outline-none"
-        title="Open Aura Assistant Chatbot"
+        ref={btnRef}
+        onPointerDown={onBubblePointerDown}
+        onPointerMove={onBubblePointerMove}
+        onPointerUp={onBubblePointerUp}
+        style={{ bottom: btnPos.bottom, right: btnPos.right }}
+        className="fixed z-50 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 hover:bg-blue-500 text-white shadow-xl hover:shadow-2xl transition-shadow duration-300 cursor-grab active:cursor-grabbing focus:outline-none select-none"
+        title="Drag to move • Click to open LUXE Assistant"
       >
         {isOpen ? (
           <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -361,24 +411,31 @@ export default function ChatBot() {
       {/* CHAT WIDGET MODAL PANEL */}
       {/* ========================================================================= */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-[350px] max-w-[90vw] h-[480px] rounded-3xl border border-zinc-150 dark:border-zinc-850 bg-white dark:bg-zinc-950 shadow-2xl flex flex-col overflow-hidden animate-fade-in">
+        <div
+          ref={panelRef}
+          style={{
+            bottom: btnPos.bottom + 64,
+            right: btnPos.right,
+          }}
+          className="fixed z-50 w-[350px] max-w-[90vw] h-[500px] rounded-3xl border border-zinc-150 dark:border-zinc-850 bg-white dark:bg-zinc-950 shadow-2xl flex flex-col overflow-hidden animate-fade-in"
+        >
           
-          {/* Header section */}
-          <div className="bg-zinc-900 text-white px-5 py-4 flex items-center justify-between shadow-sm">
+          {/* Header section — no longer needs drag handlers */}
+          <div className="bg-zinc-900 text-white px-5 py-4 flex items-center justify-between shadow-sm select-none">
             <div className="flex items-center gap-3">
               {/* Bot Avatar Icon */}
               <div className="h-9 w-9 rounded-xl bg-blue-600/20 text-blue-450 border border-blue-600/35 flex items-center justify-center font-bold">
                 A
               </div>
               <div>
-                <h4 className="text-xs font-black tracking-wide uppercase">Aura Assistant</h4>
+                <h4 className="text-xs font-black tracking-wide uppercase">LUXE Assistant</h4>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                   <span className="text-[10px] font-semibold text-zinc-400">Online • Live Helper</span>
                 </div>
               </div>
             </div>
-            
+
             <button
               onClick={() => setIsOpen(false)}
               className="text-zinc-400 hover:text-white transition-colors cursor-pointer"
