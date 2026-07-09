@@ -138,12 +138,12 @@ export default function DashboardOverviewClient() {
           </p>
         </div>
         <div className="flex gap-3.5 shrink-0">
-          <button
-            onClick={() => toast.info("Profile configurations coming soon!")}
-            className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-200 shadow-sm transition-all cursor-pointer"
+          <Link
+            href="/dashboard/settings"
+            className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-200 shadow-sm transition-all cursor-pointer text-center flex items-center justify-center"
           >
             View Profile
-          </button>
+          </Link>
           <Link
             href="/collections"
             className="rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-all cursor-pointer text-center"

@@ -166,7 +166,7 @@ export default function AdminDashboardSidebar({ onCloseMobileDrawer }: SidebarPr
         {/* Brand & Menu */}
         <div className="space-y-8">
           
-          {/* Branding header with Aura Admin console */}
+          {/* Branding header with LUXE Admin console */}
           <div className="flex items-center gap-3 pl-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 font-extrabold text-white text-base shadow-sm shadow-blue-500/30">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -175,7 +175,7 @@ export default function AdminDashboardSidebar({ onCloseMobileDrawer }: SidebarPr
             </div>
             <div>
               <Link href="/" className="font-sans text-sm font-extrabold tracking-wide text-zinc-900 dark:text-white uppercase block leading-none">
-                Aura Admin
+                LUXE Admin
               </Link>
               <span className="text-[10px] font-semibold text-zinc-400 block mt-1">
                 Enterprise Management

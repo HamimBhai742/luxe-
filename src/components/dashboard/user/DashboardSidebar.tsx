@@ -112,8 +112,8 @@ export default function DashboardSidebar({ onCloseMobileDrawer }: SidebarProps) 
         
         {/* Branding header with Customer Portal subtitle */}
         <div>
-          <Link href="/" className="flex items-center gap-2.5 font-serif text-lg font-bold tracking-wider text-blue-600 dark:text-blue-450 uppercase pl-3">
-            Aura Marketplace
+          <Link href="/" className="flex items-center gap-2.5 font-serif text-lg font-bold tracking-wider text-blue-600 dark:text-blue-455 uppercase pl-3">
+            LUXE Marketplace
           </Link>
           <span className="text-[10px] font-semibold text-zinc-400 pl-3 mt-1 block">
             Customer Portal
