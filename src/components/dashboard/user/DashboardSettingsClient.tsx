@@ -1,25 +1,66 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setCredentials } from "@/lib/features/auth/authSlice";
+import {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+  useChangePasswordMutation,
+  TUserProfile,
+} from "@/lib/features/api/userApi";
 
 export default function DashboardSettingsClient() {
+  const { data: profileData, isLoading } = useGetProfileQuery();
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-[400px] space-y-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-zinc-200 border-t-blue-600 dark:border-zinc-800 dark:border-t-blue-500" />
+        <p className="text-xs font-semibold text-zinc-500">Loading settings...</p>
+      </div>
+    );
+  }
+
+  if (!profileData?.data) {
+    return (
+      <div className="p-8 text-center text-xs font-semibold text-red-500">
+        Error loading settings.
+      </div>
+    );
+  }
+
+  const profile = profileData.data;
+  const profileKey = `${profile.name}-${profile.username}-${profile.avatarUrl}-${profile.phone}-${profile.location}-${profile.website}-${profile.twitter}-${profile.bio}-${profile.workspaceStyle}`;
+
+  return <DashboardSettingsForm key={profileKey} profile={profile} />;
+}
+
+function DashboardSettingsForm({ profile }: { profile: TUserProfile }) {
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+
+  const [updateProfile, { isLoading: isUpdatingProfile }] = useUpdateProfileMutation();
+  const [changePassword, { isLoading: isChangingPassword }] = useChangePasswordMutation();
+
   const [activeTab, setActiveTab] = useState<"profile" | "security" | "notifications">("profile");
   const [isEditing, setIsEditing] = useState(false);
 
   // Profile Form States
-  const [name, setName] = useState("Alex Morgan");
-  const [username, setUsername] = useState("alexmorgan");
-  const [email] = useState("alex.morgan@example.com");
-  const [phone, setPhone] = useState("+1 (555) 123-4567");
-  const [location, setLocation] = useState("New York, USA");
-  const [website, setWebsite] = useState("https://alexmorgan.design");
-  const [twitter, setTwitter] = useState("https://twitter.com/alexmorgan");
-  const [bio, setBio] = useState("Minimalist designer, tech enthusiast, and Premium Member.");
-  const [workspaceStyle, setWorkspaceStyle] = useState("Minimalist / Dark");
+  const [name, setName] = useState(profile.name || "");
+  const [username, setUsername] = useState(profile.username || "");
+  const [email, setEmail] = useState(profile.email || "");
+  const [phone, setPhone] = useState(profile.phone || "");
+  const [location, setLocation] = useState(profile.location || "");
+  const [website, setWebsite] = useState(profile.website || "");
+  const [twitter, setTwitter] = useState(profile.twitter || "");
+  const [bio, setBio] = useState(profile.bio || "");
+  const [workspaceStyle, setWorkspaceStyle] = useState(profile.workspaceStyle || "Minimalist / Dark");
   const [avatarUrl, setAvatarUrl] = useState(
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
+    profile.avatarUrl || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop"
   );
 
   // Password Change States
@@ -42,23 +83,53 @@ export default function DashboardSettingsClient() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatarUrl(reader.result as string);
-        toast.success("Profile picture updated successfully!");
+        toast.success("Photo selected! Click 'Save Profile' to upload.");
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleUpdateProfile = (e: React.FormEvent) => {
+  const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim() || !username.trim()) {
-      toast.error("Name, Username, and Phone fields are required.");
+    if (!name.trim()) {
+      toast.error("Name is required.");
       return;
     }
-    toast.success("Profile details updated successfully!");
-    setIsEditing(false);
+
+    try {
+      const response = await updateProfile({
+        name,
+        username,
+        phone,
+        location,
+        website,
+        twitter,
+        bio,
+        workspaceStyle,
+        avatarUrl,
+      }).unwrap();
+
+      if (response.success) {
+        toast.success("Profile details updated successfully!");
+        setIsEditing(false);
+
+        // Update name in Redux Credentials if it has changed
+        if (auth.user && auth.accessToken) {
+          dispatch(setCredentials({
+            user: {
+              ...auth.user,
+              name: response.data.name,
+            },
+            accessToken: auth.accessToken,
+          }));
+        }
+      }
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to update profile details.");
+    }
   };
 
-  const handleUpdatePassword = (e: React.FormEvent) => {
+  const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentPassword || !newPassword || !confirmPassword) {
       toast.error("Please fill in all password fields.");
@@ -73,10 +144,21 @@ export default function DashboardSettingsClient() {
       return;
     }
 
-    toast.success("Password updated successfully!");
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
+    try {
+      const response = await changePassword({
+        currentPassword,
+        newPassword,
+      }).unwrap();
+
+      if (response.success) {
+        toast.success("Password updated successfully!");
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      }
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to update password.");
+    }
   };
 
   const handleToggle2FA = () => {
@@ -460,9 +542,10 @@ export default function DashboardSettingsClient() {
                       <div className="pt-3 flex justify-end">
                         <button
                           type="submit"
-                          className="rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-all cursor-pointer"
+                          disabled={isUpdatingProfile}
+                          className="rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Save Profile
+                          {isUpdatingProfile ? "Saving..." : "Save Profile"}
                         </button>
                       </div>
                     )}
@@ -634,9 +717,10 @@ export default function DashboardSettingsClient() {
                   <div className="pt-2 flex justify-end">
                     <button
                       type="submit"
-                      className="rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 px-5 py-2.5 text-xs font-bold shadow-md transition-colors cursor-pointer"
+                      disabled={isChangingPassword}
+                      className="rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 px-5 py-2.5 text-xs font-bold shadow-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Update Password
+                      {isChangingPassword ? "Updating..." : "Update Password"}
                     </button>
                   </div>
                 </form>
