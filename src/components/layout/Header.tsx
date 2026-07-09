@@ -90,13 +90,13 @@ export default function Header() {
         {/* Middle: Navigation Links */}
         <nav className="hidden md:flex space-x-8">
           <Link
-            href="/new-arrivals"
+            href="/collections?sort=new"
             className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
           >
             New Arrivals
           </Link>
           <Link
-            href="/designers"
+            href="/collections"
             className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
           >
             Designers
@@ -108,7 +108,7 @@ export default function Header() {
             Collections
           </Link>
           <Link
-            href="/sustainability"
+            href="/collections"
             className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
           >
             Sustainability

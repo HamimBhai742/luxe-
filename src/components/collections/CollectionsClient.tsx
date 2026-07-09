@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { addToCart } from "@/lib/features/cart/cartSlice";
 import { useGetWishlistQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation } from "@/lib/features/api/wishlistApi";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSyncDbCartMutation } from "@/lib/features/api/cartApi";
 
 interface Product {
@@ -60,11 +60,25 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
   });
 
   // Navigation & UI States
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const searchParams = useSearchParams();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
+    const categoryParam = searchParams.get("category");
+    if (categoryParam) {
+      // Capitalize first letter as a default guess
+      return [categoryParam.charAt(0).toUpperCase() + categoryParam.slice(1)];
+    }
+    return [];
+  });
   const [priceRange, setPriceRange] = useState<number>(10000);
   const [selectedRating, setSelectedRating] = useState<number | null>(4);
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
-  const [sortBy, setSortBy] = useState<string>("featured");
+  const [sortBy, setSortBy] = useState<string>(() => {
+    const sortParam = searchParams.get("sort");
+    if (sortParam && ["price-low-high", "price-high-low", "rating", "featured"].includes(sortParam)) {
+      return sortParam;
+    }
+    return "featured";
+  });
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
@@ -121,11 +135,14 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
 
   // Handle Category Select
   const handleCategoryToggle = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((c) => c !== category)
-        : [...prev, category]
-    );
+    setSelectedCategories((prev) => {
+      const isSelected = prev.some((c) => c.toLowerCase() === category.toLowerCase());
+      if (isSelected) {
+        return prev.filter((c) => c.toLowerCase() !== category.toLowerCase());
+      } else {
+        return [...prev, category];
+      }
+    });
     setCurrentPage(1);
   };
 
@@ -192,13 +209,15 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
     return Array.from(cats);
   }, [activeProducts]);
 
+
+
   // Filtering Logic
   const filteredProducts = useMemo(() => {
     return activeProducts.filter((product) => {
       // Category filter
       if (
         selectedCategories.length > 0 &&
-        !selectedCategories.includes(product.category)
+        !selectedCategories.some(cat => cat.toLowerCase() === (product.category || "").toLowerCase())
       ) {
         return false;
       }
@@ -297,7 +316,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                   <label key={category} className="flex items-center group cursor-pointer">
                     <input
                       type="checkbox"
-                      checked={selectedCategories.includes(category)}
+                      checked={selectedCategories.some(c => c.toLowerCase() === category.toLowerCase())}
                       onChange={() => handleCategoryToggle(category)}
                       className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-955 cursor-pointer"
                     />
@@ -789,7 +808,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
               <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">Categories</h4>
               <div className="flex flex-wrap gap-2">
                 {categoryOptions.map((category) => {
-                  const isSelected = selectedCategories.includes(category);
+                  const isSelected = selectedCategories.some(c => c.toLowerCase() === category.toLowerCase());
                   return (
                     <button
                       key={category}

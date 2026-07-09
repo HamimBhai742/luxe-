@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 interface ProductCardProps {
+  id: string;
   name: string;
   subtitle: string;
   price: string;
@@ -9,6 +12,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({
+  id,
   name,
   subtitle,
   price,
@@ -23,7 +27,7 @@ export default function ProductCard({
     : `bg-gradient-to-br ${gradientFrom} ${gradientTo}`;
 
   return (
-    <div className="group flex flex-col cursor-pointer">
+    <Link href={`/collections/${id}`} className="group flex flex-col cursor-pointer">
       {/* Image Container with Custom Mesh Gradient */}
       <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900 mb-4 shadow-sm shadow-zinc-100 dark:shadow-transparent">
         {/* Colorful Mesh Gradient Visualizer */}
@@ -55,6 +59,6 @@ export default function ProductCard({
           {price}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

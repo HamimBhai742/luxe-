@@ -12,7 +12,7 @@ export default function Categories() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Left Large Card: Premium Electronics */}
           <Link
-            href="/category/electronics"
+            href="/collections?category=electronics"
             className="group relative md:col-span-2 h-[400px] md:h-[480px] overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900 shadow-sm transition-all duration-500 hover:shadow-xl"
           >
             <div className="absolute inset-0 z-0">
@@ -52,7 +52,7 @@ export default function Categories() {
           <div className="flex flex-col gap-6 md:col-span-1 h-[400px] md:h-[480px]">
             {/* Top Card: Minimalist Fashion */}
             <Link
-              href="/category/fashion"
+              href="/collections?category=fashion"
               className="group relative flex-1 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900 shadow-sm transition-all duration-500 hover:shadow-xl"
             >
               <div className="absolute inset-0 z-0">
@@ -74,7 +74,7 @@ export default function Categories() {
 
             {/* Bottom Card: Modern Home */}
             <Link
-              href="/category/home"
+              href="/collections?category=home"
               className="group relative flex-1 overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900 shadow-sm transition-all duration-500 hover:shadow-xl"
             >
               <div className="absolute inset-0 z-0">

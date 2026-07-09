@@ -1,45 +1,52 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link";
 import ProductCard from "./ProductCard";
 
-export default function FeaturedArrivals() {
-  const products = [
-    {
-      name: "Minimalist Chronograph",
-      subtitle: "Swiss Movement, Sapphire Crystal",
-      price: "$450.00",
-      isNew: true,
-      gradientFrom: "from-yellow-100",
-      gradientVia: "via-emerald-300/80",
-      gradientTo: "to-cyan-400/90",
-    },
-    {
-      name: "Over-Ear ANC Headphones",
-      subtitle: "Studio Quality Audio",
-      price: "$349.00",
-      isNew: true,
-      gradientFrom: "from-yellow-200/80",
-      gradientVia: "via-amber-200/80",
-      gradientTo: "to-blue-400/95",
-    },
-    {
-      name: "Smart Desk Lamp",
-      subtitle: "Adjustable Color Temperature",
-      price: "$120.00",
-      isNew: false,
-      gradientFrom: "from-teal-100",
-      gradientVia: "via-emerald-300/60",
-      gradientTo: "to-cyan-400/80",
-    },
-    {
-      name: "Premium Sneakers",
-      subtitle: "Sustainable Materials",
-      price: "$135.00",
-      isNew: false,
-      gradientFrom: "from-blue-200/70",
-      gradientVia: "via-teal-100/70",
-      gradientTo: "to-yellow-200/80",
-    },
-  ];
+interface FeaturedArrivalsProps {
+  products: any[];
+}
+
+const CARD_GRADIENTS = [
+  { from: "from-yellow-100", via: "via-emerald-300/80", to: "to-cyan-400/90" },
+  { from: "from-yellow-200/80", via: "via-amber-200/80", to: "to-blue-400/95" },
+  { from: "from-teal-100", via: "via-emerald-300/60", to: "to-cyan-400/80" },
+  { from: "from-blue-200/70", via: "via-teal-100/70", to: "to-yellow-200/80" },
+];
+
+export default function FeaturedArrivals({ products }: FeaturedArrivalsProps) {
+  // If backend returns empty, fallback to mock products for design consistency
+  const displayProducts = products && products.length > 0
+    ? products.slice(0, 4)
+    : [
+        {
+          id: "1",
+          name: "Minimalist Chronograph",
+          category: "Swiss Movement, Sapphire Crystal",
+          price: 450.00,
+          status: "Published",
+        },
+        {
+          id: "2",
+          name: "Over-Ear ANC Headphones",
+          category: "Studio Quality Audio",
+          price: 349.00,
+          status: "Published",
+        },
+        {
+          id: "3",
+          name: "Smart Desk Lamp",
+          category: "Adjustable Color Temperature",
+          price: 120.00,
+          status: "Draft",
+        },
+        {
+          id: "4",
+          name: "Premium Sneakers",
+          category: "Sustainable Materials",
+          price: 135.00,
+          status: "Draft",
+        },
+      ];
 
   return (
     <section className="py-16 bg-white dark:bg-black">
@@ -52,7 +59,7 @@ export default function FeaturedArrivals() {
             </h2>
           </div>
           <Link
-            href="/new-arrivals"
+            href="/collections"
             className="group flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-500 transition-colors"
           >
             <span>View all</span>
@@ -74,18 +81,22 @@ export default function FeaturedArrivals() {
 
         {/* Grid of Product Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10">
-          {products.map((product, index) => (
-            <ProductCard
-              key={index}
-              name={product.name}
-              subtitle={product.subtitle}
-              price={product.price}
-              isNew={product.isNew}
-              gradientFrom={product.gradientFrom}
-              gradientVia={product.gradientVia}
-              gradientTo={product.gradientTo}
-            />
-          ))}
+          {displayProducts.map((product, index) => {
+            const gradient = CARD_GRADIENTS[index % CARD_GRADIENTS.length];
+            return (
+              <ProductCard
+                key={String(product.id)}
+                id={String(product.id)}
+                name={product.name}
+                subtitle={product.category || "Premium Accessories"}
+                price={`$${Number(product.price).toFixed(2)}`}
+                isNew={product.status === "Published"}
+                gradientFrom={gradient.from}
+                gradientVia={gradient.via}
+                gradientTo={gradient.to}
+              />
+            );
+          })}
         </div>
       </div>
     </section>

@@ -6,15 +6,32 @@ import BrandStory from "@/components/home/BrandStory";
 import TrendingNow from "@/components/home/TrendingNow";
 import Newsletter from "@/components/home/Newsletter";
 
-export default function Home() {
+const API_URL = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api/v1";
+
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  let products = [];
+  try {
+    const res = await fetch(`${API_URL}/products`, { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success) {
+        products = data.data;
+      }
+    }
+  } catch (err) {
+    console.error("Error fetching homepage products:", err);
+  }
+
   return (
     <div className="w-full bg-white dark:bg-black">
       <Hero />
       <Features />
       <Categories />
-      <FeaturedArrivals />
+      <FeaturedArrivals products={products} />
       <BrandStory />
-      <TrendingNow />
+      <TrendingNow products={products} />
       <Newsletter />
     </div>
   );

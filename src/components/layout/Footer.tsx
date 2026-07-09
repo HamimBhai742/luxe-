@@ -58,7 +58,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2">
               <li>
                 <Link
-                  href="/new-arrivals"
+                  href="/collections?sort=new"
                   className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
                 >
                   New Arrivals
@@ -66,7 +66,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/designers"
+                  href="/collections"
                   className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
                 >
                   Designers
@@ -91,7 +91,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2">
               <li>
                 <Link
-                  href="/contact"
+                  href="/dashboard/support"
                   className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
                 >
                   Contact Support
@@ -99,7 +99,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/shipping"
+                  href="/collections"
                   className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
                 >
                   Shipping & Returns
@@ -107,7 +107,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/size-guide"
+                  href="/collections"
                   className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
                 >
                   Size Guide
@@ -124,7 +124,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2">
               <li>
                 <Link
-                  href="/about"
+                  href="/collections"
                   className="text-sm text-blue-600 font-medium hover:text-blue-700 dark:text-blue-400 transition-colors"
                 >
                   About Us
@@ -132,7 +132,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/privacy"
+                  href="/collections"
                   className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
                 >
                   Privacy Policy
@@ -140,7 +140,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/terms"
+                  href="/collections"
                   className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
                 >
                   Terms of Service
