@@ -4,6 +4,7 @@ import Categories from "@/components/home/Categories";
 import FeaturedArrivals from "@/components/home/FeaturedArrivals";
 import BrandStory from "@/components/home/BrandStory";
 import TrendingNow from "@/components/home/TrendingNow";
+import FaqSection from "@/components/home/FaqSection";
 import Newsletter from "@/components/home/Newsletter";
 
 const API_URL = process.env.NEXT_PUBLIC_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api/v1";
@@ -32,6 +33,7 @@ export default async function Home() {
       <FeaturedArrivals products={products} />
       <BrandStory />
       <TrendingNow products={products} />
+      <FaqSection />
       <Newsletter />
     </div>
   );
