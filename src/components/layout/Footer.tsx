@@ -124,7 +124,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-2">
               <li>
                 <Link
-                  href="/collections"
+                  href="/about"
                   className="text-sm text-blue-600 font-medium hover:text-blue-700 dark:text-blue-400 transition-colors"
                 >
                   About Us
