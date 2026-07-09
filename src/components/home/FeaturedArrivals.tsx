@@ -24,6 +24,7 @@ export default function FeaturedArrivals({ products }: FeaturedArrivalsProps) {
           category: "Swiss Movement, Sapphire Crystal",
           price: 450.00,
           status: "Published",
+          image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop",
         },
         {
           id: "2",
@@ -31,6 +32,7 @@ export default function FeaturedArrivals({ products }: FeaturedArrivalsProps) {
           category: "Studio Quality Audio",
           price: 349.00,
           status: "Published",
+          image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop",
         },
         {
           id: "3",
@@ -38,6 +40,7 @@ export default function FeaturedArrivals({ products }: FeaturedArrivalsProps) {
           category: "Adjustable Color Temperature",
           price: 120.00,
           status: "Draft",
+          image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600&auto=format&fit=crop",
         },
         {
           id: "4",
@@ -45,6 +48,7 @@ export default function FeaturedArrivals({ products }: FeaturedArrivalsProps) {
           category: "Sustainable Materials",
           price: 135.00,
           status: "Draft",
+          image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop",
         },
       ];
 
@@ -90,6 +94,7 @@ export default function FeaturedArrivals({ products }: FeaturedArrivalsProps) {
                 name={product.name}
                 subtitle={product.category || "Premium Accessories"}
                 price={`$${Number(product.price).toFixed(2)}`}
+                image={product.image}
                 isNew={product.status === "Published"}
                 gradientFrom={gradient.from}
                 gradientVia={gradient.via}

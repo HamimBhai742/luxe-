@@ -1,10 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface ProductCardProps {
   id: string;
   name: string;
   subtitle: string;
   price: string;
+  image?: string;
   isNew?: boolean;
   gradientFrom: string;
   gradientTo: string;
@@ -16,6 +18,7 @@ export default function ProductCard({
   name,
   subtitle,
   price,
+  image,
   isNew,
   gradientFrom,
   gradientTo,
@@ -28,16 +31,33 @@ export default function ProductCard({
 
   return (
     <Link href={`/collections/${id}`} className="group flex flex-col cursor-pointer">
-      {/* Image Container with Custom Mesh Gradient */}
+      {/* Image Container with Custom Mesh Gradient or Image */}
       <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-900 mb-4 shadow-sm shadow-zinc-100 dark:shadow-transparent">
-        {/* Colorful Mesh Gradient Visualizer */}
-        <div className={`absolute inset-0 w-full h-full ${gradientBgStyle} transition-transform duration-500 ease-out group-hover:scale-105`}>
-          {/* Glassmorphism overlays to give premium glass/plastic lighting reflection */}
-          <div className="absolute inset-0 bg-white/5 opacity-40 mix-blend-overlay" />
-          <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/20 to-transparent pointer-events-none" />
-          {/* Internal shadow to give a premium inset look */}
-          <div className="absolute inset-0 ring-1 ring-inset ring-black/5" />
-        </div>
+        
+        {image ? (
+          <div className="absolute inset-0 w-full h-full overflow-hidden transition-transform duration-500 ease-out group-hover:scale-105">
+            <Image
+              src={image}
+              alt={name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 50vw, 25vw"
+              priority
+            />
+            {/* Glassmorphism reflection overlay */}
+            <div className="absolute inset-0 bg-white/5 opacity-20 mix-blend-overlay" />
+            <div className="absolute inset-0 ring-1 ring-inset ring-black/5" />
+          </div>
+        ) : (
+          /* Colorful Mesh Gradient Visualizer */
+          <div className={`absolute inset-0 w-full h-full ${gradientBgStyle} transition-transform duration-500 ease-out group-hover:scale-105`}>
+            {/* Glassmorphism overlays to give premium glass/plastic lighting reflection */}
+            <div className="absolute inset-0 bg-white/5 opacity-40 mix-blend-overlay" />
+            <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/20 to-transparent pointer-events-none" />
+            {/* Internal shadow to give a premium inset look */}
+            <div className="absolute inset-0 ring-1 ring-inset ring-black/5" />
+          </div>
+        )}
 
         {/* Optional "NEW" Badge */}
         {isNew && (
