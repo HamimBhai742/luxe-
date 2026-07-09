@@ -211,7 +211,7 @@ export default function AboutPage() {
               Our Core Design Principles
             </h2>
             <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-500 max-w-md mx-auto">
-              LUXE gadgets don't just blend in; they are crafted to lead, sustain, and unify your performance workspace.
+              LUXE gadgets don&apos;t just blend in; they are crafted to lead, sustain, and unify your performance workspace.
             </p>
           </div>
 

@@ -132,7 +132,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/collections"
+                  href="/privacy"
                   className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
                 >
                   Privacy Policy
