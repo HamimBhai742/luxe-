@@ -354,7 +354,6 @@ export default function CheckoutClient() {
     return "Estimated Tax";
   };
 
-
   const submitOrder = async () => {
     try {
       const orderPayload = {
@@ -372,6 +371,7 @@ export default function CheckoutClient() {
         city: city,
         state: state,
         zipCode: zipCode,
+        couponCode: appliedCoupon?.code || null,
         items: cartItems.map((item) => ({
           id: item.id || item?.productId,
           name: item.name,
@@ -382,6 +382,7 @@ export default function CheckoutClient() {
         })),
       };
       const orderResult = await createOrder(orderPayload).unwrap();
+
       if (orderResult.success && orderResult.data) {
         if (addToAddressBook && isAuthenticated) {
           try {
@@ -1893,7 +1894,7 @@ export default function CheckoutClient() {
                             const code = promoCode.trim().toUpperCase();
                             if (!code) return;
                             try {
-                              const result = await validateCoupon({ code }).unwrap();
+                              const result = await validateCoupon({ code, email: user?.email || undefined }).unwrap();
                               if (result.success && result.data) {
                                 setAppliedCoupon(result.data);
                                 sessionStorage.setItem("appliedCoupon", JSON.stringify(result.data));

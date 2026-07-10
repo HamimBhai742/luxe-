@@ -9,7 +9,7 @@ export interface DbCoupon {
 
 export const couponApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    validateCoupon: builder.mutation<{ success: boolean; message: string; data: DbCoupon }, { code: string }>({
+    validateCoupon: builder.mutation<{ success: boolean; message: string; data: DbCoupon }, { code: string; email?: string }>({
       query: (body) => ({
         url: "/coupons/validate",
         method: "POST",
