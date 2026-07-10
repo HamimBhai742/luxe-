@@ -20,7 +20,7 @@ interface OrderItem {
 const INITIAL_ORDERS: OrderItem[] = [
   {
     id: "order-1",
-    orderId: "#AUR-9921",
+    orderId: "ORD-001",
     date: "Oct 24, 2024",
     customerName: "Alex Thompson",
     customerEmail: "alex.t@example.com",
@@ -30,7 +30,7 @@ const INITIAL_ORDERS: OrderItem[] = [
   },
   {
     id: "order-2",
-    orderId: "#AUR-9920",
+    orderId: "ORD-002",
     date: "Oct 23, 2024",
     customerName: "Sarah Jenkins",
     customerEmail: "s.jenkins@provider.net",
@@ -40,7 +40,7 @@ const INITIAL_ORDERS: OrderItem[] = [
   },
   {
     id: "order-3",
-    orderId: "#AUR-9919",
+    orderId: "ORD-003",
     date: "Oct 22, 2024",
     customerName: "Michael Chen",
     customerEmail: "m.chen@example.com",
@@ -50,7 +50,7 @@ const INITIAL_ORDERS: OrderItem[] = [
   },
   {
     id: "order-4",
-    orderId: "#AUR-9918",
+    orderId: "ORD-004",
     date: "Oct 21, 2024",
     customerName: "Emily Davis",
     customerEmail: "emily.d@provider.net",
@@ -60,7 +60,7 @@ const INITIAL_ORDERS: OrderItem[] = [
   },
   {
     id: "order-5",
-    orderId: "#AUR-9917",
+    orderId: "ORD-005",
     date: "Oct 20, 2024",
     customerName: "James Wilson",
     customerEmail: "j.wilson@tech.com",

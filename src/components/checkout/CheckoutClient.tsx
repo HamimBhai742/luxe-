@@ -613,7 +613,7 @@ export default function CheckoutClient() {
               {/* Order ID Badge Copy Box */}
               <div className="mt-5 flex items-center gap-2 bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-850 px-4 py-2 rounded-2xl shadow-xs">
                 <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Order ID:</span>
-                <span className="text-sm font-black text-zinc-900 dark:text-white">{createdOrder?.orderId || "#AUR-PLACEHOLDER"}</span>
+                <span className="text-sm font-black text-zinc-900 dark:text-white">{createdOrder?.orderId || "ORD-PENDING"}</span>
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(createdOrder?.orderId || "");
