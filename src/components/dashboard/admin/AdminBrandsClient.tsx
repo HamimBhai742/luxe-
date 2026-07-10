@@ -221,7 +221,7 @@ export default function AdminBrandsClient() {
         );
       case "Pending":
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-1 text-[10px] font-bold text-zinc-650 dark:bg-zinc-805 dark:text-zinc-400">
+          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-1 text-[10px] font-bold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
             Pending
           </span>
         );
@@ -236,7 +236,7 @@ export default function AdminBrandsClient() {
 
   const renderPerformanceIndicator = (perf: string) => {
     if (perf === "-") {
-      return <span className="text-zinc-350 dark:text-zinc-600 font-bold">-</span>;
+      return <span className="text-zinc-300 dark:text-zinc-600 font-bold">-</span>;
     }
     const isPositive = perf.startsWith("+");
     const isNegative = perf.startsWith("-");
@@ -275,7 +275,7 @@ export default function AdminBrandsClient() {
     switch (vis) {
       case "Featured":
         return (
-          <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 border border-blue-150 px-2 py-0.5 text-[10px] font-bold text-blue-650 dark:bg-blue-950/20 dark:border-blue-900/50 dark:text-blue-400">
+          <span className="inline-flex items-center gap-1 rounded-md bg-blue-50 border border-blue-150 px-2 py-0.5 text-[10px] font-bold text-blue-600 dark:bg-blue-950/20 dark:border-blue-900/50 dark:text-blue-400">
             <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24">
               <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z" />
             </svg>
@@ -284,19 +284,19 @@ export default function AdminBrandsClient() {
         );
       case "Public":
         return (
-          <span className="inline-flex items-center rounded-md bg-zinc-50 border border-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-650 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-400">
+          <span className="inline-flex items-center rounded-md bg-zinc-50 border border-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-600 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-400">
             Public
           </span>
         );
       case "Private":
         return (
-          <span className="inline-flex items-center rounded-md bg-zinc-100 border border-zinc-250 px-2 py-0.5 text-[10px] font-bold text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-350">
+          <span className="inline-flex items-center rounded-md bg-zinc-100 border border-zinc-250 px-2 py-0.5 text-[10px] font-bold text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-300">
             Private
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center rounded-md bg-zinc-200/50 border border-zinc-305 px-2 py-0.5 text-[10px] font-bold text-zinc-500 dark:bg-zinc-850 dark:border-zinc-800 dark:text-zinc-500">
+          <span className="inline-flex items-center rounded-md bg-zinc-200/50 border border-zinc-300 px-2 py-0.5 text-[10px] font-bold text-zinc-500 dark:bg-zinc-800 dark:border-zinc-800 dark:text-zinc-500">
             Hidden
           </span>
         );
@@ -314,7 +314,7 @@ export default function AdminBrandsClient() {
     const colorIndex = name.charCodeAt(0) % bgColors.length;
 
     return (
-      <div className={`flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-150 dark:border-zinc-800 font-extrabold text-xs shadow-xs ${bgColors[colorIndex]}`}>
+      <div className={`flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-800 font-extrabold text-xs shadow-xs ${bgColors[colorIndex]}`}>
         {initial}
       </div>
     );
@@ -331,7 +331,7 @@ export default function AdminBrandsClient() {
             <svg className="h-3 w-3 text-zinc-300" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
-            <span className="text-zinc-650 dark:text-zinc-350">Brands</span>
+            <span className="text-zinc-600 dark:text-zinc-300">Brands</span>
           </nav>
           <h1 className="text-2xl font-black text-zinc-950 dark:text-white mt-1">Brands</h1>
           <p className="text-xs text-zinc-400 mt-1">Manage your marketplace brands, partnerships, and brand-level settings.</p>
@@ -340,7 +340,7 @@ export default function AdminBrandsClient() {
         <div className="flex items-center gap-3 self-start sm:self-center">
           <button
             onClick={handleExport}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-705 dark:text-zinc-300 cursor-pointer shadow-xs transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-705 dark:text-zinc-300 cursor-pointer shadow-xs transition-colors"
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -361,7 +361,7 @@ export default function AdminBrandsClient() {
       </div>
 
       {/* Main Console Box */}
-      <div className="rounded-3xl border border-zinc-150 bg-white dark:border-zinc-900 dark:bg-zinc-950 overflow-hidden shadow-xs">
+      <div className="rounded-3xl border border-zinc-200 bg-white dark:border-zinc-900 dark:bg-zinc-950 overflow-hidden shadow-xs">
         
         {/* Filters Bar */}
         <div className="border-b border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -376,7 +376,7 @@ export default function AdminBrandsClient() {
               placeholder="Filter brands..."
               value={filterSearch}
               onChange={(e) => setFilterSearch(e.target.value)}
-              className="w-full pl-9.5 pr-4 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-medium text-zinc-800 outline-none focus:border-zinc-350 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
+              className="w-full pl-9.5 pr-4 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-medium text-zinc-800 outline-none focus:border-zinc-300 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
             />
           </div>
 
@@ -386,7 +386,7 @@ export default function AdminBrandsClient() {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-750 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
+                className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">All Statuses</option>
                 <option value="Active">Active</option>
@@ -403,7 +403,7 @@ export default function AdminBrandsClient() {
               <select
                 value={selectedCategoryFilter}
                 onChange={(e) => setSelectedCategoryFilter(e.target.value)}
-                className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-755 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
+                className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">All Categories</option>
                 <option value="Electronics">Electronics</option>
@@ -428,7 +428,7 @@ export default function AdminBrandsClient() {
                     type="checkbox"
                     checked={selectedBrands.length === brands.length && brands.length > 0}
                     onChange={toggleSelectAll}
-                    className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-905"
+                    className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-900"
                   />
                 </th>
                 <th className="py-4 px-4 font-bold text-[10px] border-0">Brand</th>
@@ -452,7 +452,7 @@ export default function AdminBrandsClient() {
                   return (
                     <tr
                       key={b.id}
-                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-850/10 transition-colors border-b border-zinc-100 dark:border-zinc-900/50 last:border-0 ${
+                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-800/10 transition-colors border-b border-zinc-100 dark:border-zinc-900/50 last:border-0 ${
                         isSelected ? "bg-blue-50/20 dark:bg-blue-950/5" : ""
                       }`}
                     >
@@ -507,7 +507,7 @@ export default function AdminBrandsClient() {
                           <button
                             type="button"
                             onClick={() => handleStartEdit(b)}
-                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-650 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
                             title="Edit Brand"
                           >
                             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -520,7 +520,7 @@ export default function AdminBrandsClient() {
                               e.stopPropagation();
                               setActiveMenuId((prev) => (prev === b.id ? null : b.id));
                             }}
-                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-655 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
                           >
                             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
@@ -545,7 +545,7 @@ export default function AdminBrandsClient() {
                             <button
                               type="button"
                               onClick={() => handleDeleteBrand(b.id, b.name)}
-                              className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-bold text-red-650 hover:bg-red-50 dark:text-red-450 dark:hover:bg-red-950/20 transition-colors cursor-pointer"
+                              className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-bold text-red-600 hover:bg-red-50 dark:text-red-450 dark:hover:bg-red-950/20 transition-colors cursor-pointer"
                             >
                               <svg className="h-4 w-4 text-red-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -566,7 +566,7 @@ export default function AdminBrandsClient() {
 
         {/* Footer pagination */}
         <div className="border-t border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-550">
+          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500">
             Showing 1 to {filteredBrands.length} of {brands.length} brands
           </span>
 
@@ -574,7 +574,7 @@ export default function AdminBrandsClient() {
             {/* Prev */}
             <button
               onClick={() => toast.info("Opening previous page...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
             >
               &lt;
             </button>
@@ -587,7 +587,7 @@ export default function AdminBrandsClient() {
             {/* 2 */}
             <button
               onClick={() => toast.info("Opening page 2...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
             >
               2
             </button>
@@ -597,7 +597,7 @@ export default function AdminBrandsClient() {
             {/* Next */}
             <button
               onClick={() => toast.info("Opening next page...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
             >
               &gt;
             </button>
@@ -609,7 +609,7 @@ export default function AdminBrandsClient() {
       {/* Add / Update Brand Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300 animate-fade-in">
-          <div className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
+          <div className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 mb-5">
@@ -747,7 +747,7 @@ export default function AdminBrandsClient() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="flex-1 rounded-xl border border-zinc-250 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-905 transition-colors cursor-pointer"
+                  className="flex-1 rounded-xl border border-zinc-250 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>

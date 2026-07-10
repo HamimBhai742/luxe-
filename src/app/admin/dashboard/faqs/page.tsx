@@ -10,7 +10,7 @@ export default function AdminFaqsPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex h-64 items-center justify-center text-zinc-550 dark:text-zinc-400 font-bold text-xs uppercase tracking-widest animate-pulse">
+        <div className="flex h-64 items-center justify-center text-zinc-500 dark:text-zinc-400 font-bold text-xs uppercase tracking-widest animate-pulse">
           Loading FAQs Console...
         </div>
       }

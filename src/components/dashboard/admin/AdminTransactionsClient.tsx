@@ -41,10 +41,10 @@ export default function AdminTransactionsClient() {
 
   // Statistics state
   const [stats, setStats] = useState<StatsState>({
-    totalVolume: 1200000,
-    pendingPayout: 84000,
-    successRate: 99.1,
-    totalTransactions: 14203,
+    totalVolume: 0,
+    pendingPayout: 0,
+    successRate: 0,
+    totalTransactions: 0,
   });
 
   // Transaction detail view modal state
@@ -187,14 +187,14 @@ export default function AdminTransactionsClient() {
         );
       case "Failed":
         return (
-          <span className="inline-flex items-center rounded-full bg-red-50 dark:bg-red-955/20 border border-red-100 dark:border-red-900/30 px-3 py-0.5 text-xs font-black text-red-700 dark:text-red-400">
+          <span className="inline-flex items-center rounded-full bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 px-3 py-0.5 text-xs font-black text-red-700 dark:text-red-400">
             &bull; Failed
           </span>
         );
       default:
         // Refunded
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-3 py-0.5 text-xs font-black text-zinc-650 dark:text-zinc-400">
+          <span className="inline-flex items-center rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-3 py-0.5 text-xs font-black text-zinc-600 dark:text-zinc-400">
             &#x21B6; Refunded
           </span>
         );
@@ -263,7 +263,7 @@ export default function AdminTransactionsClient() {
             <svg className="h-3 w-3 text-zinc-300" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
-            <span className="text-zinc-650 dark:text-zinc-350">Transactions</span>
+            <span className="text-zinc-600 dark:text-zinc-300">Transactions</span>
           </nav>
           <h1 className="text-2xl font-black text-zinc-950 dark:text-white mt-1">Transactions</h1>
         </div>
@@ -283,9 +283,9 @@ export default function AdminTransactionsClient() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         
         {/* Card 1: Total Volume */}
-        <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs flex flex-col justify-between">
+        <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-450 dark:text-zinc-500">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
               Total Volume
             </span>
             <svg className="h-4.5 w-4.5 text-emerald-500" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -298,15 +298,15 @@ export default function AdminTransactionsClient() {
             </h2>
             <p className="text-xs text-emerald-600 dark:text-emerald-400 font-bold mt-1.5 flex items-center gap-1">
               <span>+12.5%</span>
-              <span className="text-zinc-400 dark:text-zinc-550 font-semibold">from last month</span>
+              <span className="text-zinc-400 dark:text-zinc-500 font-semibold">from last month</span>
             </p>
           </div>
         </div>
 
         {/* Card 2: Pending Payouts */}
-        <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs flex flex-col justify-between">
+        <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-450 dark:text-zinc-500">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
               Pending Payouts
             </span>
             <svg className="h-4.5 w-4.5 text-blue-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -317,16 +317,16 @@ export default function AdminTransactionsClient() {
             <h2 className="text-3xl font-black text-zinc-900 dark:text-white">
               {formatStatValue(stats.pendingPayout, true)}
             </h2>
-            <p className="text-xs text-zinc-400 dark:text-zinc-550 font-semibold mt-1.5">
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 font-semibold mt-1.5">
               23 transfers processing
             </p>
           </div>
         </div>
 
         {/* Card 3: Success Rate */}
-        <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs flex flex-col justify-between">
+        <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs flex flex-col justify-between">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-450 dark:text-zinc-500">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
               Success Rate
             </span>
             <svg className="h-4.5 w-4.5 text-emerald-500" fill="none" viewBox="0 0 24 24" strokeWidth="2.2" stroke="currentColor">
@@ -337,7 +337,7 @@ export default function AdminTransactionsClient() {
             <h2 className="text-3xl font-black text-zinc-900 dark:text-white">
               {stats.successRate}%
             </h2>
-            <p className="text-xs text-zinc-400 dark:text-zinc-550 font-semibold mt-1.5">
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 font-semibold mt-1.5">
               Based on {stats.totalTransactions.toLocaleString()} transactions
             </p>
           </div>
@@ -346,7 +346,7 @@ export default function AdminTransactionsClient() {
       </div>
 
       {/* Main Console Box */}
-      <div className="rounded-3xl border border-zinc-150 bg-white dark:border-zinc-900 dark:bg-zinc-955 overflow-hidden shadow-xs animate-fade-in">
+      <div className="rounded-3xl border border-zinc-200 bg-white dark:border-zinc-900 dark:bg-zinc-950 overflow-hidden shadow-xs animate-fade-in">
         
         {/* Filters Bar */}
         <div className="border-b border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 lg:flex-row lg:items-center">
@@ -364,7 +364,7 @@ export default function AdminTransactionsClient() {
                 setFilterSearch(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full pl-9.5 pr-4 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-medium text-zinc-805 outline-none focus:border-zinc-350 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
+              className="w-full pl-9.5 pr-4 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-medium text-zinc-800 outline-none focus:border-zinc-300 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
             />
           </div>
 
@@ -377,7 +377,7 @@ export default function AdminTransactionsClient() {
                   setSelectedDateRange(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-755 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
+                className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">Date Range</option>
                 <option value="Today">Today</option>
@@ -385,7 +385,7 @@ export default function AdminTransactionsClient() {
                 <option value="7d">Last 7 Days</option>
                 <option value="30d">Last 30 Days</option>
               </select>
-              <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-450 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
             </div>
@@ -398,7 +398,7 @@ export default function AdminTransactionsClient() {
                   setSelectedStatus(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-755 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
+                className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">Status</option>
                 <option value="Succeeded">Succeeded</option>
@@ -406,7 +406,7 @@ export default function AdminTransactionsClient() {
                 <option value="Failed">Failed</option>
                 <option value="Refunded">Refunded</option>
               </select>
-              <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-450 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
             </div>
@@ -419,7 +419,7 @@ export default function AdminTransactionsClient() {
                   setSelectedMethod(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-755 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
+                className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">Method</option>
                 <option value="Stripe">Stripe</option>
@@ -427,7 +427,7 @@ export default function AdminTransactionsClient() {
                 <option value="Credit Card">Credit Card</option>
                 <option value="bKash">bKash</option>
               </select>
-              <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-455 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
             </div>
@@ -439,7 +439,7 @@ export default function AdminTransactionsClient() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse border-0">
             <thead>
-              <tr className="border-b border-zinc-100 dark:border-zinc-900 bg-zinc-50/20 text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550">
+              <tr className="border-b border-zinc-100 dark:border-zinc-900 bg-zinc-50/20 text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                 <th className="py-4 pl-6 font-bold text-[10px] border-0">Transaction ID</th>
                 <th className="py-4 px-4 font-bold text-[10px] border-0">Date & Time</th>
                 <th className="py-4 px-4 font-bold text-[10px] border-0">Customer</th>
@@ -452,9 +452,9 @@ export default function AdminTransactionsClient() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-550 font-bold border-0">
+                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold border-0">
                     <div className="flex flex-col items-center justify-center gap-3">
-                      <svg className="animate-spin h-6 w-6 text-blue-650" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
@@ -472,7 +472,7 @@ export default function AdminTransactionsClient() {
                 transactions.map((trx) => (
                   <tr
                     key={trx.id}
-                    className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-850/10 transition-colors border-b border-zinc-100 dark:border-zinc-900/50 last:border-0 ${
+                    className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-800/10 transition-colors border-b border-zinc-100 dark:border-zinc-900/50 last:border-0 ${
                       trx.status === "Failed" ? "opacity-60" : ""
                     }`}
                   >
@@ -487,7 +487,7 @@ export default function AdminTransactionsClient() {
                         <span className="text-xs font-extrabold text-zinc-800 dark:text-zinc-200">
                           {trx.date}
                         </span>
-                        <span className="text-[10px] text-zinc-400 dark:text-zinc-550 font-bold mt-0.5">
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-bold mt-0.5">
                           {trx.time}
                         </span>
                       </div>
@@ -512,10 +512,10 @@ export default function AdminTransactionsClient() {
                           </div>
                         )}
                         <div className="flex flex-col">
-                          <span className="text-xs font-extrabold text-zinc-850 dark:text-white leading-none">
+                          <span className="text-xs font-extrabold text-zinc-800 dark:text-white leading-none">
                             {trx.customerName}
                           </span>
-                          <span className="text-[10px] text-zinc-400 dark:text-zinc-550 font-bold mt-0.5">
+                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-bold mt-0.5">
                             {trx.customerEmail}
                           </span>
                         </div>
@@ -525,8 +525,8 @@ export default function AdminTransactionsClient() {
                     {/* Amount */}
                     <td className={`py-4 px-4 text-xs font-black border-0 ${
                       trx.amount < 0
-                        ? "text-red-650 dark:text-red-400"
-                        : "text-zinc-850 dark:text-white"
+                        ? "text-red-600 dark:text-red-400"
+                        : "text-zinc-800 dark:text-white"
                     }`}>
                       {trx.amount < 0 ? "-" : ""}${Math.abs(trx.amount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </td>
@@ -546,7 +546,7 @@ export default function AdminTransactionsClient() {
                       <button
                         type="button"
                         onClick={() => setViewingTransaction(trx)}
-                        className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-650 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                        className="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
                         title="View Details"
                       >
                         {trx.status === "Failed" ? (
@@ -571,7 +571,7 @@ export default function AdminTransactionsClient() {
 
         {/* Footer pagination */}
         <div className="border-t border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-550">
+          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500">
             Showing {transactions.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems.toLocaleString()} entries
           </span>
 
@@ -580,7 +580,7 @@ export default function AdminTransactionsClient() {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1 || isLoading}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               &lt;
             </button>
@@ -594,7 +594,7 @@ export default function AdminTransactionsClient() {
                 className={`rounded-xl px-3.5 py-2 text-xs font-black cursor-pointer transition-colors ${
                   currentPage === page
                     ? "bg-blue-600 text-white shadow-xs shadow-blue-500/10"
-                    : "border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 text-zinc-700 dark:text-zinc-300"
+                    : "border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
                 } disabled:opacity-50`}
               >
                 {page}
@@ -605,7 +605,7 @@ export default function AdminTransactionsClient() {
             <button
               onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages || isLoading}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               &gt;
             </button>
@@ -617,12 +617,12 @@ export default function AdminTransactionsClient() {
       {/* Transaction Details Modal (READ-ONLY) */}
       {viewingTransaction && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300 animate-fade-in">
-          <div className="w-full max-w-md transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 scale-100 duration-300 flex flex-col">
+          <div className="w-full max-w-md transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 scale-100 duration-300 flex flex-col">
             
             {/* Header */}
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 mb-4">
               <div>
-                <h3 className="text-base font-extrabold text-zinc-955 dark:text-white font-serif">
+                <h3 className="text-base font-extrabold text-zinc-950 dark:text-white font-serif">
                   Transaction Audit Log
                 </h3>
                 <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider mt-0.5">
@@ -642,15 +642,15 @@ export default function AdminTransactionsClient() {
             {/* Summary Information */}
             <div className="space-y-4 py-2 text-xs">
               
-              <div className="grid grid-cols-2 gap-4 rounded-2xl bg-zinc-50/50 dark:bg-zinc-900 p-4 border border-zinc-100 dark:border-zinc-850">
+              <div className="grid grid-cols-2 gap-4 rounded-2xl bg-zinc-50/50 dark:bg-zinc-900 p-4 border border-zinc-100 dark:border-zinc-800">
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Customer</span>
-                  <span className="font-extrabold text-zinc-850 dark:text-zinc-200 block mt-1">{viewingTransaction.customerName}</span>
-                  <span className="text-zinc-450 dark:text-zinc-500 font-medium block mt-0.5">{viewingTransaction.customerEmail}</span>
+                  <span className="font-extrabold text-zinc-800 dark:text-zinc-200 block mt-1">{viewingTransaction.customerName}</span>
+                  <span className="text-zinc-400 dark:text-zinc-500 font-medium block mt-0.5">{viewingTransaction.customerEmail}</span>
                 </div>
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Gross Value</span>
-                  <span className={`font-black block mt-1 text-sm ${viewingTransaction.amount < 0 ? "text-red-500" : "text-zinc-850 dark:text-white"}`}>
+                  <span className={`font-black block mt-1 text-sm ${viewingTransaction.amount < 0 ? "text-red-500" : "text-zinc-800 dark:text-white"}`}>
                     {viewingTransaction.amount < 0 ? "-" : ""}${Math.abs(viewingTransaction.amount).toFixed(2)}
                   </span>
                 </div>
@@ -668,7 +668,7 @@ export default function AdminTransactionsClient() {
               </div>
 
               {viewingTransaction.status === "Failed" && (
-                <div className="rounded-xl bg-red-50 dark:bg-red-955/20 border border-red-100 dark:border-red-900/30 p-3 text-red-750 dark:text-red-400">
+                <div className="rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/30 p-3 text-red-700 dark:text-red-400">
                   <p className="font-bold text-[10px] uppercase tracking-wider flex items-center gap-1.5">
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.2" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
@@ -699,12 +699,12 @@ export default function AdminTransactionsClient() {
       {/* Log Transaction Modal */}
       {isCreateModalOpen && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300 animate-fade-in">
-          <div className="w-full max-w-md transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 scale-100 duration-300 flex flex-col">
+          <div className="w-full max-w-md transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 scale-100 duration-300 flex flex-col">
             
             {/* Header */}
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 mb-4">
               <div>
-                <h3 className="text-base font-extrabold text-zinc-955 dark:text-white font-serif">
+                <h3 className="text-base font-extrabold text-zinc-950 dark:text-white font-serif">
                   Log New Payment Transaction
                 </h3>
                 <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider mt-0.5">
@@ -725,7 +725,7 @@ export default function AdminTransactionsClient() {
             <form onSubmit={handleCreateTransaction} className="space-y-4 text-xs">
               
               <div>
-                <label className="block text-[10px] font-bold text-zinc-450 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                <label className="block text-[10px] font-bold text-zinc-400 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
                   Customer Name *
                 </label>
                 <input
@@ -739,7 +739,7 @@ export default function AdminTransactionsClient() {
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-zinc-450 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                <label className="block text-[10px] font-bold text-zinc-400 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
                   Customer Email *
                 </label>
                 <input
@@ -754,7 +754,7 @@ export default function AdminTransactionsClient() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-450 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[10px] font-bold text-zinc-400 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
                     Amount ($ USD) *
                   </label>
                   <input
@@ -769,7 +769,7 @@ export default function AdminTransactionsClient() {
                 </div>
                 
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-450 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[10px] font-bold text-zinc-400 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
                     Customer Avatar URL
                   </label>
                   <input
@@ -784,7 +784,7 @@ export default function AdminTransactionsClient() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-450 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[10px] font-bold text-zinc-400 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
                     Method *
                   </label>
                   <select
@@ -800,7 +800,7 @@ export default function AdminTransactionsClient() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-zinc-450 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[10px] font-bold text-zinc-400 dark:text-zinc-400 uppercase tracking-wider mb-1.5">
                     Status *
                   </label>
                   <select
@@ -819,7 +819,7 @@ export default function AdminTransactionsClient() {
                 <button
                   type="button"
                   onClick={() => setIsCreateModalOpen(false)}
-                  className="flex-1 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-850 py-2.5 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer"
+                  className="flex-1 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 py-2.5 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>

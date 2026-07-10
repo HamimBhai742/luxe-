@@ -65,7 +65,7 @@ export default function PrivacyPage() {
               <div className="border-t border-zinc-100 dark:border-zinc-900 pt-6">
                 <Link
                   href="/dashboard/support"
-                  className="text-xs font-bold text-blue-655 hover:text-blue-500 dark:text-blue-400 transition-colors flex items-center gap-1.5"
+                  className="text-xs font-bold text-blue-600 hover:text-blue-500 dark:text-blue-400 transition-colors flex items-center gap-1.5"
                 >
                   <span>Have questions?</span>
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
           <div className="flex-1 space-y-12 max-w-3xl">
             
             {/* Encryption Callout */}
-            <div className="rounded-2xl border border-zinc-150/60 bg-zinc-50/30 p-6 dark:border-zinc-850 dark:bg-zinc-900/10">
+            <div className="rounded-2xl border border-zinc-200/60 bg-zinc-50/30 p-6 dark:border-zinc-800 dark:bg-zinc-900/10">
               <h4 className="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-wider mb-2">Our Security Guarantee</h4>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">
                 LUXE respects your rights to personal data isolation. All profile settings, avatar URLs, transaction histories, and connection sessions are hashed and encrypted. We do not sell your personal logs to third-party ad brokers.
@@ -90,7 +90,7 @@ export default function PrivacyPage() {
             {/* 1. Information We Collect */}
             <section id="collection" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">1. Information We Collect</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   We collect info you provide directly during account registration, profile updates, checkout flows, and customer help tickets. This contains:
                 </p>
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
             {/* 2. How We Use Information */}
             <section id="usage" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">2. How We Use Information</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   We utilize your collected records to maintain your customer experience, process checkout carts, and securely update your settings dashboard. Specifically, data helps us to:
                 </p>
@@ -125,7 +125,7 @@ export default function PrivacyPage() {
             {/* 3. Information Sharing & Disclosure */}
             <section id="sharing" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">3. Information Sharing & Disclosure</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   We do not sell, rent, or trade your personal files. Your info is disclosed only to secure operational partners performing vital services on our behalf:
                 </p>
@@ -142,7 +142,7 @@ export default function PrivacyPage() {
             {/* 4. Data Security & Encryption */}
             <section id="security" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">4. Data Security & Encryption</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   We implement robust technical and structural security policies. Hashed passwords utilize industrial `bcryptjs` salts, preventing plain-text data access. All traffic transmitted to the express server is protected by SSL/TLS encryption protocols.
                 </p>
@@ -157,7 +157,7 @@ export default function PrivacyPage() {
             {/* 5. Cookies & Tracking Technologies */}
             <section id="cookies" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">5. Cookies & Tracking Technologies</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   LUXE uses browser local storage and essential session cookies to remember who you are. This keeps you logged in across pages and preserves items loaded in your shopping cart.
                 </p>
@@ -172,7 +172,7 @@ export default function PrivacyPage() {
             {/* 6. Your Rights & Settings Control */}
             <section id="rights" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">6. Your Rights & Settings Control</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   We believe you should have complete control over your files. You have the right to:
                 </p>
@@ -189,7 +189,7 @@ export default function PrivacyPage() {
             {/* 7. Third-Party Integrations */}
             <section id="third-party" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">7. Third-Party Integrations</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   The LUXE website and dashboard portal may contain links to external design platforms or Unsplash image resources. We are not responsible for the privacy practices, cookie collection, or terms of use governing those external websites.
                 </p>
@@ -201,9 +201,9 @@ export default function PrivacyPage() {
             {/* 8. Contact Our Data Officer */}
             <section id="contact" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">8. Contact Our Data Officer</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
-                  If you wish to request total deletion of your profile database entries, or have questions concerning our encryption algorithms, please contact our data safety team through the <Link href="/dashboard/support" className="text-blue-650 dark:text-blue-400 font-bold hover:underline">Support Portal</Link>.
+                  If you wish to request total deletion of your profile database entries, or have questions concerning our encryption algorithms, please contact our data safety team through the <Link href="/dashboard/support" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">Support Portal</Link>.
                 </p>
               </div>
             </section>

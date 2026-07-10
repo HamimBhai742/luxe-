@@ -59,7 +59,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Hamburger (Mobile only) */}
             <button
               onClick={() => setIsMobileDrawerOpen(true)}
-              className="md:hidden rounded-lg p-1.5 text-zinc-550 hover:bg-zinc-100 hover:text-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900 cursor-pointer"
+              className="md:hidden rounded-lg p-1.5 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-900 cursor-pointer"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -87,7 +87,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Help Question mark */}
             <button
               onClick={() => toast.info("Dashboard documentation coming soon!")}
-              className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-450 dark:hover:text-white transition-colors cursor-pointer"
+              className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors cursor-pointer"
               title="Help"
             >
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
@@ -98,7 +98,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Cart with badge */}
             <Link
               href="/cart"
-              className="relative text-zinc-650 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
+              className="relative text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
               title="Shopping Cart"
             >
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">

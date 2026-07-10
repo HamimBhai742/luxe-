@@ -235,7 +235,7 @@ export default function DashboardPaymentsClient() {
             
             {/* Title header */}
             <h3 className="text-base font-extrabold text-zinc-900 dark:text-white font-serif flex items-center gap-2.5">
-              <svg className="h-5 w-5 text-blue-600 dark:text-blue-450" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+              <svg className="h-5 w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-19.5 8.25h12.75M2.25 5.25h16.5c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125H3.375a1.125 1.125 0 01-1.12-1.125V6.375c0-.621.504-1.125 1.125-1.125z" />
               </svg>
               <span>Credit & Debit Cards</span>
@@ -256,7 +256,7 @@ export default function DashboardPaymentsClient() {
                     <div className="flex gap-4 items-center">
                       
                       {/* Logo tag border box */}
-                      <div className="h-10 w-16 bg-zinc-50 dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-800 rounded-lg flex items-center justify-center p-1 font-black italic text-sm tracking-wide text-zinc-650">
+                      <div className="h-10 w-16 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg flex items-center justify-center p-1 font-black italic text-sm tracking-wide text-zinc-600">
                         {card.brand === "Visa" ? (
                           <span className="text-blue-700 font-serif">VISA</span>
                         ) : (
@@ -267,7 +267,7 @@ export default function DashboardPaymentsClient() {
                       {/* Info stack */}
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-extrabold text-zinc-850 dark:text-white">
+                          <span className="text-xs font-extrabold text-zinc-800 dark:text-white">
                             {card.brand} ending in {card.last4}
                           </span>
                           {card.isDefault && (
@@ -284,7 +284,7 @@ export default function DashboardPaymentsClient() {
                         {!card.isDefault && (
                           <button
                             onClick={() => handleSetDefault(card.id)}
-                            className="text-[10px] font-extrabold text-blue-650 hover:text-blue-550 block mt-2 cursor-pointer transition-colors"
+                            className="text-[10px] font-extrabold text-blue-600 hover:text-blue-550 block mt-2 cursor-pointer transition-colors"
                           >
                             Set as Default
                           </button>
@@ -296,7 +296,7 @@ export default function DashboardPaymentsClient() {
                     {/* Delete Card trigger */}
                     <button
                       onClick={() => handleRemoveCard(card.id, card.brand, card.last4)}
-                      className="text-zinc-350 hover:text-red-500 p-1.5 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900/60 transition-colors cursor-pointer"
+                      className="text-zinc-300 hover:text-red-500 p-1.5 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900/60 transition-colors cursor-pointer"
                       title="Remove card"
                     >
                       <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -341,7 +341,7 @@ export default function DashboardPaymentsClient() {
                       {/* info */}
                       <div>
                         <div className="flex flex-wrap items-center gap-2.5">
-                          <span className="text-xs font-extrabold text-zinc-850 dark:text-white">
+                          <span className="text-xs font-extrabold text-zinc-800 dark:text-white">
                             {b.number}
                           </span>
                           {b.isVerified && (
@@ -370,7 +370,7 @@ export default function DashboardPaymentsClient() {
                       </button>
                       <button
                         onClick={() => handleRemoveBkash(b.id, b.number)}
-                        className="text-xs font-bold text-red-650 hover:text-red-500 px-3 py-2 cursor-pointer transition-colors"
+                        className="text-xs font-bold text-red-600 hover:text-red-500 px-3 py-2 cursor-pointer transition-colors"
                       >
                         Remove
                       </button>
@@ -460,7 +460,7 @@ export default function DashboardPaymentsClient() {
                     onClick={() => setModalType("card")}
                     className="border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 hover:border-blue-500 hover:bg-blue-50/10 transition-all flex flex-col items-center justify-center text-center gap-3 cursor-pointer"
                   >
-                    <svg className="h-6 w-6 text-zinc-550" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                    <svg className="h-6 w-6 text-zinc-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-19.5 8.25h12.75M2.25 5.25h16.5c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125H3.375a1.125 1.125 0 01-1.12-1.125V6.375c0-.621.504-1.125 1.125-1.125z" />
                     </svg>
                     <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200">Credit / Debit Card</span>
@@ -488,7 +488,7 @@ export default function DashboardPaymentsClient() {
 
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-zinc-650 dark:text-zinc-400">Card Number *</label>
+                    <label className="text-zinc-600 dark:text-zinc-400">Card Number *</label>
                     <input
                       type="text"
                       required
@@ -501,7 +501,7 @@ export default function DashboardPaymentsClient() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-zinc-650 dark:text-zinc-400">Expiry Date (MM/YYYY) *</label>
+                      <label className="text-zinc-600 dark:text-zinc-400">Expiry Date (MM/YYYY) *</label>
                       <input
                         type="text"
                         required
@@ -512,7 +512,7 @@ export default function DashboardPaymentsClient() {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-zinc-650 dark:text-zinc-400">CVC *</label>
+                      <label className="text-zinc-600 dark:text-zinc-400">CVC *</label>
                       <input
                         type="text"
                         required
@@ -526,7 +526,7 @@ export default function DashboardPaymentsClient() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-zinc-650 dark:text-zinc-400">Card Provider (Auto-detected)</label>
+                    <label className="text-zinc-600 dark:text-zinc-400">Card Provider (Auto-detected)</label>
                     <div className="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/50 px-3.5 py-2.5 font-bold text-zinc-700 dark:text-zinc-300">
                       {cardBrand}
                     </div>
@@ -537,7 +537,7 @@ export default function DashboardPaymentsClient() {
                   <button
                     type="button"
                     onClick={() => setModalType("select")}
-                    className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 px-4 py-2.5 text-xs font-bold text-zinc-750 dark:text-zinc-350 cursor-pointer"
+                    className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer"
                   >
                     Back
                   </button>
@@ -563,7 +563,7 @@ export default function DashboardPaymentsClient() {
 
                 <div className="space-y-4">
                   <div className="space-y-1.5">
-                    <label className="text-zinc-650 dark:text-zinc-400">bKash Account Number *</label>
+                    <label className="text-zinc-600 dark:text-zinc-400">bKash Account Number *</label>
                     <input
                       type="tel"
                       required
@@ -579,7 +579,7 @@ export default function DashboardPaymentsClient() {
                   <button
                     type="button"
                     onClick={() => setModalType("select")}
-                    className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 px-4 py-2.5 text-xs font-bold text-zinc-750 dark:text-zinc-350 cursor-pointer"
+                    className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer"
                   >
                     Back
                   </button>

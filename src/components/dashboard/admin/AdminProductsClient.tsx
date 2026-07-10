@@ -409,7 +409,7 @@ export default function AdminProductsClient() {
 
   const renderInventoryIndicator = (item: ProductItem) => {
     if (item.inventoryType === "untracked") {
-      return <span className="text-zinc-400 dark:text-zinc-550 italic text-xs font-semibold">Not tracked</span>;
+      return <span className="text-zinc-400 dark:text-zinc-500 italic text-xs font-semibold">Not tracked</span>;
     }
 
     let progressColor = "bg-emerald-500";
@@ -438,19 +438,19 @@ export default function AdminProductsClient() {
     switch (status) {
       case "Published":
         return (
-          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-450 border border-emerald-100/50 dark:border-emerald-950/20">
+          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-100/50 dark:border-emerald-950/20">
             Published
           </span>
         );
       case "Draft":
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-550/10 px-2.5 py-1 text-xs font-bold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800">
+          <span className="inline-flex items-center rounded-full bg-zinc-500/10 px-2.5 py-1 text-xs font-bold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800">
             Draft
           </span>
         );
       case "Out of Stock":
         return (
-          <span className="inline-flex items-center rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-red-650 dark:bg-red-950/25 dark:text-red-400 border border-red-100 dark:border-red-950/20">
+          <span className="inline-flex items-center rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-red-600 dark:bg-red-950/25 dark:text-red-400 border border-red-100 dark:border-red-950/20">
             Out of Stock
           </span>
         );
@@ -480,7 +480,7 @@ export default function AdminProductsClient() {
           {/* Import / Export Outline Button */}
           <button
             onClick={handleImportExport}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-xs transition-all duration-200 cursor-pointer"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-xs transition-all duration-200 cursor-pointer"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 004.5 9.75v7.5a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-.75m-6-3h10.5m0 0L17.25 10.5M21 13.5L17.25 16.5" />
@@ -531,7 +531,7 @@ export default function AdminProductsClient() {
                 setSelectedCategory(e.target.value);
                 setCurrentPage(1);
               }}
-              className="appearance-none rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100/50 px-4 py-2.5 pr-9 text-xs font-extrabold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-955 dark:hover:bg-zinc-900 dark:text-zinc-300 transition-all cursor-pointer focus:outline-none"
+              className="appearance-none rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100/50 px-4 py-2.5 pr-9 text-xs font-extrabold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900 dark:text-zinc-300 transition-all cursor-pointer focus:outline-none"
             >
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
@@ -552,7 +552,7 @@ export default function AdminProductsClient() {
                 setSelectedStatus(e.target.value);
                 setCurrentPage(1);
               }}
-              className="appearance-none rounded-xl border border-zinc-250 bg-zinc-50/50 hover:bg-zinc-100/50 px-4 py-2.5 pr-9 text-xs font-extrabold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-955 dark:hover:bg-zinc-900 dark:text-zinc-300 transition-all cursor-pointer focus:outline-none"
+              className="appearance-none rounded-xl border border-zinc-250 bg-zinc-50/50 hover:bg-zinc-100/50 px-4 py-2.5 pr-9 text-xs font-extrabold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900 dark:text-zinc-300 transition-all cursor-pointer focus:outline-none"
             >
               {statuses.map((st) => (
                 <option key={st} value={st}>
@@ -571,7 +571,7 @@ export default function AdminProductsClient() {
           {/* Advanced Filter adjustments button */}
           <button
             onClick={() => toast.info("Advanced filter options coming soon!")}
-            className="rounded-xl border border-zinc-200 hover:bg-zinc-550/5 p-2.5 dark:border-zinc-800 dark:hover:bg-zinc-900 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-all cursor-pointer"
+            className="rounded-xl border border-zinc-200 hover:bg-zinc-500/5 p-2.5 dark:border-zinc-800 dark:hover:bg-zinc-900 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-all cursor-pointer"
             title="Filter Adjustments"
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -582,7 +582,7 @@ export default function AdminProductsClient() {
           {/* Grid/List Layout Mode button */}
           <button
             onClick={() => toast.info("Layout mode change coming soon!")}
-            className="rounded-xl border border-zinc-200 hover:bg-zinc-550/5 p-2.5 dark:border-zinc-800 dark:hover:bg-zinc-900 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-all cursor-pointer"
+            className="rounded-xl border border-zinc-200 hover:bg-zinc-500/5 p-2.5 dark:border-zinc-800 dark:hover:bg-zinc-900 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-all cursor-pointer"
             title="Layout Mode"
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -596,9 +596,9 @@ export default function AdminProductsClient() {
       {/* PRODUCTS TABLE CARD */}
       <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800 rounded-3xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-850">
+          <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-800">
             <thead>
-              <tr className="bg-zinc-50/50 dark:bg-zinc-900/30 text-left text-[11px] font-bold text-zinc-400 dark:text-zinc-550 uppercase tracking-widest">
+              <tr className="bg-zinc-50/50 dark:bg-zinc-900/30 text-left text-[11px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
                 <th className="py-4 pl-6 w-12">
                   <input
                     type="checkbox"
@@ -616,12 +616,12 @@ export default function AdminProductsClient() {
                 <th className="py-4 pr-6 text-right w-16">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-850 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
               {isLoading ? (
                 <tr>
                   <td colSpan={8} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold">
                     <div className="flex flex-col items-center justify-center gap-3">
-                      <svg className="animate-spin h-6 w-6 text-blue-650" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
@@ -641,7 +641,7 @@ export default function AdminProductsClient() {
                   return (
                     <tr
                       key={p.id}
-                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-850/10 transition-colors ${
+                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-800/10 transition-colors ${
                         isSelected ? "bg-blue-50/20 dark:bg-blue-950/5" : ""
                       }`}
                     >
@@ -670,7 +670,7 @@ export default function AdminProductsClient() {
                             <span className="font-extrabold text-zinc-900 dark:text-white hover:text-blue-600 transition-colors cursor-pointer leading-tight">
                               {p.name}
                             </span>
-                            <span className="text-[10px] text-zinc-450 dark:text-zinc-500 font-bold mt-1 flex items-center gap-2 uppercase tracking-wide">
+                            <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-bold mt-1 flex items-center gap-2 uppercase tracking-wide">
                               {p.brand && `${p.brand} • `}{p.category}
                               {p.variantsText && (
                                 <button
@@ -717,17 +717,17 @@ export default function AdminProductsClient() {
 
                       {/* Media icons column */}
                       <td className="py-4 px-4">
-                        <div className="flex items-center gap-2 text-zinc-350 dark:text-zinc-650">
+                        <div className="flex items-center gap-2 text-zinc-300 dark:text-zinc-600">
                           {/* Image Icon */}
-                          <svg className={`h-4 w-4 ${p.media?.image || p.image ? "text-blue-500 dark:text-blue-450" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                          <svg className={`h-4 w-4 ${p.media?.image || p.image ? "text-blue-500 dark:text-blue-400" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                           </svg>
                           {/* Video Icon */}
-                          <svg className={`h-4 w-4 ${p.media?.video ? "text-blue-500 dark:text-blue-450" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                          <svg className={`h-4 w-4 ${p.media?.video ? "text-blue-500 dark:text-blue-400" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25zM15.75 9l-4.5 3m0 0l4.5 3m-4.5-3h6.75" />
                           </svg>
                           {/* 3D-box Icon */}
-                          <svg className={`h-4 w-4 ${p.media?.threeD ? "text-blue-500 dark:text-blue-450" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                          <svg className={`h-4 w-4 ${p.media?.threeD ? "text-blue-500 dark:text-blue-400" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
                           </svg>
                         </div>
@@ -745,7 +745,7 @@ export default function AdminProductsClient() {
                             e.stopPropagation();
                             setActiveMenuId(prev => prev === p.id ? null : p.id);
                           }}
-                          className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-650 dark:hover:bg-zinc-800 dark:hover:text-zinc-300 transition-colors cursor-pointer"
+                          className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300 transition-colors cursor-pointer"
                         >
                           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
@@ -792,15 +792,15 @@ export default function AdminProductsClient() {
 
         {/* Footer pagination panels */}
         {totalItems > 10 && (
-          <div className="bg-zinc-50/30 dark:bg-zinc-900/30 px-6 py-4 border-t border-zinc-100 dark:border-zinc-850 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="bg-zinc-50/30 dark:bg-zinc-900/30 px-6 py-4 border-t border-zinc-100 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-4">
-              <span className="text-xs font-bold text-zinc-400 dark:text-zinc-550">
+              <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500">
                 Showing {totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} products
               </span>
               
               {/* Rows Per Page Selector */}
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-400 dark:text-zinc-550">Limit:</span>
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Limit:</span>
                 <div className="relative">
                   <select
                     value={itemsPerPage}
@@ -828,8 +828,8 @@ export default function AdminProductsClient() {
                 disabled={currentPage === 1}
                 className={`rounded-xl border px-3.5 py-2 text-xs font-extrabold transition-all cursor-pointer ${
                   currentPage === 1
-                    ? "border-zinc-200 dark:border-zinc-850 text-zinc-400 dark:text-zinc-650 cursor-not-allowed bg-zinc-50/20 dark:bg-zinc-900/10"
-                    : "border-zinc-250 dark:border-zinc-850 hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
+                    ? "border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed bg-zinc-50/20 dark:bg-zinc-900/10"
+                    : "border-zinc-250 dark:border-zinc-800 hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
                 }`}
               >
                 Previous
@@ -852,7 +852,7 @@ export default function AdminProductsClient() {
                     className={`rounded-xl px-3.5 py-2 text-xs font-black shadow-xs transition-all cursor-pointer ${
                       isPageActive
                         ? "bg-blue-600 text-white shadow-blue-500/10 animate-fade-in"
-                        : "border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-850 text-zinc-700 dark:text-zinc-300"
+                        : "border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
                     }`}
                   >
                     {page}
@@ -866,8 +866,8 @@ export default function AdminProductsClient() {
                 disabled={currentPage === totalPages}
                 className={`rounded-xl border px-3.5 py-2 text-xs font-extrabold transition-all cursor-pointer ${
                   currentPage === totalPages
-                    ? "border-zinc-200 dark:border-zinc-850 text-zinc-400 dark:text-zinc-650 cursor-not-allowed bg-zinc-50/20 dark:bg-zinc-900/10"
-                    : "border-zinc-250 dark:border-zinc-850 hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
+                    ? "border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed bg-zinc-50/20 dark:bg-zinc-900/10"
+                    : "border-zinc-250 dark:border-zinc-800 hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
                 }`}
               >
                 Next
@@ -881,7 +881,7 @@ export default function AdminProductsClient() {
       {/* Create Product Dialog/Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300">
-          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto transform rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto transform rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 mb-5">
@@ -1067,7 +1067,7 @@ export default function AdminProductsClient() {
               <div className="grid grid-cols-2 gap-4">
                 {/* Inventory Count */}
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 dark:text-zinc-500 mb-1.5">
+                  <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
                     Inventory Count (Stock)
                   </label>
                   <input
@@ -1129,7 +1129,7 @@ export default function AdminProductsClient() {
                               if (img.preview.startsWith("blob:")) URL.revokeObjectURL(img.preview);
                               setProductImages(prev => prev.filter((_, i) => i !== index));
                             }}
-                            className="rounded-full bg-red-650 hover:bg-red-500 p-2 text-white transition-all shadow-md cursor-pointer"
+                            className="rounded-full bg-red-600 hover:bg-red-500 p-2 text-white transition-all shadow-md cursor-pointer"
                             title="Remove Image"
                           >
                             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -1179,7 +1179,7 @@ export default function AdminProductsClient() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="flex-1 rounded-xl border border-zinc-250 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-905 transition-colors cursor-pointer"
+                  className="flex-1 rounded-xl border border-zinc-250 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -1199,14 +1199,14 @@ export default function AdminProductsClient() {
       {/* Delete Confirmation Modal */}
       {deleteConfirmId && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300">
-          <div className="w-full max-w-sm transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
+          <div className="w-full max-w-sm transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
             <h3 className="text-base font-bold text-zinc-950 dark:text-white flex items-center gap-2">
               <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               Confirm Delete
             </h3>
-            <p className="text-xs text-zinc-550 dark:text-zinc-400 mt-2.5 leading-relaxed">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2.5 leading-relaxed">
               Are you sure you want to delete <span className="font-extrabold text-zinc-900 dark:text-white">"{deleteConfirmName}"</span>? This action is permanent and cannot be undone.
             </p>
             <div className="flex items-center gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-900 mt-5">
@@ -1215,13 +1215,13 @@ export default function AdminProductsClient() {
                   setDeleteConfirmId(null);
                   setDeleteConfirmName("");
                 }}
-                className="flex-1 rounded-xl border border-zinc-250 py-2 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-850 transition-colors cursor-pointer"
+                className="flex-1 rounded-xl border border-zinc-250 py-2 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDeleteProduct(deleteConfirmId)}
-                className="flex-1 rounded-xl bg-red-650 hover:bg-red-550 py-2 text-xs font-extrabold text-white shadow-sm shadow-red-500/10 transition-colors cursor-pointer"
+                className="flex-1 rounded-xl bg-red-600 hover:bg-red-500 py-2 text-xs font-extrabold text-white shadow-sm shadow-red-500/10 transition-colors cursor-pointer"
               >
                 Delete
               </button>

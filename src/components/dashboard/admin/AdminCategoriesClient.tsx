@@ -271,7 +271,7 @@ export default function AdminCategoriesClient() {
     switch (type) {
       case "electronics":
         return (
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-800">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
             <svg className="h-4.5 w-4.5 text-zinc-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25M18 12H6" />
             </svg>
@@ -279,7 +279,7 @@ export default function AdminCategoriesClient() {
         );
       case "laptops":
         return (
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-800">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
             <svg className="h-4.5 w-4.5 text-zinc-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
             </svg>
@@ -287,7 +287,7 @@ export default function AdminCategoriesClient() {
         );
       case "clothing":
         return (
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-800">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
             <svg className="h-4.5 w-4.5 text-zinc-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5a2.5 2.5 0 00-4.96-.458L2.25 9.75 2.25 21a1.5 1.5 0 001.5 1.5h16.5a1.5 1.5 0 001.5-1.5V9.75l-4.79-5.708A2.5 2.5 0 0012 4.5z" />
             </svg>
@@ -295,7 +295,7 @@ export default function AdminCategoriesClient() {
         );
       default:
         return (
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-800">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
             <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.5 1.5 0 002.122 0l4.72-4.72a1.5 1.5 0 000-2.122L10.49 3.659A2.25 2.25 0 008.902 3H9.57zM6 7.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
             </svg>
@@ -314,7 +314,7 @@ export default function AdminCategoriesClient() {
         );
       case "Draft":
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-1 text-[10px] font-bold text-zinc-650 dark:bg-zinc-800 dark:text-zinc-400">
+          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-1 text-[10px] font-bold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
             Draft
           </span>
         );
@@ -338,7 +338,7 @@ export default function AdminCategoriesClient() {
             <svg className="h-3 w-3 text-zinc-300" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
-            <span className="text-zinc-600 dark:text-zinc-350">Categories</span>
+            <span className="text-zinc-600 dark:text-zinc-300">Categories</span>
           </nav>
           <h1 className="text-2xl font-black text-zinc-950 dark:text-white mt-1">Categories</h1>
         </div>
@@ -346,7 +346,7 @@ export default function AdminCategoriesClient() {
         <div className="flex items-center gap-3 self-start sm:self-center">
           <button
             onClick={handleExport}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer shadow-xs transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer shadow-xs transition-colors"
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -367,7 +367,7 @@ export default function AdminCategoriesClient() {
       </div>
 
       {/* Main categories panel */}
-      <div className="rounded-3xl border border-zinc-150 bg-white dark:border-zinc-900 dark:bg-zinc-950 overflow-hidden shadow-xs">
+      <div className="rounded-3xl border border-zinc-200 bg-white dark:border-zinc-900 dark:bg-zinc-950 overflow-hidden shadow-xs">
         
         {/* Filters bar */}
         <div className="border-b border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -382,7 +382,7 @@ export default function AdminCategoriesClient() {
               placeholder="Search categories by name or slug..."
               value={filterSearch}
               onChange={(e) => setFilterSearch(e.target.value)}
-              className="w-full pl-9.5 pr-4 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-medium text-zinc-800 outline-none focus:border-zinc-350 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
+              className="w-full pl-9.5 pr-4 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-medium text-zinc-800 outline-none focus:border-zinc-300 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
             />
           </div>
 
@@ -391,7 +391,7 @@ export default function AdminCategoriesClient() {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-750 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
+              className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
             >
               <option value="All">All Statuses</option>
               <option value="Active">Active</option>
@@ -415,7 +415,7 @@ export default function AdminCategoriesClient() {
                     type="checkbox"
                     checked={selectedCategories.length === categories.length && categories.length > 0}
                     onChange={toggleSelectAll}
-                    className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-905"
+                    className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-900"
                   />
                 </th>
                 <th className="py-4 px-4 font-bold text-[10px]">Category</th>
@@ -429,9 +429,9 @@ export default function AdminCategoriesClient() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-550 font-bold">
+                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold">
                     <div className="flex flex-col items-center justify-center gap-3">
-                      <svg className="animate-spin h-6 w-6 text-blue-650" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
@@ -441,7 +441,7 @@ export default function AdminCategoriesClient() {
                 </tr>
               ) : filteredCategories.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-550 font-bold">
+                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold">
                     No categories found. Click "Create Category" to add one.
                   </td>
                 </tr>
@@ -451,7 +451,7 @@ export default function AdminCategoriesClient() {
                   return (
                     <tr
                       key={c.id}
-                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-850/10 transition-colors ${
+                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-800/10 transition-colors ${
                         isSelected ? "bg-blue-50/20 dark:bg-blue-950/5" : ""
                       }`}
                     >
@@ -481,11 +481,11 @@ export default function AdminCategoriesClient() {
                       </td>
 
                       {/* Parent category */}
-                      <td className="py-4 px-4 text-xs font-bold text-zinc-650 dark:text-zinc-400">
+                      <td className="py-4 px-4 text-xs font-bold text-zinc-600 dark:text-zinc-400">
                         {c.parent === "--" ? (
-                          <span className="text-zinc-350 dark:text-zinc-600">--</span>
+                          <span className="text-zinc-300 dark:text-zinc-600">--</span>
                         ) : (
-                          <span className="inline-flex items-center rounded-md bg-zinc-50 border border-zinc-150 px-2 py-0.5 text-[10px] font-bold text-zinc-600 dark:bg-zinc-900 dark:border-zinc-850 dark:text-zinc-450">
+                          <span className="inline-flex items-center rounded-md bg-zinc-50 border border-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-600 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-400">
                             {c.parent}
                           </span>
                         )}
@@ -504,7 +504,7 @@ export default function AdminCategoriesClient() {
                       {/* Visibility */}
                       <td className="py-4 px-4">
                         {!c.visibility.web && !c.visibility.mobile ? (
-                          <span className="text-[10px] text-zinc-400 dark:text-zinc-550 italic font-semibold">
+                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500 italic font-semibold">
                             Hidden
                           </span>
                         ) : (
@@ -533,7 +533,7 @@ export default function AdminCategoriesClient() {
                           <button
                             type="button"
                             onClick={() => handleStartEdit(c)}
-                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-650 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
                             title="Edit Category"
                           >
                             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -546,7 +546,7 @@ export default function AdminCategoriesClient() {
                               e.stopPropagation();
                               setActiveMenuId((prev) => (prev === c.id ? null : c.id));
                             }}
-                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-650 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
                           >
                             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
@@ -575,7 +575,7 @@ export default function AdminCategoriesClient() {
                                 setDeleteConfirmName(c.name);
                                 setActiveMenuId(null);
                               }}
-                              className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-bold text-red-655 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/20 transition-colors cursor-pointer text-left"
+                              className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-bold text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/20 transition-colors cursor-pointer text-left"
                             >
                               <svg className="h-4 w-4 text-red-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -596,7 +596,7 @@ export default function AdminCategoriesClient() {
 
         {/* Footer pagination */}
         <div className="border-t border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-550">
+          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500">
             Showing 1 to {filteredCategories.length} of {categories.length} categories
           </span>
 
@@ -604,7 +604,7 @@ export default function AdminCategoriesClient() {
             {/* Prev */}
             <button
               onClick={() => toast.info("Opening previous page...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
             >
               &lt;
             </button>
@@ -617,7 +617,7 @@ export default function AdminCategoriesClient() {
             {/* 2 */}
             <button
               onClick={() => toast.info("Opening page 2...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
             >
               2
             </button>
@@ -627,7 +627,7 @@ export default function AdminCategoriesClient() {
             {/* Next */}
             <button
               onClick={() => toast.info("Opening next page...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
             >
               &gt;
             </button>
@@ -639,7 +639,7 @@ export default function AdminCategoriesClient() {
       {/* Add / Update Category Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300 animate-fade-in">
-          <div className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
+          <div className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 mb-5">
@@ -789,8 +789,8 @@ export default function AdminCategoriesClient() {
                 <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2">
                   Visibility / Publishing Channels
                 </label>
-                <div className="flex items-center gap-6 rounded-xl border border-zinc-150 dark:border-zinc-850 p-3 bg-zinc-50/50 dark:bg-zinc-900">
-                  <label className="flex items-center gap-2 text-xs font-bold text-zinc-750 dark:text-zinc-300 cursor-pointer">
+                <div className="flex items-center gap-6 rounded-xl border border-zinc-200 dark:border-zinc-800 p-3 bg-zinc-50/50 dark:bg-zinc-900">
+                  <label className="flex items-center gap-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={visWeb}
@@ -800,7 +800,7 @@ export default function AdminCategoriesClient() {
                     <span>Web/Desktop Storefront</span>
                   </label>
 
-                  <label className="flex items-center gap-2 text-xs font-bold text-zinc-750 dark:text-zinc-300 cursor-pointer">
+                  <label className="flex items-center gap-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={visMobile}
@@ -817,7 +817,7 @@ export default function AdminCategoriesClient() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="flex-1 rounded-xl border border-zinc-250 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-905 transition-colors cursor-pointer"
+                  className="flex-1 rounded-xl border border-zinc-250 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -837,14 +837,14 @@ export default function AdminCategoriesClient() {
       {/* Delete Confirmation Modal */}
       {deleteConfirmId && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300">
-          <div className="w-full max-w-sm transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
+          <div className="w-full max-w-sm transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
             <h3 className="text-base font-bold text-zinc-950 dark:text-white flex items-center gap-2">
               <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               Confirm Delete
             </h3>
-            <p className="text-xs text-zinc-550 dark:text-zinc-400 mt-2.5 leading-relaxed">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-2.5 leading-relaxed">
               Are you sure you want to delete category <span className="font-extrabold text-zinc-900 dark:text-white">"{deleteConfirmName}"</span>? This action cannot be undone.
             </p>
             <div className="flex items-center gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-900 mt-5">
@@ -853,13 +853,13 @@ export default function AdminCategoriesClient() {
                   setDeleteConfirmId(null);
                   setDeleteConfirmName("");
                 }}
-                className="flex-1 rounded-xl border border-zinc-250 py-2 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-850 transition-colors cursor-pointer"
+                className="flex-1 rounded-xl border border-zinc-250 py-2 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDeleteCategory(deleteConfirmId)}
-                className="flex-1 rounded-xl bg-red-655 hover:bg-red-550 py-2 text-xs font-extrabold text-white shadow-sm shadow-red-500/10 transition-colors cursor-pointer"
+                className="flex-1 rounded-xl bg-red-600 hover:bg-red-500 py-2 text-xs font-extrabold text-white shadow-sm shadow-red-500/10 transition-colors cursor-pointer"
               >
                 Delete
               </button>

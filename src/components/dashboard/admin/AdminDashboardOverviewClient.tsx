@@ -22,9 +22,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{label}</p>
         <div className="space-y-0.5">
           <p className="text-sm font-black text-zinc-950 dark:text-white">
-            Revenue: <span className="text-blue-650 dark:text-blue-400">${Number(payload[0].value).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+            Revenue: <span className="text-blue-600 dark:text-blue-400">${Number(payload[0].value).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
           </p>
-          <p className="text-xs font-bold text-zinc-550 dark:text-zinc-400">
+          <p className="text-xs font-bold text-zinc-500 dark:text-zinc-400">
             Sales Volume: <span className="text-zinc-700 dark:text-zinc-300">{payload[0].payload.Orders || 0} orders</span>
           </p>
         </div>
@@ -45,41 +45,7 @@ interface Order {
   createdAt: string;
 }
 
-const TOP_PRODUCTS = [
-  {
-    name: "Pro Wireless Mouse",
-    sales: "1,240 sales",
-    amount: "$12,400",
-    growth: "+12%",
-    icon: (
-      <svg className="h-5 w-5 text-zinc-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
-      </svg>
-    ),
-  },
-  {
-    name: "Noise Cancelling Buds",
-    sales: "754 sales",
-    amount: "$19,640",
-    growth: "+8%",
-    icon: (
-      <svg className="h-5 w-5 text-zinc-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z" />
-      </svg>
-    ),
-  },
-  {
-    name: "Smart Watch Series 5",
-    sales: "620 sales",
-    amount: "$22,620",
-    growth: "+5%",
-    icon: (
-      <svg className="h-5 w-5 text-zinc-500" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-  },
-];
+
 
 export default function AdminDashboardOverviewClient() {
   const API_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
@@ -89,6 +55,7 @@ export default function AdminDashboardOverviewClient() {
   const [productsCount, setProductsCount] = useState(0);
   const [usersCount, setUsersCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [topProducts, setTopProducts] = useState<{ id: string; name: string; price: number; category: string; inventoryCount: number; image: string }[]>([]);
 
   // Fetch dashboard stats on mount
   useEffect(() => {
@@ -106,7 +73,22 @@ export default function AdminDashboardOverviewClient() {
         const productsRes = await fetch(`${API_URL}/products`);
         const productsJson = await productsRes.json();
         if (productsJson.success && productsJson.data) {
-          setProductsCount(productsJson.data.length);
+          const allProducts = productsJson.data;
+          setProductsCount(allProducts.length);
+          // Top products = highest priced published products (proxy for high-value items)
+          const top = [...allProducts]
+            .filter((p: any) => p.status === "Published")
+            .sort((a: any, b: any) => (Number(b.price) || 0) - (Number(a.price) || 0))
+            .slice(0, 3)
+            .map((p: any) => ({
+              id: p.id,
+              name: p.name,
+              price: Number(p.price) || 0,
+              category: p.category || "General",
+              inventoryCount: p.inventoryCount || 0,
+              image: p.image || "",
+            }));
+          setTopProducts(top);
         }
 
         // Fetch Users
@@ -218,7 +200,7 @@ export default function AdminDashboardOverviewClient() {
       case "paid":
       case "completed":
         return (
-          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-450">
+          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400">
             Completed
           </span>
         );
@@ -227,7 +209,7 @@ export default function AdminDashboardOverviewClient() {
       case "packed":
       case "processing":
         return (
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-blue-600 dark:bg-blue-950/30 dark:text-blue-450">
+          <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-blue-600 dark:bg-blue-950/30 dark:text-blue-400">
             Processing
           </span>
         );
@@ -240,7 +222,7 @@ export default function AdminDashboardOverviewClient() {
         );
       default:
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-150 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-zinc-550 dark:bg-zinc-850 dark:text-zinc-500">
+          <span className="inline-flex items-center rounded-full bg-zinc-200 px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-zinc-500 dark:bg-zinc-800 dark:text-zinc-500">
             {status || "Processing"}
           </span>
         );
@@ -298,10 +280,10 @@ export default function AdminDashboardOverviewClient() {
         {/* Metric 1: Total Revenue */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2xl p-6 shadow-xs relative overflow-hidden group">
           <div className="flex justify-between items-start">
-            <span className="text-[11px] font-extrabold text-zinc-450 dark:text-zinc-550 uppercase tracking-widest">
+            <span className="text-[11px] font-extrabold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
               Total Revenue
             </span>
-            <span className="p-2 rounded-xl bg-zinc-50 dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300">
+            <span className="p-2 rounded-xl bg-zinc-50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5h16.5M5.25 7.5h13.5m-18 9h18m-19.5 0v-8A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v8" />
               </svg>
@@ -313,23 +295,23 @@ export default function AdminDashboardOverviewClient() {
             </span>
           </div>
           <div className="mt-3 flex items-center gap-1.5">
-            <span className="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-450">
+            <span className="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400">
               <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
               +14%
             </span>
-            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-550">vs last month</span>
+            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500">vs last month</span>
           </div>
         </div>
 
         {/* Metric 2: Total Orders */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2xl p-6 shadow-xs relative overflow-hidden group">
           <div className="flex justify-between items-start">
-            <span className="text-[11px] font-extrabold text-zinc-450 dark:text-zinc-550 uppercase tracking-widest">
+            <span className="text-[11px] font-extrabold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
               Total Orders
             </span>
-            <span className="p-2 rounded-xl bg-zinc-50 dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300">
+            <span className="p-2 rounded-xl bg-zinc-50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5h6.75" />
               </svg>
@@ -341,23 +323,23 @@ export default function AdminDashboardOverviewClient() {
             </span>
           </div>
           <div className="mt-3 flex items-center gap-1.5">
-            <span className="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-450">
+            <span className="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400">
               <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
               +5%
             </span>
-            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-550">vs last month</span>
+            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500">vs last month</span>
           </div>
         </div>
 
         {/* Metric 3: Active Products */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2xl p-6 shadow-xs relative overflow-hidden group">
           <div className="flex justify-between items-start">
-            <span className="text-[11px] font-extrabold text-zinc-450 dark:text-zinc-550 uppercase tracking-widest">
+            <span className="text-[11px] font-extrabold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
               Active Products
             </span>
-            <span className="p-2 rounded-xl bg-zinc-50 dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300">
+            <span className="p-2 rounded-xl bg-zinc-50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
               </svg>
@@ -369,23 +351,23 @@ export default function AdminDashboardOverviewClient() {
             </span>
           </div>
           <div className="mt-3 flex items-center gap-1.5">
-            <span className="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-450">
+            <span className="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400">
               <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
               +12%
             </span>
-            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-550">vs last month</span>
+            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500">vs last month</span>
           </div>
         </div>
 
         {/* Metric 4: Registered Customers */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2xl p-6 shadow-xs relative overflow-hidden group">
           <div className="flex justify-between items-start">
-            <span className="text-[11px] font-extrabold text-zinc-450 dark:text-zinc-550 uppercase tracking-widest">
+            <span className="text-[11px] font-extrabold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
               Registered Users
             </span>
-            <span className="p-2 rounded-xl bg-zinc-50 dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300">
+            <span className="p-2 rounded-xl bg-zinc-50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A11.386 11.386 0 0112 20.25c-1.005 0-1.97-.13-2.887-.372v-.109c0-1.113.285-2.16.786-3.07M14.25 7.5a3 3 0 11-6 0 3 3 0 016 0zM12 18.75a6.002 6.002 0 00-4-5.659V12a3 3 0 005.343-1.701A5.025 5.025 0 0112 10.5a5.025 5.025 0 011.657-.282 3 3 0 005.343 1.701v1.091a6.002 6.002 0 00-4 5.659z" />
               </svg>
@@ -397,13 +379,13 @@ export default function AdminDashboardOverviewClient() {
             </span>
           </div>
           <div className="mt-3 flex items-center gap-1.5">
-            <span className="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-450">
+            <span className="inline-flex items-center gap-0.5 rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400">
               <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
               </svg>
               +8%
             </span>
-            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-550">vs last week</span>
+            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500">vs last week</span>
           </div>
         </div>
       </div>
@@ -419,7 +401,7 @@ export default function AdminDashboardOverviewClient() {
               Live statistics vs previous period (30 days)
             </p>
           </div>
-          <span className="text-xs font-bold text-zinc-450 dark:text-zinc-500 bg-zinc-50 dark:bg-zinc-850 px-3 py-1 rounded-lg border border-zinc-150 dark:border-zinc-800">
+          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 rounded-lg border border-zinc-200 dark:border-zinc-800">
             Daily average: $4,152
           </span>
         </div>
@@ -485,7 +467,7 @@ export default function AdminDashboardOverviewClient() {
               </h3>
               <Link
                 href="/admin/dashboard/orders"
-                className="text-xs font-bold text-blue-600 dark:text-blue-450 hover:underline cursor-pointer"
+                className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
               >
                 View All
               </Link>
@@ -501,18 +483,18 @@ export default function AdminDashboardOverviewClient() {
                   No orders have been recorded in the store yet.
                 </div>
               ) : (
-                <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-850">
+                <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-800">
                   <thead>
-                    <tr className="text-left text-[10px] font-bold text-zinc-450 dark:text-zinc-550 uppercase tracking-wider">
+                    <tr className="text-left text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
                       <th className="pb-3 pl-2">Order ID</th>
                       <th className="pb-3">Customer</th>
                       <th className="pb-3">Status</th>
                       <th className="pb-3 text-right pr-2">Amount</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-zinc-100 dark:divide-zinc-850 text-xs font-bold text-zinc-700 dark:text-zinc-300">
+                  <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800 text-xs font-bold text-zinc-700 dark:text-zinc-300">
                     {displayOrders.map((ord) => (
-                      <tr key={ord.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-850/20 transition-colors">
+                      <tr key={ord.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 transition-colors">
                         <td className="py-4 pl-2 text-zinc-900 dark:text-white font-extrabold">
                           #{ord.orderId || ord.id.slice(0, 8)}
                         </td>
@@ -536,41 +518,64 @@ export default function AdminDashboardOverviewClient() {
             <h3 className="text-sm font-extrabold uppercase tracking-wider text-zinc-900 dark:text-white font-serif">
               Top Products
             </h3>
-            <svg className="h-4.5 w-4.5 text-zinc-450" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+            <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
             </svg>
           </div>
 
           <div className="space-y-5 flex-1 flex flex-col justify-between">
-            {TOP_PRODUCTS.map((prod) => (
-              <div key={prod.name} className="flex items-center justify-between hover:bg-zinc-50/50 dark:hover:bg-zinc-850/20 p-2 rounded-xl transition-colors">
-                <div className="flex items-center gap-3">
-                  <span className="p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300 shadow-xs border border-zinc-100 dark:border-zinc-800">
-                    {prod.icon}
-                  </span>
-                  <div>
-                    <h4 className="text-xs font-extrabold text-zinc-850 dark:text-zinc-200">
-                      {prod.name}
-                    </h4>
-                    <span className="text-[10px] font-semibold text-zinc-450 dark:text-zinc-500">
-                      {prod.sales}
+            {isLoading ? (
+              // Skeleton loader
+              [1, 2, 3].map((i) => (
+                <div key={i} className="flex items-center justify-between p-2 animate-pulse">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800" />
+                    <div className="space-y-1.5">
+                      <div className="h-3 w-28 bg-zinc-100 dark:bg-zinc-800 rounded" />
+                      <div className="h-2 w-16 bg-zinc-100 dark:bg-zinc-800 rounded" />
+                    </div>
+                  </div>
+                  <div className="text-right space-y-1">
+                    <div className="h-3 w-14 bg-zinc-100 dark:bg-zinc-800 rounded ml-auto" />
+                    <div className="h-2 w-8 bg-zinc-100 dark:bg-zinc-800 rounded ml-auto" />
+                  </div>
+                </div>
+              ))
+            ) : topProducts.length === 0 ? (
+              <div className="flex flex-col items-center justify-center flex-1 py-6 text-center">
+                <svg className="h-10 w-10 text-zinc-300 dark:text-zinc-700 mb-2" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                </svg>
+                <p className="text-xs font-semibold text-zinc-400">No published products yet</p>
+              </div>
+            ) : (
+              topProducts.map((prod, idx) => (
+                <div key={prod.id} className="flex items-center justify-between hover:bg-zinc-50/50 dark:hover:bg-zinc-800/20 p-2 rounded-xl transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 shadow-xs border border-zinc-100 dark:border-zinc-800 text-xs font-black w-9 h-9 flex items-center justify-center">
+                      #{idx + 1}
+                    </span>
+                    <div>
+                      <h4 className="text-xs font-extrabold text-zinc-800 dark:text-zinc-200 truncate max-w-[120px]">
+                        {prod.name}
+                      </h4>
+                      <span className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-500">
+                        {prod.category} · {prod.inventoryCount} in stock
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <span className="text-xs font-extrabold text-zinc-900 dark:text-white block">
+                      ${prod.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                    </span>
+                    <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400">
+                      Published
                     </span>
                   </div>
                 </div>
-
-                <div className="text-right">
-                  <span className="text-xs font-extrabold text-zinc-900 dark:text-white block">
-                    {prod.amount}
-                  </span>
-                  <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-450 flex items-center justify-end gap-0.5">
-                    <svg className="h-2 w-2" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                    </svg>
-                    {prod.growth}
-                  </span>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 

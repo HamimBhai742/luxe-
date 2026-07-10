@@ -140,7 +140,7 @@ export default function DashboardWishlistClient() {
     return (
       <div className="space-y-8 pb-16 flex flex-col items-center justify-center min-h-[50vh]">
         <div className="h-10 w-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-zinc-550 dark:text-zinc-400 font-bold font-serif text-sm tracking-wide">Loading your wishlist...</p>
+        <p className="text-zinc-500 dark:text-zinc-400 font-bold font-serif text-sm tracking-wide">Loading your wishlist...</p>
       </div>
     );
   }
@@ -161,7 +161,7 @@ export default function DashboardWishlistClient() {
             </h1>
             <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
               You have{" "}
-              <span className="text-blue-600 dark:text-blue-450 font-bold">
+              <span className="text-blue-600 dark:text-blue-400 font-bold">
                 {wishlist.length} {wishlist.length === 1 ? "item" : "items"}
               </span>{" "}
               saved for later.
@@ -173,13 +173,13 @@ export default function DashboardWishlistClient() {
             <select
               value={sortOption}
               onChange={(e) => setSortOption(e.target.value)}
-              className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-200 outline-none shadow-xs transition-colors cursor-pointer appearance-none pr-8"
+              className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-200 outline-none shadow-xs transition-colors cursor-pointer appearance-none pr-8"
             >
               <option>Recently Added</option>
               <option>Price: Low to High</option>
               <option>Price: High to Low</option>
             </select>
-            <svg className="absolute right-3.5 top-3.5 h-3.5 w-3.5 text-zinc-450 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+            <svg className="absolute right-3.5 top-3.5 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
             </svg>
           </div>
@@ -187,11 +187,11 @@ export default function DashboardWishlistClient() {
 
         {/* Wishlist grid list */}
         {wishlist.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center rounded-3xl bg-white dark:bg-zinc-900/50 border border-zinc-150 p-8 shadow-xs">
+          <div className="flex flex-col items-center justify-center py-20 text-center rounded-3xl bg-white dark:bg-zinc-900/50 border border-zinc-200 p-8 shadow-xs">
             <svg className="h-14 w-14 text-zinc-300 mb-3" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
             </svg>
-            <h3 className="text-sm font-bold text-zinc-905 dark:text-white">Your wishlist is empty</h3>
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-white">Your wishlist is empty</h3>
             <p className="mt-1 text-xs text-zinc-400">Save products you like to view or checkout later.</p>
           </div>
         ) : (
@@ -221,7 +221,7 @@ export default function DashboardWishlistClient() {
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wide">{item.category}</span>
-                    <h4 className="text-xs font-bold text-zinc-850 dark:text-white mt-1 leading-snug truncate group-hover:text-blue-600 transition-colors">
+                    <h4 className="text-xs font-bold text-zinc-800 dark:text-white mt-1 leading-snug truncate group-hover:text-blue-600 transition-colors">
                       {item.name}
                     </h4>
                   </div>
@@ -264,7 +264,7 @@ export default function DashboardWishlistClient() {
           <select
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
-            className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-[10px] font-bold text-zinc-650 outline-none shadow-xs cursor-pointer"
+            className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-[10px] font-bold text-zinc-600 outline-none shadow-xs cursor-pointer"
           >
             <option>Recently Added</option>
             <option>Price</option>
@@ -273,7 +273,7 @@ export default function DashboardWishlistClient() {
 
         {/* Wishlist grid items */}
         {wishlist.length === 0 ? (
-          <div className="mx-4 my-6 py-12 text-center rounded-2xl bg-white border border-zinc-150 p-6 shadow-sm">
+          <div className="mx-4 my-6 py-12 text-center rounded-2xl bg-white border border-zinc-200 p-6 shadow-sm">
             <span className="text-xs font-bold text-zinc-400">Your wishlist is empty</span>
           </div>
         ) : (
@@ -281,13 +281,13 @@ export default function DashboardWishlistClient() {
             {wishlist.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-col bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs relative"
+                className="flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs relative"
               >
                 
                 {/* Delete button top right */}
                 <button
                   onClick={() => handleRemoveItem(item.id, item.name)}
-                  className="absolute top-2 right-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 shadow-xs text-zinc-550 hover:text-red-500 cursor-pointer"
+                  className="absolute top-2 right-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white/90 shadow-xs text-zinc-500 hover:text-red-500 cursor-pointer"
                 >
                   <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -302,7 +302,7 @@ export default function DashboardWishlistClient() {
                 {/* Info */}
                 <div className="p-3 flex-1 flex flex-col justify-between gap-3">
                   <div>
-                    <h4 className="text-xs font-bold text-zinc-850 dark:text-white truncate">
+                    <h4 className="text-xs font-bold text-zinc-800 dark:text-white truncate">
                       {item.name}
                     </h4>
                     <span className="text-xs font-black text-zinc-900 dark:text-zinc-100 block mt-1">
@@ -327,7 +327,7 @@ export default function DashboardWishlistClient() {
       {/* ========================================================================= */}
       {/* SIMILAR PRODUCTS YOU MIGHT LIKE (CAROUSEL GRID) */}
       {/* ========================================================================= */}
-      <div className="pt-10 border-t border-zinc-150 dark:border-zinc-800 mx-4 sm:mx-0">
+      <div className="pt-10 border-t border-zinc-200 dark:border-zinc-800 mx-4 sm:mx-0">
         
         {/* Heading arrows */}
         <div className="flex justify-between items-center mb-6">
@@ -364,7 +364,7 @@ export default function DashboardWishlistClient() {
             <div
               key={prod.id}
               onClick={() => handleAddToWishlist(prod)}
-              className="group flex flex-col bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs hover:shadow-sm hover:border-zinc-350 dark:hover:border-zinc-750 transition-all duration-300 cursor-pointer"
+              className="group flex flex-col bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs hover:shadow-sm hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-300 cursor-pointer"
             >
               {/* Image box */}
               <div className="aspect-square w-full bg-zinc-50 dark:bg-zinc-950 p-4 flex items-center justify-center relative">
@@ -392,7 +392,7 @@ export default function DashboardWishlistClient() {
       {/* ========================================================================= */}
       {/* MOBILE NAVIGATION DOCK */}
       {/* ========================================================================= */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-zinc-950 border-t border-zinc-150 dark:border-zinc-900 px-6 py-2 shadow-lg">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-900 px-6 py-2 shadow-lg">
         <div className="flex items-center justify-between text-zinc-400">
           <Link href="/" onClick={() => setActiveMobileTab("home")} className="flex flex-col items-center gap-0.5 transition-colors">
             <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
@@ -409,7 +409,7 @@ export default function DashboardWishlistClient() {
           <button
             onClick={() => setActiveMobileTab("wishlist")}
             className={`flex h-9 w-9 items-center justify-center rounded-full cursor-pointer transition-all shadow-xs ${
-              activeMobileTab === "wishlist" ? "bg-blue-600 text-white" : "text-zinc-450 hover:bg-zinc-55"
+              activeMobileTab === "wishlist" ? "bg-blue-600 text-white" : "text-zinc-400 hover:bg-zinc-55"
             }`}
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">

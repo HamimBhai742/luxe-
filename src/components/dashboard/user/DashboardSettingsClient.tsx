@@ -349,7 +349,7 @@ function DashboardSettingsForm({ profile }: { profile: TUserProfile }) {
                       className={`flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-[10px] font-black uppercase tracking-wider shadow-xs cursor-pointer transition-all ${
                         isEditing
                           ? "bg-red-50 text-red-600 border-red-200/50 hover:bg-red-100/30 dark:bg-red-950/20 dark:text-red-400 dark:border-red-900/30"
-                          : "bg-white text-zinc-700 border-zinc-200 hover:bg-zinc-55 dark:bg-zinc-950 dark:text-zinc-300 dark:border-zinc-800 dark:hover:bg-zinc-850"
+                          : "bg-white text-zinc-700 border-zinc-200 hover:bg-zinc-55 dark:bg-zinc-950 dark:text-zinc-300 dark:border-zinc-800 dark:hover:bg-zinc-800"
                       }`}
                     >
                       {isEditing ? (
@@ -389,7 +389,7 @@ function DashboardSettingsForm({ profile }: { profile: TUserProfile }) {
                             className={`w-full rounded-xl border pl-10 pr-4 py-2.5 font-semibold outline-none transition-colors ${
                               isEditing
                                 ? "border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 focus:border-blue-500 dark:focus:border-blue-500"
-                                : "border-zinc-200/50 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-950/40 text-zinc-400 dark:text-zinc-550 cursor-not-allowed"
+                                : "border-zinc-200/50 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-950/40 text-zinc-400 dark:text-zinc-500 cursor-not-allowed"
                             }`}
                           />
                         </div>
@@ -426,7 +426,7 @@ function DashboardSettingsForm({ profile }: { profile: TUserProfile }) {
                             type="email"
                             disabled
                             value={email}
-                            className="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-150/50 dark:bg-zinc-950/50 pl-10 pr-20 py-2.5 font-semibold text-zinc-400 cursor-not-allowed outline-none"
+                            className="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-200/50 dark:bg-zinc-950/50 pl-10 pr-20 py-2.5 font-semibold text-zinc-400 cursor-not-allowed outline-none"
                           />
                           <span className="absolute right-3.5 top-3 flex items-center gap-1 text-[9px] font-black uppercase text-emerald-600">
                             &#8226; Verified
@@ -450,7 +450,7 @@ function DashboardSettingsForm({ profile }: { profile: TUserProfile }) {
                             className={`w-full rounded-xl border pl-10 pr-4 py-2.5 font-semibold outline-none transition-colors ${
                               isEditing
                                 ? "border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 focus:border-blue-500 dark:focus:border-blue-500"
-                                : "border-zinc-200/50 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-950/40 text-zinc-400 dark:text-zinc-550 cursor-not-allowed"
+                                : "border-zinc-200/50 dark:border-zinc-800 bg-zinc-100/50 dark:bg-zinc-950/40 text-zinc-400 dark:text-zinc-500 cursor-not-allowed"
                             }`}
                           />
                         </div>
@@ -624,7 +624,7 @@ function DashboardSettingsForm({ profile }: { profile: TUserProfile }) {
                           } ${
                             workspaceStyle === pref
                               ? "border-blue-600 bg-blue-50/10 text-blue-600"
-                              : "border-zinc-200 hover:border-zinc-300 bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-750 text-zinc-600 dark:text-zinc-400"
+                              : "border-zinc-200 hover:border-zinc-300 bg-white dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-700 text-zinc-600 dark:text-zinc-400"
                           }`}
                         >
                           <span className="text-[10px] font-bold">{pref}</span>

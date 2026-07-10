@@ -207,7 +207,7 @@ export default function Header() {
                       setIsDropdownOpen(false);
                       setIsModalOpen(true);
                     }}
-                    className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-red-650 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/20 transition-colors text-left"
+                    className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/20 transition-colors text-left"
                   >
                     <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
@@ -251,7 +251,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={handleLogoutConfirm}
-                className="flex-1 rounded-xl bg-red-650 py-2.5 text-xs font-semibold border border-zinc-200 text-zinc-700 hover:text-white shadow-sm hover:bg-red-500 transition-colors"
+                className="flex-1 rounded-xl bg-red-600 py-2.5 text-xs font-semibold border border-zinc-200 text-zinc-700 hover:text-white shadow-sm hover:bg-red-500 transition-colors"
               >
                 Yes, Sign Out
               </button>

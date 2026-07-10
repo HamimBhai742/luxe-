@@ -90,19 +90,19 @@ export default function DashboardSupportClient() {
     switch (status) {
       case "Open":
         return (
-          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-450 border border-emerald-100/30">
+          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-100/30">
             Open
           </span>
         );
       case "In-Progress":
         return (
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-bold text-blue-600 dark:bg-blue-950/20 dark:text-blue-450 border border-blue-100/30">
+          <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-bold text-blue-600 dark:bg-blue-950/20 dark:text-blue-400 border border-blue-100/30">
             In-Progress
           </span>
         );
       case "Resolved":
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-bold text-zinc-650 dark:bg-zinc-800 dark:text-zinc-400 border border-zinc-200/20">
+          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 border border-zinc-200/20">
             Resolved
           </span>
         );
@@ -122,7 +122,7 @@ export default function DashboardSupportClient() {
           <h2 className="text-3xl font-extrabold text-zinc-900 dark:text-white font-serif tracking-tight">
             How can we help you today?
           </h2>
-          <p className="text-sm text-zinc-450 dark:text-zinc-500 font-semibold leading-relaxed">
+          <p className="text-sm text-zinc-400 dark:text-zinc-500 font-semibold leading-relaxed">
             Search our knowledge base or get in touch with our premium support team.
           </p>
         </div>
@@ -165,7 +165,7 @@ export default function DashboardSupportClient() {
             <h4 className="text-sm font-extrabold text-zinc-900 dark:text-white">
               Live Chat <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500 align-middle ml-1" />
             </h4>
-            <p className="text-xs text-zinc-450 dark:text-zinc-500 font-semibold leading-relaxed">
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 font-semibold leading-relaxed">
               Connect with an agent now. Average wait time: &lt; 2 mins.
             </p>
           </div>
@@ -183,7 +183,7 @@ export default function DashboardSupportClient() {
         {/* Card 2: Create Ticket */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2.5xl p-6 shadow-xs flex flex-col justify-between items-start gap-4">
           <div className="space-y-3">
-            <span className="rounded-xl bg-zinc-50 dark:bg-zinc-900 p-2.5 text-zinc-600 dark:text-zinc-450 inline-block border border-zinc-100 dark:border-zinc-800">
+            <span className="rounded-xl bg-zinc-50 dark:bg-zinc-900 p-2.5 text-zinc-600 dark:text-zinc-400 inline-block border border-zinc-100 dark:border-zinc-800">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
               </svg>
@@ -191,7 +191,7 @@ export default function DashboardSupportClient() {
             <h4 className="text-sm font-extrabold text-zinc-900 dark:text-white">
               Create Ticket
             </h4>
-            <p className="text-xs text-zinc-450 dark:text-zinc-500 font-semibold leading-relaxed">
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 font-semibold leading-relaxed">
               Submit a formal request for complex issues or detailed inquiries.
             </p>
           </div>
@@ -209,7 +209,7 @@ export default function DashboardSupportClient() {
         {/* Card 3: Call Us VIP */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2.5xl p-6 shadow-xs flex flex-col justify-between items-start gap-4">
           <div className="space-y-3">
-            <span className="rounded-xl bg-zinc-50 dark:bg-zinc-900 p-2.5 text-zinc-650 dark:text-zinc-400 inline-block border border-zinc-100 dark:border-zinc-800">
+            <span className="rounded-xl bg-zinc-50 dark:bg-zinc-900 p-2.5 text-zinc-600 dark:text-zinc-400 inline-block border border-zinc-100 dark:border-zinc-800">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.557-5.183-3.916-6.74-6.74l1.293-.97c.362-.271.528-.733.417-1.173L6.763 3.628a1.125 1.125 0 00-1.091-.852H4.25a2.25 2.25 0 00-2.25 2.25v2.25z" />
               </svg>
@@ -220,7 +220,7 @@ export default function DashboardSupportClient() {
                 VIP
               </span>
             </h4>
-            <p className="text-xs text-zinc-450 dark:text-zinc-500 font-semibold leading-relaxed">
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 font-semibold leading-relaxed">
               Direct line for premium members. Available 24/7.
             </p>
           </div>
@@ -249,21 +249,21 @@ export default function DashboardSupportClient() {
         
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h3 className="text-base font-extrabold text-zinc-905 dark:text-white font-serif uppercase tracking-wide">
+            <h3 className="text-base font-extrabold text-zinc-900 dark:text-white font-serif uppercase tracking-wide">
               Recent Tickets
             </h3>
             <p className="text-[11px] font-semibold text-zinc-400 mt-1">Track the status of your recent inquiries.</p>
           </div>
           <button
             onClick={() => toast.info("Viewing complete support ticket catalog")}
-            className="rounded-xl border border-zinc-200 hover:bg-zinc-55 px-4.5 py-2 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-850 cursor-pointer shadow-xs"
+            className="rounded-xl border border-zinc-200 hover:bg-zinc-55 px-4.5 py-2 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer shadow-xs"
           >
             View All
           </button>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-850">
+          <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-800">
             <thead>
               <tr className="text-left text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
                 <th className="pb-3.5 pl-3">Ticket ID</th>
@@ -273,7 +273,7 @@ export default function DashboardSupportClient() {
                 <th className="pb-3.5 text-right pr-3">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-850 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
               {isLoading ? (
                 [1, 2, 3].map((i) => (
                   <tr key={i} className="animate-pulse">
@@ -292,15 +292,15 @@ export default function DashboardSupportClient() {
                 </tr>
               ) : (
                 tickets.map((t) => (
-                  <tr key={t.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-850/30 transition-colors">
+                  <tr key={t.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
                     <td className="py-4.5 pl-3 font-bold text-zinc-900 dark:text-white">{t.ticketId}</td>
-                    <td className="py-4.5 text-zinc-850 dark:text-zinc-200">{t.subject}</td>
-                    <td className="py-4.5 text-zinc-450 dark:text-zinc-500">{formatTicketDate(t.createdAt)}</td>
+                    <td className="py-4.5 text-zinc-800 dark:text-zinc-200">{t.subject}</td>
+                    <td className="py-4.5 text-zinc-400 dark:text-zinc-500">{formatTicketDate(t.createdAt)}</td>
                     <td className="py-4.5">{renderStatusPill(t.status)}</td>
                     <td className="py-4.5 text-right pr-3">
                       <button
                         onClick={() => handleViewTicket(t.ticketId, t.subject)}
-                        className="text-xs font-bold text-blue-650 hover:underline cursor-pointer"
+                        className="text-xs font-bold text-blue-600 hover:underline cursor-pointer"
                       >
                         View
                       </button>
@@ -319,7 +319,7 @@ export default function DashboardSupportClient() {
       {/* ========================================================================= */}
       <div className="hidden md:block max-w-5xl mx-auto space-y-6">
         <div>
-          <h3 className="text-base font-extrabold text-zinc-905 dark:text-white font-serif uppercase tracking-wide">
+          <h3 className="text-base font-extrabold text-zinc-900 dark:text-white font-serif uppercase tracking-wide">
             Common Questions
           </h3>
           <p className="text-[11px] font-semibold text-zinc-400 mt-1">Quick answers to frequently asked questions.</p>
@@ -369,14 +369,14 @@ export default function DashboardSupportClient() {
               onClick={() => handleTopicClick(topic.title)}
               className="bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs hover:shadow-sm cursor-pointer transition-all flex flex-col gap-4 text-left group hover:border-zinc-300 dark:hover:border-zinc-700"
             >
-              <span className="rounded-xl bg-zinc-55 dark:bg-zinc-950/40 p-2.5 text-zinc-550 dark:text-zinc-400 inline-block self-start">
+              <span className="rounded-xl bg-zinc-55 dark:bg-zinc-950/40 p-2.5 text-zinc-500 dark:text-zinc-400 inline-block self-start">
                 {topic.icon}
               </span>
               <div>
-                <h4 className="text-xs font-bold text-zinc-850 dark:text-white group-hover:text-blue-600 transition-colors">
+                <h4 className="text-xs font-bold text-zinc-800 dark:text-white group-hover:text-blue-600 transition-colors">
                   {topic.title}
                 </h4>
-                <p className="text-[10px] text-zinc-450 dark:text-zinc-500 font-semibold mt-1 leading-relaxed">
+                <p className="text-[10px] text-zinc-400 dark:text-zinc-500 font-semibold mt-1 leading-relaxed">
                   {topic.text}
                 </p>
               </div>
@@ -421,7 +421,7 @@ export default function DashboardSupportClient() {
             {/* Live Chat */}
             <div
               onClick={handleStartChat}
-              className="flex justify-between items-center bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-3 shadow-xs cursor-pointer active:bg-zinc-50"
+              className="flex justify-between items-center bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-xl p-3 shadow-xs cursor-pointer active:bg-zinc-50"
             >
               <div className="flex items-center gap-3.5">
                 <span className="h-9 w-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
@@ -430,7 +430,7 @@ export default function DashboardSupportClient() {
                   </svg>
                 </span>
                 <div>
-                  <h4 className="text-xs font-bold text-zinc-850 dark:text-white">Live Chat</h4>
+                  <h4 className="text-xs font-bold text-zinc-800 dark:text-white">Live Chat</h4>
                   <span className="text-[10px] text-zinc-400 block mt-0.5">Est. wait: <span className="text-blue-600 font-bold">2 mins</span></span>
                 </div>
               </div>
@@ -442,7 +442,7 @@ export default function DashboardSupportClient() {
             {/* Create Ticket */}
             <div
               onClick={() => setIsModalOpen(true)}
-              className="flex justify-between items-center bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-3 shadow-xs cursor-pointer active:bg-zinc-50"
+              className="flex justify-between items-center bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-xl p-3 shadow-xs cursor-pointer active:bg-zinc-50"
             >
               <div className="flex items-center gap-3.5">
                 <span className="h-9 w-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
@@ -452,7 +452,7 @@ export default function DashboardSupportClient() {
                 </span>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h4 className="text-xs font-bold text-zinc-850 dark:text-white">Create Ticket</h4>
+                    <h4 className="text-xs font-bold text-zinc-800 dark:text-white">Create Ticket</h4>
                     <span className="bg-blue-50 text-[7px] font-black uppercase text-blue-600 px-1 rounded border border-blue-100/30">VIP</span>
                   </div>
                   <span className="text-[10px] text-zinc-400 block mt-0.5">Response in ~4 hours</span>
@@ -471,7 +471,7 @@ export default function DashboardSupportClient() {
                   toast.success("VIP Number visible!");
                 }
               }}
-              className="flex justify-between items-center bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-3 shadow-xs cursor-pointer active:bg-zinc-50"
+              className="flex justify-between items-center bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-xl p-3 shadow-xs cursor-pointer active:bg-zinc-50"
             >
               <div className="flex items-center gap-3.5">
                 <span className="h-9 w-9 rounded-full bg-zinc-100 text-zinc-500 flex items-center justify-center shrink-0">
@@ -480,7 +480,7 @@ export default function DashboardSupportClient() {
                   </svg>
                 </span>
                 <div>
-                  <h4 className="text-xs font-bold text-zinc-850 dark:text-white">Call Us</h4>
+                  <h4 className="text-xs font-bold text-zinc-800 dark:text-white">Call Us</h4>
                   <span className="text-[10px] text-zinc-400 block mt-0.5">
                     {showVipNumber ? "+1 (800) 123-AURA" : "Available 9am - 5pm EST"}
                   </span>
@@ -511,7 +511,7 @@ export default function DashboardSupportClient() {
           <div className="space-y-3">
             {isLoading ? (
               [1, 2].map((i) => (
-                <div key={i} className="bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-3.5 space-y-2 animate-pulse">
+                <div key={i} className="bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-xl p-3.5 space-y-2 animate-pulse">
                   <div className="flex justify-between items-center">
                     <div className="h-4 w-16 bg-zinc-200 dark:bg-zinc-800 rounded"></div>
                     <div className="h-4 w-12 bg-zinc-200 dark:bg-zinc-800 rounded"></div>
@@ -521,7 +521,7 @@ export default function DashboardSupportClient() {
                 </div>
               ))
             ) : tickets.length === 0 ? (
-              <div className="bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-6 text-center text-xs text-zinc-400 font-semibold">
+              <div className="bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-xl p-6 text-center text-xs text-zinc-400 font-semibold">
                 You have no active support tickets. Click 'Create Ticket' to submit one.
               </div>
             ) : (
@@ -529,14 +529,14 @@ export default function DashboardSupportClient() {
                 <div
                   key={t.id}
                   onClick={() => handleViewTicket(t.ticketId, t.subject)}
-                  className={`bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-xl p-3.5 shadow-xs space-y-2 ${
+                  className={`bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-xl p-3.5 shadow-xs space-y-2 ${
                     t.status === "In-Progress" ? "border-l-4 border-l-blue-600" : ""
                   }`}
                 >
                   <div className="flex justify-between items-center">
                     <span className="text-xs font-extrabold text-zinc-800 dark:text-white">{t.ticketId}</span>
                     {t.status === "Resolved" ? (
-                      <span className="inline-flex items-center rounded bg-zinc-100 px-2 py-0.5 text-[9px] font-bold text-zinc-650">
+                      <span className="inline-flex items-center rounded bg-zinc-100 px-2 py-0.5 text-[9px] font-bold text-zinc-600">
                         &#8226; Resolved
                       </span>
                     ) : t.status === "In-Progress" ? (
@@ -603,7 +603,7 @@ export default function DashboardSupportClient() {
               <div
                 key={topic.title}
                 onClick={() => handleTopicClick(topic.title)}
-                className="bg-white border border-zinc-150/60 rounded-xl p-3 flex flex-col gap-2.5 shadow-xs cursor-pointer active:bg-zinc-50"
+                className="bg-white border border-zinc-200/60 rounded-xl p-3 flex flex-col gap-2.5 shadow-xs cursor-pointer active:bg-zinc-50"
               >
                 <span className="h-8.5 w-8.5 rounded-lg bg-zinc-50 flex items-center justify-center shrink-0 self-start">
                   {topic.icon}
@@ -615,7 +615,7 @@ export default function DashboardSupportClient() {
         </div>
 
         {/* Mobile Navigation Dock */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-zinc-150 px-6 py-2 shadow-lg">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-zinc-200 px-6 py-2 shadow-lg">
           <div className="flex items-center justify-between text-zinc-400">
             <Link href="/" onClick={() => setActiveMobileTab("home")} className="flex flex-col items-center gap-0.5 transition-colors">
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
@@ -632,7 +632,7 @@ export default function DashboardSupportClient() {
             <button
               onClick={() => setActiveMobileTab("wishlist")}
               className={`flex h-9 w-9 items-center justify-center rounded-full cursor-pointer transition-all shadow-xs ${
-                activeMobileTab === "wishlist" ? "bg-blue-600 text-white" : "text-zinc-450 hover:bg-zinc-55"
+                activeMobileTab === "wishlist" ? "bg-blue-600 text-white" : "text-zinc-400 hover:bg-zinc-55"
               }`}
             >
               <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
@@ -673,7 +673,7 @@ export default function DashboardSupportClient() {
 
             <div className="space-y-4 text-xs font-bold text-left">
               <div className="space-y-1.5">
-                <label className="text-zinc-650 dark:text-zinc-400">Subject / Issue Summary *</label>
+                <label className="text-zinc-600 dark:text-zinc-400">Subject / Issue Summary *</label>
                 <input
                   type="text"
                   required
@@ -685,7 +685,7 @@ export default function DashboardSupportClient() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-zinc-650 dark:text-zinc-400">Describe the Issue in Detail *</label>
+                <label className="text-zinc-600 dark:text-zinc-400">Describe the Issue in Detail *</label>
                 <textarea
                   required
                   rows={4}
@@ -702,7 +702,7 @@ export default function DashboardSupportClient() {
                 type="button"
                 disabled={isCreating}
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 disabled:opacity-50 px-4 py-2.5 text-xs font-bold text-zinc-750 dark:text-zinc-350 cursor-pointer"
+                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 disabled:opacity-50 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer"
               >
                 Cancel
               </button>

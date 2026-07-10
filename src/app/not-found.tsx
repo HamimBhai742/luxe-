@@ -65,7 +65,7 @@ export default function NotFound() {
         </div>
 
         {/* 404 Status Code */}
-        <h1 className="text-8xl font-black tracking-tight text-blue-650 dark:text-blue-500 select-none animate-pulse [animation-duration:3s]">
+        <h1 className="text-8xl font-black tracking-tight text-blue-600 dark:text-blue-500 select-none animate-pulse [animation-duration:3s]">
           404
         </h1>
 
@@ -84,7 +84,7 @@ export default function NotFound() {
           <Link
             id="back-to-home-btn"
             href="/"
-            className="flex items-center justify-center gap-2 rounded-xl bg-blue-655 px-6 py-3.5 text-sm font-semibold text-black shadow-md hover:bg-blue-700 hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 transition-all duration-200 active:scale-[0.98]"
+            className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-semibold text-black shadow-md hover:bg-blue-700 hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-600 dark:hover:bg-blue-700 transition-all duration-200 active:scale-[0.98]"
           >
             {/* Home Icon */}
             <svg

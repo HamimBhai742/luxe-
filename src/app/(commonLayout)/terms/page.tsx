@@ -65,7 +65,7 @@ export default function TermsPage() {
               <div className="border-t border-zinc-100 dark:border-zinc-900 pt-6">
                 <Link
                   href="/dashboard/support"
-                  className="text-xs font-bold text-blue-650 hover:text-blue-500 dark:text-blue-400 transition-colors flex items-center gap-1.5"
+                  className="text-xs font-bold text-blue-600 hover:text-blue-500 dark:text-blue-400 transition-colors flex items-center gap-1.5"
                 >
                   <span>Need legal help?</span>
                   <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -80,7 +80,7 @@ export default function TermsPage() {
           <div className="flex-1 space-y-12 max-w-3xl">
             
             {/* Introductory Callout */}
-            <div className="rounded-2xl border border-zinc-150/60 bg-zinc-50/30 p-6 dark:border-zinc-850 dark:bg-zinc-900/10">
+            <div className="rounded-2xl border border-zinc-200/60 bg-zinc-50/30 p-6 dark:border-zinc-800 dark:bg-zinc-900/10">
               <h4 className="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-wider mb-2">Please Read Carefully</h4>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">
                 These terms govern your access to and use of the LUXE Marketplace website, dashboard portals, and electronic purchasing systems. By browsing the website or creating a registered user account, you signify your full agreement to these policies.
@@ -90,7 +90,7 @@ export default function TermsPage() {
             {/* 1. Introduction */}
             <section id="introduction" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">1. Introduction</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   Welcome to LUXE Marketplace (&quot;LUXE&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;). These Terms and Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity (&quot;you&quot;) and LUXE, concerning your access to and use of the website located at http://localhost:3000 as well as any other media form, mobile application, or dashboard portal connected thereto.
                 </p>
@@ -105,7 +105,7 @@ export default function TermsPage() {
             {/* 2. Account Registry & Security */}
             <section id="accounts" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">2. Account Registry & Security</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   To complete orders or modify settings (e.g. bio, location, password), you must register a customer profile on our system. You agree to provide accurate, current, and complete registration info and promptly update it in the settings dashboard if changes occur.
                 </p>
@@ -120,7 +120,7 @@ export default function TermsPage() {
             {/* 3. Purchases, Payments & Pricing */}
             <section id="purchases" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">3. Purchases, Payments & Pricing</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   All transactions placed through the cart and checkout routes are processed securely using our encrypted gateway. Prices listed in collections are denominated in USD and are subject to immediate adjustments depending on component sourcing constraints.
                 </p>
@@ -135,7 +135,7 @@ export default function TermsPage() {
             {/* 4. Shipping, Customs & Returns */}
             <section id="shipping" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">4. Shipping, Customs & Returns</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   Shipping timelines are estimations and can shift due to solar corridor transport delays or regional customs checks. Customers are responsible for any localized import tariffs, customs clearances, or storage fees.
                 </p>
@@ -150,7 +150,7 @@ export default function TermsPage() {
             {/* 5. Intellectual Property & License */}
             <section id="licensing" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">5. Intellectual Property & License</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   Unless stated otherwise, all website assets, code blocks, layout styles, vector SVGs, and brand typography are the exclusive intellectual property of LUXE and protected under international copy laws.
                 </p>
@@ -165,7 +165,7 @@ export default function TermsPage() {
             {/* 6. Limitation of Liability */}
             <section id="liability" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">6. Limitation of Liability</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   LUXE and its engineers shall not be liable for any direct, indirect, incidental, or consequential damages resulting from your inability to access catalog features, purchase specific workspace parts, or configure user preferences.
                 </p>
@@ -180,7 +180,7 @@ export default function TermsPage() {
             {/* 7. Modifications to Terms */}
             <section id="changes" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">7. Modifications to Terms</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   We reserve the exclusive right to alter, edit, or swap these Terms and Conditions at our sole discretion. Any changes will be highlighted with a revised effective date at the top of this page.
                 </p>
@@ -195,7 +195,7 @@ export default function TermsPage() {
             {/* 8. Governing Law & Jurisdiction */}
             <section id="governing-law" className="space-y-4">
               <h2 className="text-lg font-bold text-zinc-900 dark:text-white font-serif">8. Governing Law & Jurisdiction</h2>
-              <div className="text-xs sm:text-[13px] text-zinc-650 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
+              <div className="text-xs sm:text-[13px] text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-3 font-medium">
                 <p>
                   These terms and conditions are governed by and construed in compliance with the local laws of our operational headquarters. Any legal claims or disputes arising under these terms shall be subject to the exclusive jurisdiction of the state or federal courts located therein.
                 </p>

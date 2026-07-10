@@ -252,7 +252,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
           {cartItems.length > 0 && (
             <button
               onClick={handleClearCart}
-              className="text-xs font-bold text-red-650 hover:text-red-500 hover:scale-102 active:scale-98 transition-all flex items-center gap-1.5 cursor-pointer bg-red-50 dark:bg-red-950/20 px-3.5 py-2 rounded-xl border border-red-100 dark:border-red-950/50"
+              className="text-xs font-bold text-red-600 hover:text-red-500 hover:scale-102 active:scale-98 transition-all flex items-center gap-1.5 cursor-pointer bg-red-50 dark:bg-red-950/20 px-3.5 py-2 rounded-xl border border-red-100 dark:border-red-950/50"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -263,7 +263,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center rounded-3xl bg-white dark:bg-zinc-900/50 border border-zinc-150 dark:border-zinc-800 p-8 shadow-sm">
+          <div className="flex flex-col items-center justify-center py-20 text-center rounded-3xl bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 p-8 shadow-sm">
             <svg className="h-16 w-16 text-zinc-300 mb-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
             </svg>
@@ -281,10 +281,10 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex bg-white dark:bg-zinc-900/50 border border-zinc-150 dark:border-zinc-800 rounded-2xl p-5 shadow-xs hover:shadow-sm transition-all gap-6 justify-between items-center"
+                  className="flex bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 shadow-xs hover:shadow-sm transition-all gap-6 justify-between items-center"
                 >
                   <div className="flex gap-6 items-center flex-1">
-                    <div className="h-24 w-24 shrink-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-2">
+                    <div className="h-24 w-24 shrink-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-xl overflow-hidden flex items-center justify-center p-2">
                       <Image src={item.image} alt={item.name} width={96} height={96} className="object-contain max-h-full max-w-full" />
                     </div>
                     <div>
@@ -297,7 +297,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                       <div className="flex items-center gap-4 mt-4 text-xs font-bold text-zinc-400">
                         <button
                           onClick={() => handleRemove(item.id, item.name)}
-                          className="flex items-center gap-1.5 hover:text-red-500 dark:hover:text-red-400 text-zinc-450 transition-colors cursor-pointer"
+                          className="flex items-center gap-1.5 hover:text-red-500 dark:hover:text-red-400 text-zinc-400 transition-colors cursor-pointer"
                           title="Remove"
                         >
                           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -308,7 +308,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                         
                         <button
                           onClick={() => handleSaveForLater(item.id, item.name)}
-                          className="flex items-center gap-1.5 hover:text-zinc-600 dark:hover:text-zinc-200 text-zinc-450 transition-colors cursor-pointer"
+                          className="flex items-center gap-1.5 hover:text-zinc-600 dark:hover:text-zinc-200 text-zinc-400 transition-colors cursor-pointer"
                           title="Save for Later"
                         >
                           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -324,7 +324,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                     <span className="text-base font-extrabold text-zinc-900 dark:text-zinc-50">
                       ${(item.price * item.quantity).toLocaleString()}.00
                     </span>
-                    <div className="flex items-center border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-955 overflow-hidden shadow-xs">
+                    <div className="flex items-center border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 overflow-hidden shadow-xs">
                       <button
                         onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)}
                         className="px-3 py-1.5 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-500 font-bold transition-colors cursor-pointer disabled:opacity-30"
@@ -332,7 +332,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                       >
                         &minus;
                       </button>
-                      <span className="px-3.5 text-xs font-extrabold text-zinc-850 dark:text-zinc-200">
+                      <span className="px-3.5 text-xs font-extrabold text-zinc-800 dark:text-zinc-200">
                         {item.quantity}
                       </span>
                       <button
@@ -348,7 +348,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
             </div>
 
             {/* Right Panel: Order Summary */}
-            <div className="bg-white dark:bg-zinc-900/50 border border-zinc-150 dark:border-zinc-800 rounded-3xl p-8 shadow-sm space-y-6">
+            <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-8 shadow-sm space-y-6">
               <h2 className="text-lg font-extrabold text-zinc-900 dark:text-white uppercase tracking-wider">
                 Order Summary
               </h2>
@@ -360,7 +360,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping Estimate</span>
-                  <span className="text-zinc-650 dark:text-zinc-300 font-bold">
+                  <span className="text-zinc-600 dark:text-zinc-300 font-bold">
                     {subtotal >= 50 ? "FREE" : "Calculated at checkout"}
                   </span>
                 </div>
@@ -376,17 +376,17 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                 )}
               </div>
 
-              <div className="border-t border-zinc-150 dark:border-zinc-800" />
+              <div className="border-t border-zinc-200 dark:border-zinc-800" />
 
               <div className="flex items-baseline justify-between">
-                <span className="text-sm font-extrabold text-zinc-905 dark:text-white">Total</span>
-                <span className="text-2xl font-black text-zinc-955 dark:text-zinc-50">
+                <span className="text-sm font-extrabold text-zinc-900 dark:text-white">Total</span>
+                <span className="text-2xl font-black text-zinc-950 dark:text-zinc-50">
                   ${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
 
               <form onSubmit={handleApplyPromo} className="pt-2">
-                <label className="flex items-center gap-1.5 text-xs font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wide mb-3">
+                <label className="flex items-center gap-1.5 text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wide mb-3">
                   <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.5 1.5 0 002.122 0l4.72-4.72a1.5 1.5 0 000-2.122L10.49 3.659A2.25 2.25 0 008.902 3H9.57zM6 7.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                   </svg>
@@ -398,7 +398,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                     placeholder="Enter code (try LUXE20)"
                     value={promoInput}
                     onChange={(e) => setPromoInput(e.target.value)}
-                    className="flex-1 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-955 px-3.5 py-2 text-xs font-bold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-colors"
+                    className="flex-1 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950 px-3.5 py-2 text-xs font-bold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-colors"
                   />
                   <button
                     type="submit"
@@ -421,7 +421,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                 </svg>
               </button>
 
-              <div className="pt-4 border-t border-zinc-155 dark:border-zinc-800 space-y-3 text-[11px] font-semibold text-zinc-450 dark:text-zinc-500">
+              <div className="pt-4 border-t border-zinc-155 dark:border-zinc-800 space-y-3 text-[11px] font-semibold text-zinc-400 dark:text-zinc-500">
                 <div className="flex items-center gap-2.5">
                   <svg className="h-4.5 w-4.5 text-zinc-300 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0V10.5m-3.75 3h15.75m-15.75 0a2.25 2.25 0 00-2.25 2.25v3a2.25 2.25 0 002.25 2.25h15.75a2.25 2.25 0 002.25-2.25v-3a2.25 2.25 0 00-2.25-2.25M3 10.5h18" />
@@ -448,7 +448,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
         )}
 
         {/* Recommended list */}
-        <div className="border-t border-zinc-150 dark:border-zinc-800 pt-12">
+        <div className="border-t border-zinc-200 dark:border-zinc-800 pt-12">
           <h2 className="text-lg font-extrabold text-zinc-950 dark:text-white uppercase tracking-wider mb-6">
             Recommended for You
           </h2>
@@ -456,7 +456,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
             {recommendedList.map((rec) => (
               <div
                 key={rec.id}
-                className="group relative flex flex-col bg-white dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+                className="group relative flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
               >
                 <div className="aspect-4/3 w-full bg-zinc-50 dark:bg-zinc-950 overflow-hidden p-4 flex items-center justify-center">
                   <Image src={rec.image} alt={rec.name} width={150} height={150} className="object-contain max-h-[85%] max-w-[85%] transition-transform duration-500 ease-out group-hover:scale-103" />
@@ -466,13 +466,13 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                     <h3 className="text-xs font-bold text-zinc-900 dark:text-white truncate">
                       {rec.name}
                     </h3>
-                    <span className="text-xs font-bold text-zinc-800 dark:text-zinc-350 block mt-2">
+                    <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300 block mt-2">
                       ${rec.price.toLocaleString()}.00
                     </span>
                   </div>
                   <button
                     onClick={() => handleAddRecommended(rec)}
-                    className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-zinc-150 bg-zinc-50/50 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900 px-3 py-2 text-xs font-bold text-zinc-800 dark:text-zinc-200 mt-4 transition-colors cursor-pointer shadow-xs"
+                    className="w-full flex items-center justify-center gap-1.5 rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900 px-3 py-2 text-xs font-bold text-zinc-800 dark:text-zinc-200 mt-4 transition-colors cursor-pointer shadow-xs"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
@@ -493,14 +493,14 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
       <div className="md:hidden flex flex-col min-h-screen bg-zinc-50/40 dark:bg-zinc-950/20 pb-72">
         
         {/* Title Heading */}
-        <div className="px-4 pt-6 pb-2 flex justify-between items-center border-b border-zinc-150/60 dark:border-zinc-800 mb-2">
+        <div className="px-4 pt-6 pb-2 flex justify-between items-center border-b border-zinc-200/60 dark:border-zinc-800 mb-2">
           <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white font-serif">
             Shopping Cart ({itemsCount})
           </h1>
           {cartItems.length > 0 && (
             <button
               onClick={handleClearCart}
-              className="text-xs font-bold text-red-650 hover:text-red-500 transition-colors bg-red-50 dark:bg-red-950/20 px-2.5 py-1 rounded-lg border border-red-100 dark:border-red-950/50 cursor-pointer"
+              className="text-xs font-bold text-red-600 hover:text-red-500 transition-colors bg-red-50 dark:bg-red-950/20 px-2.5 py-1 rounded-lg border border-red-100 dark:border-red-950/50 cursor-pointer"
             >
               Clear
             </button>
@@ -526,17 +526,17 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-800 rounded-2xl p-3.5 gap-4 shadow-sm"
+                  className="flex bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-2xl p-3.5 gap-4 shadow-sm"
                 >
                   {/* Left: Thumbnail Image */}
-                  <div className="h-20 w-20 shrink-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5">
+                  <div className="h-20 w-20 shrink-0 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-xl overflow-hidden flex items-center justify-center p-1.5">
                     <Image src={item.image} alt={item.name} width={80} height={80} className="object-contain max-h-full max-w-full" />
                   </div>
 
                   {/* Right: Info Panel */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-sm font-bold text-zinc-850 dark:text-white font-serif leading-tight">
+                      <h3 className="text-sm font-bold text-zinc-800 dark:text-white font-serif leading-tight">
                         {item.name}
                       </h3>
                       <span className="text-sm font-extrabold text-zinc-900 dark:text-zinc-100 mt-1 block">
@@ -555,7 +555,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                         >
                           &minus;
                         </button>
-                        <span className="px-2.5 text-xs font-extrabold text-zinc-850 dark:text-zinc-200">
+                        <span className="px-2.5 text-xs font-extrabold text-zinc-800 dark:text-zinc-200">
                           {item.quantity}
                         </span>
                         <button
@@ -576,7 +576,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                         </button>
                         <button
                           onClick={() => handleRemove(item.id, item.name)}
-                          className="text-red-650 hover:text-red-500 font-bold transition-colors cursor-pointer"
+                          className="text-red-600 hover:text-red-500 font-bold transition-colors cursor-pointer"
                         >
                           Remove
                         </button>
@@ -589,7 +589,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
             </div>
 
             {/* Promo Code entry block */}
-            <div className="bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-800 rounded-2xl p-4 shadow-sm">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-2xl p-4 shadow-sm">
               <form onSubmit={handleApplyPromo} className="flex gap-2">
                 <input
                   type="text"
@@ -618,7 +618,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                 {recommendedList.slice(0, 2).map((rec) => (
                   <div
                     key={rec.id}
-                    className="flex flex-col bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm"
+                    className="flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm"
                   >
                     <div className="aspect-4/3 w-full bg-zinc-50 dark:bg-zinc-950 p-3 flex items-center justify-center">
                       <Image src={rec.image} alt={rec.name} width={120} height={120} className="object-contain max-h-full max-w-full" />
@@ -628,13 +628,13 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                         <h3 className="text-xs font-bold text-zinc-900 dark:text-white truncate">
                           {rec.name}
                         </h3>
-                        <span className="text-xs font-bold text-zinc-800 dark:text-zinc-350 block mt-1">
+                        <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300 block mt-1">
                           ${rec.price.toLocaleString()}.00
                         </span>
                       </div>
                       <button
                         onClick={() => handleAddRecommended(rec)}
-                        className="w-full flex items-center justify-center gap-1 rounded-lg border border-zinc-150 bg-zinc-50/50 px-2 py-1.5 text-[10px] font-bold text-zinc-800 dark:border-zinc-850 dark:bg-zinc-950 dark:text-zinc-200 cursor-pointer"
+                        className="w-full flex items-center justify-center gap-1 rounded-lg border border-zinc-200 bg-zinc-50/50 px-2 py-1.5 text-[10px] font-bold text-zinc-800 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 cursor-pointer"
                       >
                         <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -654,7 +654,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
         {/* MOBILE STICKY SUMMARY & CHECKOUT (STICKY BOTTOM DOCKED) */}
         {/* ========================================================================= */}
         {cartItems.length > 0 && (
-          <div className="fixed bottom-14 left-0 right-0 z-40 bg-white dark:bg-zinc-900 border-t border-zinc-150 dark:border-zinc-850 px-4 py-4 space-y-4 shadow-[0_-6px_16px_rgba(0,0,0,0.06)] backdrop-blur-md">
+          <div className="fixed bottom-14 left-0 right-0 z-40 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 px-4 py-4 space-y-4 shadow-[0_-6px_16px_rgba(0,0,0,0.06)] backdrop-blur-md">
             
             {/* Calculation rows */}
             <div className="space-y-2.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
@@ -699,13 +699,13 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
         )}
 
         {/* Mobile Bottom Navigation Bar (Docked bottom menu) */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/98 dark:bg-zinc-950/98 border-t border-zinc-150 dark:border-zinc-900 px-6 py-2 shadow-lg">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/98 dark:bg-zinc-950/98 border-t border-zinc-200 dark:border-zinc-900 px-6 py-2 shadow-lg">
           <div className="flex items-center justify-between text-zinc-400">
             <Link
               href="/"
               onClick={() => setActiveMobileTab("home")}
               className={`flex flex-col items-center gap-0.5 cursor-pointer transition-colors ${
-                activeMobileTab === "home" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-650"
+                activeMobileTab === "home" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-600"
               }`}
             >
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
@@ -717,7 +717,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
               href="/collections"
               onClick={() => setActiveMobileTab("search")}
               className={`flex flex-col items-center gap-0.5 cursor-pointer transition-colors ${
-                activeMobileTab === "search" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-650"
+                activeMobileTab === "search" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-600"
               }`}
             >
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
@@ -729,7 +729,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
               href="/collections"
               onClick={() => setActiveMobileTab("sparkles")}
               className={`flex flex-col items-center gap-0.5 cursor-pointer transition-colors ${
-                activeMobileTab === "sparkles" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-650"
+                activeMobileTab === "sparkles" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-600"
               }`}
             >
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">

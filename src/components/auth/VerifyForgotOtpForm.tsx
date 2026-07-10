@@ -134,7 +134,7 @@ export default function VerifyForgotOtpForm() {
 
       {/* Error Alert */}
       {errorMessage && (
-        <div className="mt-4 w-full rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-650 dark:bg-red-950/20 dark:text-red-400 border border-red-100 dark:border-red-950/30">
+        <div className="mt-4 w-full rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-600 dark:bg-red-950/20 dark:text-red-400 border border-red-100 dark:border-red-950/30">
           {errorMessage}
         </div>
       )}
@@ -191,7 +191,7 @@ export default function VerifyForgotOtpForm() {
         <button
           type="submit"
           disabled={!email || isVerifying}
-          className="group flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:bg-blue-450 disabled:cursor-not-allowed transition-all duration-300"
+          className="group flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all duration-300"
         >
           <span>{isVerifying ? "Verifying..." : "Verify & Proceed"}</span>
           {!isVerifying && (

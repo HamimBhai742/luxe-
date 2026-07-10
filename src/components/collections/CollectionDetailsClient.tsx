@@ -291,11 +291,11 @@ export default function CollectionDetailsClient({
     if (product.category === "Laptops") {
       return (
         <nav className="mb-6 text-xs font-semibold tracking-wide text-zinc-400 uppercase">
-          <Link href="/" className="hover:text-zinc-650 transition-colors">Electronics</Link>
+          <Link href="/" className="hover:text-zinc-600 transition-colors">Electronics</Link>
           <span className="mx-2 text-zinc-300">&gt;</span>
-          <span className="hover:text-zinc-650 transition-colors">Computers</span>
+          <span className="hover:text-zinc-600 transition-colors">Computers</span>
           <span className="mx-2 text-zinc-300">&gt;</span>
-          <span className="hover:text-zinc-650 transition-colors">Laptops</span>
+          <span className="hover:text-zinc-600 transition-colors">Laptops</span>
           <span className="mx-2 text-zinc-300">&gt;</span>
           <span className="text-zinc-900 dark:text-zinc-100">{product.name}</span>
         </nav>
@@ -304,9 +304,9 @@ export default function CollectionDetailsClient({
 
     return (
       <nav className="mb-6 text-xs font-semibold tracking-wide text-zinc-400 uppercase">
-        <Link href="/collections" className="hover:text-zinc-650 transition-colors">Collections</Link>
+        <Link href="/collections" className="hover:text-zinc-600 transition-colors">Collections</Link>
         <span className="mx-2 text-zinc-300">&gt;</span>
-        <span className="hover:text-zinc-650 transition-colors">{product.category}</span>
+        <span className="hover:text-zinc-600 transition-colors">{product.category}</span>
         <span className="mx-2 text-zinc-300">&gt;</span>
         <span className="text-zinc-900 dark:text-zinc-100">{product.name}</span>
       </nav>
@@ -375,7 +375,7 @@ export default function CollectionDetailsClient({
                     className={`aspect-square rounded-xl bg-zinc-50 dark:bg-zinc-900 border overflow-hidden p-2 flex items-center justify-center transition-all cursor-pointer ${
                       isActive
                         ? "border-blue-600 ring-2 ring-blue-100 dark:ring-blue-900/30"
-                        : "border-zinc-200 hover:border-zinc-350 dark:border-zinc-800"
+                        : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-800"
                     }`}
                   >
                     <Image src={img} alt="thumbnail" width={80} height={80} className="object-contain max-h-[90%] max-w-[90%]" />
@@ -411,7 +411,7 @@ export default function CollectionDetailsClient({
                     </svg>
                   ))}
                 </div>
-                <span className="text-xs font-semibold text-zinc-400 dark:text-zinc-555">
+                <span className="text-xs font-semibold text-zinc-400 dark:text-zinc-500">
                   ({currentRatingCount} reviews)
                 </span>
               </div>
@@ -423,7 +423,7 @@ export default function CollectionDetailsClient({
                 ${product.price.toLocaleString()}
               </span>
               {product.originalPrice && (
-                <span className="text-base text-zinc-450 dark:text-zinc-500 line-through">
+                <span className="text-base text-zinc-400 dark:text-zinc-500 line-through">
                   ${product.originalPrice.toLocaleString()}
                 </span>
               )}
@@ -459,7 +459,7 @@ export default function CollectionDetailsClient({
             <div className="flex gap-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
               <button
                 onClick={handleAddToCart}
-                className="flex-1 border-2 border-blue-600 bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-450 hover:bg-blue-50/50 dark:hover:bg-blue-950/20 rounded-xl py-3 text-sm font-bold shadow-sm transition-all cursor-pointer"
+                className="flex-1 border-2 border-blue-600 bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-950/20 rounded-xl py-3 text-sm font-bold shadow-sm transition-all cursor-pointer"
               >
                 Add to Cart
               </button>
@@ -497,12 +497,12 @@ export default function CollectionDetailsClient({
           {/* Specifications Table */}
           <div>
             <h2 className="text-lg font-extrabold text-zinc-950 dark:text-white uppercase tracking-wider mb-6">Product Specifications</h2>
-            <div className="border border-zinc-200 dark:border-zinc-850 rounded-2xl overflow-hidden shadow-sm">
-              <table className="min-w-full divide-y divide-zinc-150 dark:divide-zinc-800">
-                <tbody className="bg-white dark:bg-zinc-900 divide-y divide-zinc-150 dark:divide-zinc-855 text-sm font-medium">
+            <div className="border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm">
+              <table className="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800">
+                <tbody className="bg-white dark:bg-zinc-900 divide-y divide-zinc-200 dark:divide-zinc-855 text-sm font-medium">
                   {Object.entries(product.specs).map(([key, value]) => (
                     <tr key={key} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-800/40 transition-colors">
-                      <td className="w-1/3 px-6 py-4 font-bold text-zinc-500 dark:text-zinc-450 bg-zinc-50/50 dark:bg-zinc-950/20">{key}</td>
+                      <td className="w-1/3 px-6 py-4 font-bold text-zinc-500 dark:text-zinc-400 bg-zinc-50/50 dark:bg-zinc-950/20">{key}</td>
                       <td className="px-6 py-4 text-zinc-900 dark:text-zinc-200">{value}</td>
                     </tr>
                   ))}
@@ -525,7 +525,7 @@ export default function CollectionDetailsClient({
                   </svg>
                   <span>AI Review Summary</span>
                 </div>
-                <p className="text-xs text-zinc-650 dark:text-zinc-450 leading-relaxed italic font-medium">
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed italic font-medium">
                   &ldquo;{product.reviewSummary}&rdquo;
                 </p>
               </div>
@@ -538,7 +538,7 @@ export default function CollectionDetailsClient({
                 
                 {/* Star rating picker */}
                 <div className="mb-4">
-                  <label className="block text-xs font-bold text-zinc-550 dark:text-zinc-400 uppercase tracking-wide mb-2">Your Rating</label>
+                  <label className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-2">Your Rating</label>
                   <div className="flex items-center gap-1.5">
                     {Array.from({ length: 5 }).map((_, i) => {
                       const starVal = i + 1;
@@ -561,7 +561,7 @@ export default function CollectionDetailsClient({
                         </button>
                       );
                     })}
-                    <span className="text-xs font-bold text-zinc-450 dark:text-zinc-500 ml-2">
+                    <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500 ml-2">
                       {hoveredRating !== null ? `${hoveredRating} Star${hoveredRating > 1 ? 's' : ''}` : `${ratingInput} Star${ratingInput > 1 ? 's' : ''}`}
                     </span>
                   </div>
@@ -569,7 +569,7 @@ export default function CollectionDetailsClient({
 
                 {/* Review comment input */}
                 <div className="mb-4">
-                  <label htmlFor="comment-text" className="block text-xs font-bold text-zinc-550 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Details</label>
+                  <label htmlFor="comment-text" className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Details</label>
                   <textarea
                     id="comment-text"
                     rows={4}
@@ -583,7 +583,7 @@ export default function CollectionDetailsClient({
 
                 {/* Image upload field */}
                 <div className="mb-6">
-                  <label className="block text-xs font-bold text-zinc-555 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Image (Optional)</label>
+                  <label className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Image (Optional)</label>
                   <div className="flex flex-wrap items-center gap-4">
                     <input
                       type="file"
@@ -636,7 +636,7 @@ export default function CollectionDetailsClient({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:w-auto rounded-xl bg-zinc-950 hover:bg-zinc-850 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 px-6 py-3 text-xs font-extrabold shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto rounded-xl bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 px-6 py-3 text-xs font-extrabold shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -674,7 +674,7 @@ export default function CollectionDetailsClient({
                         </div>
                       </div>
                       {rev.createdAt && (
-                        <span className="text-[10px] text-zinc-450 dark:text-zinc-500 mt-1 font-semibold">
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500 mt-1 font-semibold">
                           {new Date(rev.createdAt).toLocaleDateString("en-US", {
                             month: "short",
                             day: "numeric",
@@ -684,13 +684,13 @@ export default function CollectionDetailsClient({
                       )}
                     </div>
                   </div>
-                  <p className="text-xs text-zinc-555 dark:text-zinc-400 font-normal leading-relaxed">{rev.content}</p>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 font-normal leading-relaxed">{rev.content}</p>
                   
                   {/* Uploaded images display */}
                   {rev.images && rev.images.length > 0 && (
                     <div className="flex flex-wrap gap-2.5 mt-3">
                       {rev.images.map((imgUrl, imgIdx) => (
-                        <div key={imgIdx} className="relative h-20 w-20 rounded-xl overflow-hidden border border-zinc-150 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950">
+                        <div key={imgIdx} className="relative h-20 w-20 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950">
                           <img
                             src={imgUrl}
                             alt={`Review asset ${imgIdx + 1}`}
@@ -731,11 +731,11 @@ export default function CollectionDetailsClient({
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <span className="text-[9px] font-bold tracking-wider text-zinc-400 uppercase">{p.brand}</span>
-                    <h3 className="text-xs font-bold text-zinc-900 dark:text-white truncate mt-0.5 group-hover:text-blue-650 transition-colors">
+                    <h3 className="text-xs font-bold text-zinc-900 dark:text-white truncate mt-0.5 group-hover:text-blue-600 transition-colors">
                       {p.name}
                     </h3>
                   </div>
-                  <span className="text-xs font-bold text-zinc-800 dark:text-zinc-350 block mt-3">${p.price.toLocaleString()}</span>
+                  <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300 block mt-3">${p.price.toLocaleString()}</span>
                 </div>
               </Link>
             ))}
@@ -760,12 +760,12 @@ export default function CollectionDetailsClient({
             Aura Marketplace
           </span>
           <div className="flex gap-3">
-            <button onClick={toggleFavorite} className="text-zinc-700 dark:text-zinc-350">
+            <button onClick={toggleFavorite} className="text-zinc-700 dark:text-zinc-300">
               <svg className={`h-6 w-6 ${isFavorite ? "fill-red-500 stroke-red-500" : "stroke-current"}`} fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
               </svg>
             </button>
-            <button onClick={() => toast.success("Link copied to clipboard!")} className="text-zinc-700 dark:text-zinc-350">
+            <button onClick={() => toast.success("Link copied to clipboard!")} className="text-zinc-700 dark:text-zinc-300">
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
               </svg>
@@ -789,7 +789,7 @@ export default function CollectionDetailsClient({
           {/* Tag Badges */}
           <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
             {product.originalPrice && product.price < product.originalPrice && (
-              <span className="rounded bg-red-650 px-2 py-0.5 text-[8px] font-extrabold uppercase tracking-wide text-white shadow-xs">
+              <span className="rounded bg-red-600 px-2 py-0.5 text-[8px] font-extrabold uppercase tracking-wide text-white shadow-xs">
                 SAVE ${product.originalPrice - product.price}
               </span>
             )}
@@ -818,7 +818,7 @@ export default function CollectionDetailsClient({
         <div className="p-4 bg-white dark:bg-zinc-900/50">
           <div className="flex justify-between items-start">
             <div>
-              <span className="text-[10px] font-bold tracking-wider text-zinc-400 dark:text-zinc-555 uppercase">
+              <span className="text-[10px] font-bold tracking-wider text-zinc-400 dark:text-zinc-500 uppercase">
                 {product.brand}
               </span>
               <h2 className="text-xl font-bold text-zinc-900 dark:text-white mt-1">
@@ -826,11 +826,11 @@ export default function CollectionDetailsClient({
               </h2>
             </div>
             <div className="text-right">
-              <span className="text-xl font-extrabold text-blue-600 dark:text-blue-450 block">
+              <span className="text-xl font-extrabold text-blue-600 dark:text-blue-400 block">
                 ${product.price.toLocaleString()}
               </span>
               {product.originalPrice && (
-                <span className="text-xs text-zinc-450 line-through">
+                <span className="text-xs text-zinc-400 line-through">
                   ${product.originalPrice.toLocaleString()}
                 </span>
               )}
@@ -857,7 +857,7 @@ export default function CollectionDetailsClient({
         {/* Mobile Color Picker */}
         {product.colors.length > 0 && (
           <div className="p-4 border-t border-zinc-100 dark:border-zinc-900 bg-white dark:bg-zinc-900/50">
-            <h3 className="text-xs font-bold text-zinc-550 dark:text-zinc-400 uppercase tracking-wide mb-3">
+            <h3 className="text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-3">
               Color: <span className="font-extrabold text-zinc-800 dark:text-zinc-200">{selectedColor}</span>
             </h3>
             <div className="flex gap-3">
@@ -882,7 +882,7 @@ export default function CollectionDetailsClient({
         {/* Mobile Description */}
         <div className="p-4 border-t border-zinc-100 dark:border-zinc-900 bg-white dark:bg-zinc-900/50">
           <h3 className="text-xs font-extrabold text-zinc-950 dark:text-white uppercase tracking-wider mb-2.5">Overview</h3>
-          <p className="text-xs text-zinc-500 dark:text-zinc-450 leading-relaxed font-normal">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">
             {product.description}
           </p>
         </div>
@@ -897,28 +897,28 @@ export default function CollectionDetailsClient({
                 const sKey = specKey.toLowerCase();
                 if (sKey.includes("processor") || sKey.includes("movement")) {
                   return (
-                    <svg className="h-4.5 w-4.5 text-blue-650" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                    <svg className="h-4.5 w-4.5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z" />
                     </svg>
                   );
                 }
                 if (sKey.includes("memory") || sKey.includes("power")) {
                   return (
-                    <svg className="h-4.5 w-4.5 text-blue-650" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                    <svg className="h-4.5 w-4.5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   );
                 }
                 if (sKey.includes("storage") || sKey.includes("dimensions")) {
                   return (
-                    <svg className="h-4.5 w-4.5 text-blue-650" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                    <svg className="h-4.5 w-4.5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25m-2.25-2.25l-2.25 2.25m2.25-2.25l2.25-2.25M3.75 7.5L5.621 3.757A1.5 1.5 0 016.964 3h10.071a1.5 1.5 0 011.343.803L20.25 7.5m-16.5 0H20.25" />
                     </svg>
                   );
                 }
                 // default display / material
                 return (
-                  <svg className="h-4.5 w-4.5 text-blue-650" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                  <svg className="h-4.5 w-4.5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
                   </svg>
                 );
@@ -927,10 +927,10 @@ export default function CollectionDetailsClient({
               return (
                 <div key={key} className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 flex flex-col justify-between shadow-xs">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-555">{key}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">{key}</span>
                     {renderSpecIcon(key)}
                   </div>
-                  <span className="text-[11px] font-bold text-zinc-850 dark:text-zinc-200 leading-tight block">{value}</span>
+                  <span className="text-[11px] font-bold text-zinc-800 dark:text-zinc-200 leading-tight block">{value}</span>
                 </div>
               );
             })}
@@ -938,10 +938,10 @@ export default function CollectionDetailsClient({
         </div>
 
         {/* Mobile Sticky Add to Bag / Buy Now CTAs */}
-        <div className="fixed bottom-14 left-0 right-0 z-40 bg-white/95 dark:bg-black/95 border-t border-zinc-150 dark:border-zinc-850 px-4 py-3 flex gap-3 backdrop-blur-md">
+        <div className="fixed bottom-14 left-0 right-0 z-40 bg-white/95 dark:bg-black/95 border-t border-zinc-200 dark:border-zinc-800 px-4 py-3 flex gap-3 backdrop-blur-md">
           <button
             onClick={handleAddToCart}
-            className="flex-1 border-2 border-blue-650 bg-white dark:bg-zinc-950 text-blue-650 dark:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 rounded-xl py-2.5 text-xs font-bold shadow-xs transition-colors cursor-pointer"
+            className="flex-1 border-2 border-blue-600 bg-white dark:bg-zinc-950 text-blue-600 dark:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 rounded-xl py-2.5 text-xs font-bold shadow-xs transition-colors cursor-pointer"
           >
             Add to Bag
           </button>
@@ -960,7 +960,7 @@ export default function CollectionDetailsClient({
               href="/"
               onClick={() => setActiveMobileTab("home")}
               className={`flex flex-col items-center gap-1 cursor-pointer transition-colors ${
-                activeMobileTab === "home" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-650"
+                activeMobileTab === "home" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-600"
               }`}
             >
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
@@ -975,7 +975,7 @@ export default function CollectionDetailsClient({
                 toast.info("Cart view coming soon!");
               }}
               className={`flex flex-col items-center gap-1 cursor-pointer transition-colors ${
-                activeMobileTab === "bag" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-650"
+                activeMobileTab === "bag" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-600"
               }`}
             >
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
@@ -990,7 +990,7 @@ export default function CollectionDetailsClient({
                 toast.info("Order history coming soon!");
               }}
               className={`flex flex-col items-center gap-1 cursor-pointer transition-colors ${
-                activeMobileTab === "orders" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-650"
+                activeMobileTab === "orders" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-600"
               }`}
             >
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
@@ -1003,7 +1003,7 @@ export default function CollectionDetailsClient({
               href="/dashboard"
               onClick={() => setActiveMobileTab("profile")}
               className={`flex flex-col items-center gap-1 cursor-pointer transition-colors ${
-                activeMobileTab === "profile" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-650"
+                activeMobileTab === "profile" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-600"
               }`}
             >
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">

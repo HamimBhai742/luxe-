@@ -576,7 +576,7 @@ export default function CheckoutClient() {
         
         {/* Top Header Bar */}
         <div>
-          <header className="border-b border-zinc-150 bg-white px-6 py-4 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
+          <header className="border-b border-zinc-200 bg-white px-6 py-4 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
             <div className="mx-auto max-w-7xl flex items-center justify-between relative">
               <Link href="/" className="text-lg font-black text-zinc-900 dark:text-white tracking-tight flex items-center gap-1.5 select-none">
                 <span className="h-6 w-6 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-xs">A</span>
@@ -611,7 +611,7 @@ export default function CheckoutClient() {
               </p>
 
               {/* Order ID Badge Copy Box */}
-              <div className="mt-5 flex items-center gap-2 bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-850 px-4 py-2 rounded-2xl shadow-xs">
+              <div className="mt-5 flex items-center gap-2 bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 px-4 py-2 rounded-2xl shadow-xs">
                 <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Order ID:</span>
                 <span className="text-sm font-black text-zinc-900 dark:text-white">{createdOrder?.orderId || "ORD-PENDING"}</span>
                 <button
@@ -636,7 +636,7 @@ export default function CheckoutClient() {
               <div className="lg:col-span-7 space-y-6">
                 
                 {/* Ordered Items List */}
-                <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
+                <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
                   <h3 className="text-base font-extrabold text-zinc-950 dark:text-white mb-4 flex items-center gap-2">
                     <svg className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -648,7 +648,7 @@ export default function CheckoutClient() {
                     {displayItems && displayItems.length > 0 ? (
                       displayItems.map((item, idx) => (
                         <div key={idx} className="flex gap-4 py-3 border-b border-zinc-100 dark:border-zinc-900/50 last:border-b-0">
-                          <div className="relative h-16 w-16 rounded-xl border border-zinc-150 dark:border-zinc-850 overflow-hidden bg-zinc-50 dark:bg-zinc-900 shrink-0">
+                          <div className="relative h-16 w-16 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden bg-zinc-50 dark:bg-zinc-900 shrink-0">
                             <Image
                               src={item.image}
                               alt={item.name}
@@ -672,7 +672,7 @@ export default function CheckoutClient() {
                         </div>
                       ))
                     ) : (
-                      <div className="text-zinc-450 text-xs font-bold py-6 text-center">No items loaded.</div>
+                      <div className="text-zinc-400 text-xs font-bold py-6 text-center">No items loaded.</div>
                     )}
                   </div>
                 </div>
@@ -681,7 +681,7 @@ export default function CheckoutClient() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
                   {/* Shipping Address Box */}
-                  <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
+                  <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
                     <h4 className="text-xs font-black uppercase tracking-wider text-zinc-400 mb-3.5 flex items-center gap-1.5">
                       <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -704,7 +704,7 @@ export default function CheckoutClient() {
                   </div>
 
                   {/* Payment Info Box */}
-                  <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
+                  <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
                     <h4 className="text-xs font-black uppercase tracking-wider text-zinc-400 mb-3.5 flex items-center gap-1.5">
                       <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-19.5 5.25h6m-6 2.25h3m-3.75-3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5h15a2.25 2.25 0 002.25-2.25V14" />
@@ -763,7 +763,7 @@ export default function CheckoutClient() {
                     <span>Delivery Estimation & Progress</span>
                   </h3>
 
-                  <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-150 dark:border-zinc-900 p-4 rounded-2xl flex items-center gap-3.5 mb-6">
+                  <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-900 p-4 rounded-2xl flex items-center gap-3.5 mb-6">
                     <div className="h-10 w-10 bg-blue-50 dark:bg-blue-950/15 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
                       <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.129-1.125V11.25M3 14.25h15m0 0V11.25m0 0h1.875c.621 0 1.125-.504 1.125-1.125V6.75H13.5v4.5M3.75 6.75h9.75M3 14.25v-7.5" />
@@ -818,7 +818,7 @@ export default function CheckoutClient() {
                 </div>
 
                 {/* Billing Summary Receipt */}
-                <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-850 dark:bg-zinc-950 shadow-xs space-y-4">
+                <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950 shadow-xs space-y-4">
                   <h3 className="text-base font-extrabold text-zinc-950 dark:text-white pb-3 border-b border-zinc-100 dark:border-zinc-900 flex justify-between items-center">
                     <span>Receipt Summary</span>
                     <span className="text-[10px] bg-blue-50 dark:bg-blue-950/10 text-blue-600 dark:text-blue-400 px-2.5 py-0.5 rounded-full font-black uppercase tracking-wide">
@@ -835,7 +835,7 @@ export default function CheckoutClient() {
                     {/* Shipping Row */}
                     <div className="flex justify-between items-center">
                       <span>Shipping</span>
-                      <span className="text-zinc-850 dark:text-zinc-200 font-extrabold">
+                      <span className="text-zinc-800 dark:text-zinc-200 font-extrabold">
                         {displayShipping === 0 ? "Free" : `$${displayShipping.toFixed(2)}`}
                       </span>
                     </div>
@@ -861,9 +861,9 @@ export default function CheckoutClient() {
                     )}
 
                     {/* Grand Total */}
-                    <div className="border-t border-zinc-150 dark:border-zinc-900 pt-4 mt-2 flex justify-between items-baseline bg-zinc-50 dark:bg-zinc-900/40 p-3 rounded-2xl">
+                    <div className="border-t border-zinc-200 dark:border-zinc-900 pt-4 mt-2 flex justify-between items-baseline bg-zinc-50 dark:bg-zinc-900/40 p-3 rounded-2xl">
                       <span className="text-sm font-black text-zinc-950 dark:text-white">Amount Paid</span>
-                      <span className="text-xl font-black text-blue-600 dark:text-blue-450">${displayTotal.toFixed(2)}</span>
+                      <span className="text-xl font-black text-blue-600 dark:text-blue-400">${displayTotal.toFixed(2)}</span>
                     </div>
                   </div>
 
@@ -916,7 +916,7 @@ export default function CheckoutClient() {
         </div>
 
         {/* Footer bar */}
-        <footer className="border-t border-zinc-150 bg-white px-6 py-6 dark:border-zinc-900 dark:bg-zinc-950 mt-12 text-[11px] font-bold text-zinc-400">
+        <footer className="border-t border-zinc-200 bg-white px-6 py-6 dark:border-zinc-900 dark:bg-zinc-950 mt-12 text-[11px] font-bold text-zinc-400">
           <div className="mx-auto max-w-7xl flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <span className="text-zinc-800 dark:text-zinc-300">Aura Marketplace</span>
             <span>© 2024 Aura Marketplace. All transactions are secure and encrypted.</span>
@@ -938,7 +938,7 @@ export default function CheckoutClient() {
       
       {/* Top Header Bar */}
       <div>
-        <header className="border-b border-zinc-150 bg-white px-6 py-4 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
+        <header className="border-b border-zinc-200 bg-white px-6 py-4 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
           <div className="mx-auto max-w-7xl flex items-center justify-center relative">
             <Link href="/" className="text-lg font-black text-zinc-900 dark:text-white tracking-tight flex flex-col items-center">
               <span>Aura Marketplace</span>
@@ -1073,7 +1073,7 @@ export default function CheckoutClient() {
               
               {/* STEP 1: Shipping Address */}
               {activeStep === "shipping" && (
-                <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs min-h-[380px] space-y-6">
+                <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs min-h-[380px] space-y-6">
                   <div>
                     <h2 className="text-xl font-bold text-zinc-950 dark:text-white">
                       Shipping Address
@@ -1084,8 +1084,8 @@ export default function CheckoutClient() {
                   </div>
 
                   {savedAddresses.length > 0 && (
-                    <div className="bg-zinc-50/50 dark:bg-zinc-900/40 border border-zinc-150 dark:border-zinc-800/80 rounded-2xl p-4 space-y-2">
-                      <label className="block text-[10px] font-black uppercase tracking-wider text-zinc-450 dark:text-zinc-400">
+                    <div className="bg-zinc-50/50 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/80 rounded-2xl p-4 space-y-2">
+                      <label className="block text-[10px] font-black uppercase tracking-wider text-zinc-400 dark:text-zinc-400">
                         Choose from Saved Addresses
                       </label>
                       <div className="relative">
@@ -1130,7 +1130,7 @@ export default function CheckoutClient() {
                     <div className="grid grid-cols-2 gap-4">
                       {/* Full Name */}
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 mb-1.5">
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                           Full Name
                         </label>
                         <input
@@ -1260,7 +1260,7 @@ export default function CheckoutClient() {
 
               {/* STEP 2: Delivery Method */}
               {activeStep === "delivery" && (
-                <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs min-h-[380px] space-y-6">
+                <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs min-h-[380px] space-y-6">
                   <div>
                     <h2 className="text-xl font-bold text-zinc-950 dark:text-white">
                       Delivery Method
@@ -1295,7 +1295,7 @@ export default function CheckoutClient() {
                       
                       <div className="mt-5">
                         <span className="text-xs font-black text-zinc-900 dark:text-white block">Standard Shipping</span>
-                        <span className="text-[10px] text-zinc-400 dark:text-zinc-550 font-bold mt-0.5 block">3-5 business days</span>
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-bold mt-0.5 block">3-5 business days</span>
                       </div>
 
                       <div className="mt-4 flex items-baseline justify-between pt-4 border-t border-zinc-100 dark:border-zinc-900">
@@ -1327,7 +1327,7 @@ export default function CheckoutClient() {
                       
                       <div className="mt-5">
                         <span className="text-xs font-black text-zinc-900 dark:text-white block">Express Delivery</span>
-                        <span className="text-[10px] text-zinc-450 dark:text-zinc-550 font-bold mt-0.5 block">Next business day</span>
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-bold mt-0.5 block">Next business day</span>
                       </div>
 
                       <div className="mt-4 flex items-baseline justify-between pt-4 border-t border-zinc-100 dark:border-zinc-900">
@@ -1341,7 +1341,7 @@ export default function CheckoutClient() {
               )}
 
               {activeStep === "payment" && (
-                <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs min-h-[380px] space-y-6">
+                <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs min-h-[380px] space-y-6">
                   <div>
                     <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
                       Payment Method
@@ -1456,12 +1456,12 @@ export default function CheckoutClient() {
                           )}
 
                           <div>
-                            <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 mb-1.5">
+                            <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                               Card Number
                             </label>
                             <div className="relative">
                               <div className="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
-                                <svg className="h-4.5 w-4.5 text-zinc-450" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                                <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-5.25-6h18A2.25 2.25 0 0122.5 12v5.25A2.25 2.25 0 0120.25 19.5H3.75A2.25 2.25 0 011.5 17.25V12a2.25 2.25 0 012.25-2.25z" />
                                 </svg>
                               </div>
@@ -1760,7 +1760,7 @@ export default function CheckoutClient() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     
                     {/* Shipping Address */}
-                    <div className="rounded-2xl border border-zinc-150 p-4 dark:border-zinc-850 bg-white">
+                    <div className="rounded-2xl border border-zinc-200 p-4 dark:border-zinc-800 bg-white">
                       <div className="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-900 pb-2 mb-3">
                         <span className="text-xs font-black text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5">
                           <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -1772,7 +1772,7 @@ export default function CheckoutClient() {
                         <button
                           type="button"
                           onClick={() => setActiveStep("shipping")}
-                          className="text-xs font-extrabold text-blue-600 hover:text-blue-500 dark:text-blue-450 cursor-pointer"
+                          className="text-xs font-extrabold text-blue-600 hover:text-blue-500 dark:text-blue-400 cursor-pointer"
                         >
                           Edit
                         </button>
@@ -1787,7 +1787,7 @@ export default function CheckoutClient() {
                     </div>
 
                     {/* Payment Method */}
-                    <div className="rounded-2xl border border-zinc-150 p-4 dark:border-zinc-855 bg-white">
+                    <div className="rounded-2xl border border-zinc-200 p-4 dark:border-zinc-855 bg-white">
                       <div className="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-900 pb-2 mb-3">
                         <span className="text-xs font-black text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5">
                           <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -1798,12 +1798,12 @@ export default function CheckoutClient() {
                         <button
                           type="button"
                           onClick={() => setActiveStep("payment")}
-                          className="text-xs font-extrabold text-blue-600 hover:text-blue-500 dark:text-blue-450 cursor-pointer"
+                          className="text-xs font-extrabold text-blue-600 hover:text-blue-500 dark:text-blue-400 cursor-pointer"
                         >
                           Edit
                         </button>
                       </div>
-                      <div className="text-xs text-zinc-600 dark:text-zinc-450 leading-relaxed font-bold space-y-2">
+                      <div className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed font-bold space-y-2">
                         {paymentMethod === "card" ? (
                           <div className="flex items-center gap-2">
                             <span className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded text-[9px] font-black uppercase text-zinc-500 tracking-wider">
@@ -1823,14 +1823,14 @@ export default function CheckoutClient() {
                         ) : (
                           <p className="text-zinc-900 dark:text-white font-extrabold">Cash on Delivery (COD)</p>
                         )}
-                        <p className="text-[10px] text-zinc-450">Billing address matches shipping</p>
+                        <p className="text-[10px] text-zinc-400">Billing address matches shipping</p>
                       </div>
                     </div>
 
                   </div>
 
                   {/* Order Details */}
-                  <div className="rounded-2xl border border-zinc-150 dark:border-zinc-850 bg-white overflow-hidden">
+                  <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white overflow-hidden">
                     <div className="border-b border-zinc-100 dark:border-zinc-900 p-4">
                       <h3 className="text-sm font-extrabold text-zinc-900 dark:text-white">Order Details</h3>
                     </div>
@@ -1838,7 +1838,7 @@ export default function CheckoutClient() {
                       
                       {cartItems.map((item, idx) => (
                         <div key={idx} className="p-4 flex gap-4">
-                          <div className="relative h-16 w-16 rounded-xl border border-zinc-150 dark:border-zinc-850 overflow-hidden bg-zinc-50 shrink-0">
+                          <div className="relative h-16 w-16 rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden bg-zinc-50 shrink-0">
                             <Image
                               src={item.image}
                               alt={item.name}
@@ -1862,19 +1862,19 @@ export default function CheckoutClient() {
                   </div>
 
                   {/* Promo Code Accordion */}
-                  <div className="rounded-2xl border border-zinc-150 dark:border-zinc-850 bg-white overflow-hidden">
+                  <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white overflow-hidden">
                     <button
                       type="button"
                       onClick={() => setIsPromoOpen(!isPromoOpen)}
                       className="w-full flex items-center justify-between p-4 cursor-pointer hover:bg-zinc-50 transition-colors"
                     >
-                      <span className="flex items-center gap-2 text-xs font-extrabold text-zinc-850 dark:text-zinc-200">
+                      <span className="flex items-center gap-2 text-xs font-extrabold text-zinc-800 dark:text-zinc-200">
                         <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a1.5 1.5 0 002.122 0l4.72-4.72a1.5 1.5 0 000-2.122L10.49 3.659A2.25 2.25 0 008.902 3H9.57zM6 7.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                         </svg>
                         <span>Add Gift Card or Promo Code</span>
                       </span>
-                      <svg className={`h-4.5 w-4.5 text-zinc-450 transition-transform ${isPromoOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                      <svg className={`h-4.5 w-4.5 text-zinc-400 transition-transform ${isPromoOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                       </svg>
                     </button>
@@ -1920,7 +1920,7 @@ export default function CheckoutClient() {
 
             {/* RIGHT COLUMN: Order Summary Card (4 cols) */}
             <div className="lg:col-span-4 space-y-4">
-              <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
+              <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
                 <h2 className="text-base font-extrabold text-zinc-950 dark:text-white border-b border-zinc-100 dark:border-zinc-900 pb-3.5">
                   Order Summary
                 </h2>
@@ -1931,7 +1931,7 @@ export default function CheckoutClient() {
                     
                     {/* Item 1 */}
                     <div className="flex gap-3">
-                      <div className="relative h-12 w-12 rounded-lg border border-zinc-150 overflow-hidden bg-zinc-50 shrink-0">
+                      <div className="relative h-12 w-12 rounded-lg border border-zinc-200 overflow-hidden bg-zinc-50 shrink-0">
                         <Image
                           src="https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=600&auto=format&fit=crop"
                           alt="Minimalist Smart Speaker"
@@ -1943,15 +1943,15 @@ export default function CheckoutClient() {
                       <div className="flex-1 flex justify-between text-xs leading-normal">
                         <div className="flex flex-col">
                           <span className="font-extrabold text-zinc-900 dark:text-white">Minimalist Smart Speaker</span>
-                          <span className="text-[10px] text-zinc-450 font-bold">Qty: 1</span>
+                          <span className="text-[10px] text-zinc-400 font-bold">Qty: 1</span>
                         </div>
-                        <span className="font-black text-zinc-850 dark:text-zinc-200">$120.00</span>
+                        <span className="font-black text-zinc-800 dark:text-zinc-200">$120.00</span>
                       </div>
                     </div>
 
                     {/* Item 2 */}
                     <div className="flex gap-3">
-                      <div className="relative h-12 w-12 rounded-lg border border-zinc-150 overflow-hidden bg-zinc-50 shrink-0">
+                      <div className="relative h-12 w-12 rounded-lg border border-zinc-200 overflow-hidden bg-zinc-50 shrink-0">
                         <Image
                           src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=600&auto=format&fit=crop"
                           alt="AeroRun Pro"
@@ -1965,7 +1965,7 @@ export default function CheckoutClient() {
                           <span className="font-extrabold text-zinc-900 dark:text-white">AeroRun Pro</span>
                           <span className="text-[10px] text-zinc-400 font-bold">Qty: 1</span>
                         </div>
-                        <span className="font-black text-zinc-850 dark:text-zinc-200">$150.00</span>
+                        <span className="font-black text-zinc-800 dark:text-zinc-200">$150.00</span>
                       </div>
                     </div>
 
@@ -2005,7 +2005,7 @@ export default function CheckoutClient() {
                   {/* Divider */}
                   <div className="border-t border-zinc-100 dark:border-zinc-900 pt-3.5 mt-2 flex justify-between items-baseline">
                     <span className="text-sm font-black text-zinc-950 dark:text-white">Total</span>
-                    <span className="text-xl font-black text-blue-600 dark:text-blue-450">${getGrandTotal().toFixed(2)}</span>
+                    <span className="text-xl font-black text-blue-600 dark:text-blue-400">${getGrandTotal().toFixed(2)}</span>
                   </div>
 
                 </div>
@@ -2045,7 +2045,7 @@ export default function CheckoutClient() {
                         else if (activeStep === "payment") setActiveStep("delivery");
                         else if (activeStep === "review") setActiveStep("payment");
                       }}
-                      className="w-full flex items-center justify-center gap-2 border border-zinc-250 bg-white hover:bg-zinc-50 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 dark:text-zinc-300 rounded-xl py-3.5 text-xs font-bold transition-colors cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 border border-zinc-250 bg-white hover:bg-zinc-50 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-zinc-300 rounded-xl py-3.5 text-xs font-bold transition-colors cursor-pointer"
                     >
                       {activeStep === "delivery" && <span>Back to Shipping</span>}
                       {activeStep === "payment" && <span>Back to Delivery</span>}
@@ -2080,7 +2080,7 @@ export default function CheckoutClient() {
       </div>
 
       {/* Footer bar */}
-      <footer className="border-t border-zinc-150 bg-white px-6 py-6 dark:border-zinc-900 dark:bg-zinc-950 mt-12 text-[11px] font-bold text-zinc-400">
+      <footer className="border-t border-zinc-200 bg-white px-6 py-6 dark:border-zinc-900 dark:bg-zinc-950 mt-12 text-[11px] font-bold text-zinc-400">
         <div className="mx-auto max-w-7xl flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <span className="text-zinc-800 dark:text-zinc-300">Aura Marketplace</span>
           <span>© 2024 Aura Marketplace. All transactions are secure and encrypted.</span>
@@ -2095,7 +2095,7 @@ export default function CheckoutClient() {
       {/* Stripe Payment Modal */}
       {showStripeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/65 backdrop-blur-xs animate-fade-in">
-          <div className="relative w-full max-w-md rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950 shadow-2xl space-y-6">
+          <div className="relative w-full max-w-md rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950 shadow-2xl space-y-6">
             
             {/* Close Button */}
             <button
@@ -2122,16 +2122,16 @@ export default function CheckoutClient() {
                 </svg>
               </div>
               <h3 className="text-lg font-black text-zinc-900 dark:text-white">Stripe Secure Checkout</h3>
-              <p className="text-xs text-zinc-450">Pay securely with Credit or Debit card via Stripe</p>
+              <p className="text-xs text-zinc-400">Pay securely with Credit or Debit card via Stripe</p>
             </div>
 
             {/* Content: Form fields or processing state */}
             <div className="space-y-4 pt-1">
               
               {/* Order total info */}
-              <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 p-4 border border-zinc-150 dark:border-zinc-800 flex justify-between items-center text-xs">
+              <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 p-4 border border-zinc-200 dark:border-zinc-800 flex justify-between items-center text-xs">
                 <span className="font-bold text-zinc-500">Amount to Pay</span>
-                <span className="text-sm font-black text-blue-600 dark:text-blue-450">${getGrandTotal().toFixed(2)}</span>
+                <span className="text-sm font-black text-blue-600 dark:text-blue-400">${getGrandTotal().toFixed(2)}</span>
               </div>
 
               {stripeProcessing ? (
@@ -2155,7 +2155,7 @@ export default function CheckoutClient() {
               ) : (
                 <div className="space-y-3.5">
                   <div>
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 mb-1">Card Number</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Card Number</label>
                     <input
                       type="text"
                       className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none"
@@ -2165,7 +2165,7 @@ export default function CheckoutClient() {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 mb-1">Expiry</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Expiry</label>
                       <input
                         type="text"
                         className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none"

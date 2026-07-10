@@ -417,14 +417,14 @@ export default function ChatBot() {
             bottom: btnPos.bottom + 64,
             right: btnPos.right,
           }}
-          className="fixed z-50 w-[350px] max-w-[90vw] h-[500px] rounded-3xl border border-zinc-150 dark:border-zinc-850 bg-white dark:bg-zinc-950 shadow-2xl flex flex-col overflow-hidden animate-fade-in"
+          className="fixed z-50 w-[350px] max-w-[90vw] h-[500px] rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-2xl flex flex-col overflow-hidden animate-fade-in"
         >
           
           {/* Header section — no longer needs drag handlers */}
           <div className="bg-zinc-900 text-white px-5 py-4 flex items-center justify-between shadow-sm select-none">
             <div className="flex items-center gap-3">
               {/* Bot Avatar Icon */}
-              <div className="h-9 w-9 rounded-xl bg-blue-600/20 text-blue-450 border border-blue-600/35 flex items-center justify-center font-bold">
+              <div className="h-9 w-9 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-600/35 flex items-center justify-center font-bold">
                 A
               </div>
               <div>
@@ -472,7 +472,7 @@ export default function ChatBot() {
                     className={`rounded-2xl px-3.5 py-2.5 shadow-xs border ${
                       msg.sender === "user"
                         ? "bg-zinc-900 border-zinc-800 text-white rounded-tr-none dark:bg-white dark:text-zinc-950 dark:border-white"
-                        : "bg-white dark:bg-zinc-900 border-zinc-150 dark:border-zinc-800 text-zinc-850 dark:text-zinc-100 rounded-tl-none"
+                        : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-100 rounded-tl-none"
                     }`}
                   >
                     {renderMessageText(msg.text)}
@@ -494,7 +494,7 @@ export default function ChatBot() {
                 <div className="h-7 w-7 rounded-full bg-blue-600 border border-blue-500 text-white shrink-0 flex items-center justify-center font-extrabold text-[10px]">
                   A
                 </div>
-                <div className="bg-white dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-800 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl rounded-tl-none px-4 py-3 flex items-center gap-1">
                   <span className="h-1.5 w-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></span>
                   <span className="h-1.5 w-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></span>
                   <span className="h-1.5 w-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></span>
@@ -511,7 +511,7 @@ export default function ChatBot() {
                 <button
                   key={i}
                   onClick={() => handleSend(sug)}
-                  className="snap-start rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 hover:bg-zinc-100 dark:bg-zinc-900/50 dark:hover:bg-zinc-800 text-[10px] font-bold text-zinc-600 dark:text-zinc-350 px-3.5 py-1.5 whitespace-nowrap shadow-2xs transition-colors cursor-pointer focus:outline-none"
+                  className="snap-start rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 hover:bg-zinc-100 dark:bg-zinc-900/50 dark:hover:bg-zinc-800 text-[10px] font-bold text-zinc-600 dark:text-zinc-300 px-3.5 py-1.5 whitespace-nowrap shadow-2xs transition-colors cursor-pointer focus:outline-none"
                 >
                   {sug}
                 </button>
@@ -525,7 +525,7 @@ export default function ChatBot() {
               e.preventDefault();
               handleSend(inputValue);
             }}
-            className="p-3 border-t border-zinc-150 dark:border-zinc-850 bg-white dark:bg-zinc-950 flex items-center gap-2"
+            className="p-3 border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 flex items-center gap-2"
           >
             <input
               type="text"

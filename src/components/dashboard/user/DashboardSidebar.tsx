@@ -134,7 +134,7 @@ export default function DashboardSidebar({ onCloseMobileDrawer }: SidebarProps) 
                 className={`w-full flex items-center gap-3.5 rounded-xl px-3.5 py-3 text-sm font-bold transition-all cursor-pointer ${
                   isActive
                     ? "bg-blue-50 text-blue-600 dark:bg-blue-950/20 dark:text-blue-400"
-                    : "text-zinc-655 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-900/50 hover:text-zinc-900 dark:hover:text-zinc-100"
+                    : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-900/50 hover:text-zinc-900 dark:hover:text-zinc-100"
                 }`}
               >
                 {item.icon}
@@ -154,7 +154,7 @@ export default function DashboardSidebar({ onCloseMobileDrawer }: SidebarProps) 
           className={`w-full flex items-center gap-3.5 rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all cursor-pointer ${
             pathname === "/dashboard/settings"
               ? "bg-blue-50 text-blue-600 dark:bg-blue-950/20 dark:text-blue-400"
-              : "text-zinc-650 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900/50 dark:hover:text-zinc-100"
+              : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900/50 dark:hover:text-zinc-100"
           }`}
         >
           <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">

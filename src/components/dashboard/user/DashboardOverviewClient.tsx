@@ -115,7 +115,7 @@ export default function DashboardOverviewClient() {
         );
       default:
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-50 px-2.5 py-0.5 text-xs font-bold text-zinc-650 dark:bg-zinc-950/30 dark:text-zinc-400">
+          <span className="inline-flex items-center rounded-full bg-zinc-50 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:bg-zinc-950/30 dark:text-zinc-400">
             {status || "Pending"}
           </span>
         );
@@ -140,7 +140,7 @@ export default function DashboardOverviewClient() {
         <div className="flex gap-3.5 shrink-0">
           <Link
             href="/dashboard/settings"
-            className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-200 shadow-sm transition-all cursor-pointer text-center flex items-center justify-center"
+            className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-200 shadow-sm transition-all cursor-pointer text-center flex items-center justify-center"
           >
             View Profile
           </Link>
@@ -161,7 +161,7 @@ export default function DashboardOverviewClient() {
         {/* Card 1: Total Orders */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs flex justify-between items-start">
           <div className="space-y-3">
-            <span className="text-xs font-bold text-zinc-455 dark:text-zinc-500 uppercase tracking-wider block">Total Orders</span>
+            <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">Total Orders</span>
             <span className="text-3xl font-black text-zinc-900 dark:text-white block leading-none">
               {isLoadingOrders ? "..." : totalOrders}
             </span>
@@ -176,7 +176,7 @@ export default function DashboardOverviewClient() {
         {/* Card 2: Active Shipments */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs flex justify-between items-start">
           <div className="space-y-3">
-            <span className="text-xs font-bold text-zinc-455 dark:text-zinc-500 uppercase tracking-wider block">Active Shipments</span>
+            <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">Active Shipments</span>
             <span className="text-3xl font-black text-zinc-900 dark:text-white block leading-none">
               {isLoadingOrders ? "..." : activeShipments}
             </span>
@@ -191,7 +191,7 @@ export default function DashboardOverviewClient() {
         {/* Card 3: Wishlist Items */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs flex justify-between items-start">
           <div className="space-y-3">
-            <span className="text-xs font-bold text-zinc-455 dark:text-zinc-500 uppercase tracking-wider block">Wishlist Items</span>
+            <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">Wishlist Items</span>
             <span className="text-3xl font-black text-zinc-900 dark:text-white block leading-none">{wishlistItemsCount}</span>
           </div>
           <span className="rounded-xl border border-zinc-100 dark:border-zinc-800 p-2 text-blue-600 dark:text-blue-455">
@@ -204,7 +204,7 @@ export default function DashboardOverviewClient() {
         {/* Card 4: Aura Points */}
         <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-2xl p-5 shadow-xs flex justify-between items-start">
           <div className="space-y-3">
-            <span className="text-xs font-bold text-zinc-455 dark:text-zinc-500 uppercase tracking-wider block">Aura Points</span>
+            <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">Aura Points</span>
             <span className="text-3xl font-black text-zinc-900 dark:text-white block leading-none">
               {isLoadingOrders ? "..." : auraPoints.toLocaleString()}
             </span>
@@ -238,16 +238,16 @@ export default function DashboardOverviewClient() {
 
         {/* Table layout wrapper */}
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-850">
+          <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-800">
             <thead>
-              <tr className="text-left text-[10px] font-bold text-zinc-400 dark:text-zinc-555 uppercase tracking-widest">
+              <tr className="text-left text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
                 <th className="pb-3.5 pl-3">Order ID</th>
                 <th className="pb-3.5">Date</th>
                 <th className="pb-3.5">Status</th>
                 <th className="pb-3.5 text-right pr-3">Total</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-850 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
               {isLoadingOrders ? (
                 <tr>
                   <td colSpan={4} className="py-6 text-center text-zinc-400 dark:text-zinc-500">
@@ -262,7 +262,7 @@ export default function DashboardOverviewClient() {
                 </tr>
               ) : (
                 orders.slice(0, 5).map((ord) => (
-                  <tr key={ord.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-850/30 transition-colors">
+                  <tr key={ord.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-800/30 transition-colors">
                     <td className="py-4 pl-3 font-bold text-zinc-900 dark:text-white">
                       <Link href="/dashboard/orders" className="hover:underline text-blue-600 dark:text-blue-455">
                         {ord.orderId}
@@ -293,7 +293,7 @@ export default function DashboardOverviewClient() {
             <div className="h-8 w-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
           </div>
         ) : recommendedItems.length === 0 ? (
-          <p className="text-xs text-zinc-450 dark:text-zinc-500 font-semibold leading-relaxed">
+          <p className="text-xs text-zinc-400 dark:text-zinc-500 font-semibold leading-relaxed">
             No product recommendations available at the moment.
           </p>
         ) : (
@@ -335,9 +335,9 @@ export default function DashboardOverviewClient() {
                   {/* Info panels */}
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>
-                      <span className="text-[9px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wide block">{item.category}</span>
+                      <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wide block">{item.category}</span>
                       <Link href={`/collections/${item.id}`}>
-                        <h4 className="text-xs font-bold text-zinc-850 dark:text-white mt-1 leading-snug truncate group-hover:text-blue-600 transition-colors">
+                        <h4 className="text-xs font-bold text-zinc-800 dark:text-white mt-1 leading-snug truncate group-hover:text-blue-600 transition-colors">
                           {item.name}
                         </h4>
                       </Link>
@@ -351,7 +351,7 @@ export default function DashboardOverviewClient() {
                           e.stopPropagation();
                           handleAddToCart(item);
                         }}
-                        className="rounded-lg bg-zinc-50 hover:bg-zinc-100 text-zinc-700 p-1.5 dark:bg-zinc-800 dark:text-zinc-350 dark:hover:bg-zinc-700 transition-colors cursor-pointer shadow-xs"
+                        className="rounded-lg bg-zinc-50 hover:bg-zinc-100 text-zinc-700 p-1.5 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 transition-colors cursor-pointer shadow-xs"
                         title="Add to Cart"
                       >
                         <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">

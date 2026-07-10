@@ -70,7 +70,7 @@ export default function AuthLayoutWrapper({ children, type }: AuthLayoutWrapperP
           </>
         ) : isForgot ? (
           <>
-            <div className="absolute inset-0 bg-linear-to-b from-zinc-50 to-zinc-150 dark:from-zinc-900 dark:to-zinc-950 z-0" />
+            <div className="absolute inset-0 bg-linear-to-b from-zinc-50 to-zinc-200 dark:from-zinc-900 dark:to-zinc-950 z-0" />
             <div className="absolute inset-0 bg-[radial-gradient(at_0%_0%,rgba(255,255,255,0.8)_0,transparent_60%)] dark:bg-none z-1" />
           </>
         ) : isVerify ? (

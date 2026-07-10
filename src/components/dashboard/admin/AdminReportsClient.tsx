@@ -84,19 +84,19 @@ export default function AdminReportsClient() {
     switch (status) {
       case "Open":
         return (
-          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-450 border border-emerald-100/30">
+          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-100/30">
             Open
           </span>
         );
       case "In-Progress":
         return (
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-bold text-blue-600 dark:bg-blue-950/20 dark:text-blue-450 border border-blue-100/30">
+          <span className="inline-flex items-center rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-bold text-blue-600 dark:bg-blue-950/20 dark:text-blue-400 border border-blue-100/30">
             In-Progress
           </span>
         );
       case "Resolved":
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-bold text-zinc-650 dark:bg-zinc-800 dark:text-zinc-400 border border-zinc-200/20">
+          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-bold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400 border border-zinc-200/20">
             Resolved
           </span>
         );
@@ -128,7 +128,7 @@ export default function AdminReportsClient() {
           { label: "Total Inquiries", count: totalCount, color: "text-zinc-900 dark:text-white" },
           { label: "Open Tickets", count: openCount, color: "text-emerald-600" },
           { label: "In Progress", count: inProgressCount, color: "text-blue-600" },
-          { label: "Resolved Issues", count: resolvedCount, color: "text-zinc-550 dark:text-zinc-400" },
+          { label: "Resolved Issues", count: resolvedCount, color: "text-zinc-500 dark:text-zinc-400" },
         ].map((card, idx) => (
           <div key={idx} className="bg-white dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2xl p-5 shadow-xs flex items-center justify-between">
             <div className="space-y-1">
@@ -149,14 +149,14 @@ export default function AdminReportsClient() {
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2xl p-4">
         
         {/* Tab switcher */}
-        <div className="flex gap-1.5 p-1 rounded-xl bg-zinc-55 dark:bg-zinc-950 border border-zinc-150/40 dark:border-zinc-900 overflow-x-auto w-full sm:w-auto">
+        <div className="flex gap-1.5 p-1 rounded-xl bg-zinc-55 dark:bg-zinc-950 border border-zinc-200/40 dark:border-zinc-900 overflow-x-auto w-full sm:w-auto">
           {(["All", "Open", "In-Progress", "Resolved"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`px-4.5 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap ${
                 activeTab === tab
-                  ? "bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-xs border border-zinc-100 dark:border-zinc-850"
+                  ? "bg-white dark:bg-zinc-900 text-blue-600 dark:text-blue-400 shadow-xs border border-zinc-100 dark:border-zinc-800"
                   : "text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200"
               }`}
             >
@@ -175,7 +175,7 @@ export default function AdminReportsClient() {
             placeholder="Search ID, customer, description..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-55 dark:bg-zinc-950 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-colors placeholder:text-zinc-450"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-55 dark:bg-zinc-950 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-colors placeholder:text-zinc-400"
           />
         </div>
       </div>
@@ -184,7 +184,7 @@ export default function AdminReportsClient() {
       {/* TICKETS TABLE CARD */}
       {/* ========================================================================= */}
       <div className="bg-white dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800/80 rounded-2.5xl p-6 shadow-xs overflow-x-auto">
-        <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-850">
+        <table className="min-w-full divide-y divide-zinc-100 dark:divide-zinc-800">
           <thead>
             <tr className="text-left text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
               <th className="pb-3.5 pl-3">Ticket ID</th>
@@ -195,7 +195,7 @@ export default function AdminReportsClient() {
               <th className="pb-3.5 text-right pr-3">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-100 dark:divide-zinc-850 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+          <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
             {isLoading ? (
               [1, 2, 3, 4].map((i) => (
                 <tr key={i} className="animate-pulse">
@@ -212,25 +212,25 @@ export default function AdminReportsClient() {
               ))
             ) : filteredTickets.length === 0 ? (
               <tr>
-                <td colSpan={6} className="py-12 text-center text-zinc-450 font-bold uppercase tracking-wider">
+                <td colSpan={6} className="py-12 text-center text-zinc-400 font-bold uppercase tracking-wider">
                   No support tickets found matching current filters.
                 </td>
               </tr>
             ) : (
               filteredTickets.map((t) => (
-                <tr key={t.id} className="hover:bg-zinc-55/30 dark:hover:bg-zinc-850/20 transition-colors">
+                <tr key={t.id} className="hover:bg-zinc-55/30 dark:hover:bg-zinc-800/20 transition-colors">
                   <td className="py-4.5 pl-3 font-extrabold text-zinc-900 dark:text-white shrink-0">{t.ticketId}</td>
                   <td className="py-4.5">
                     <span className="block text-zinc-900 dark:text-white font-extrabold">{t.user.name}</span>
-                    <span className="block text-[10px] text-zinc-450 dark:text-zinc-500 font-semibold mt-0.5">{t.user.email}</span>
+                    <span className="block text-[10px] text-zinc-400 dark:text-zinc-500 font-semibold mt-0.5">{t.user.email}</span>
                   </td>
                   <td className="py-4.5 max-w-xs truncate text-zinc-800 dark:text-zinc-200">{t.subject}</td>
-                  <td className="py-4.5 text-zinc-450 dark:text-zinc-500 font-semibold">{formatTicketDate(t.createdAt)}</td>
+                  <td className="py-4.5 text-zinc-400 dark:text-zinc-500 font-semibold">{formatTicketDate(t.createdAt)}</td>
                   <td className="py-4.5">{renderStatusBadge(t.status)}</td>
                   <td className="py-4.5 text-right pr-3 space-x-2">
                     <button
                       onClick={() => handleOpenDetailsModal(t)}
-                      className="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-[10px] font-bold text-zinc-700 dark:text-zinc-350 hover:bg-zinc-50 hover:dark:bg-zinc-850 cursor-pointer shadow-xs"
+                      className="rounded-lg border border-zinc-200 dark:border-zinc-800 px-3 py-1.5 text-[10px] font-bold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 hover:dark:bg-zinc-800 cursor-pointer shadow-xs"
                     >
                       Details
                     </button>
@@ -289,7 +289,7 @@ export default function AdminReportsClient() {
 
               <div>
                 <span className="text-[10px] text-zinc-400 block uppercase font-bold">Detailed Description</span>
-                <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-150/60 dark:border-zinc-850 p-4 rounded-xl text-zinc-700 dark:text-zinc-300 font-semibold leading-relaxed mt-1.5 whitespace-pre-wrap max-h-40 overflow-y-auto">
+                <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200/60 dark:border-zinc-800 p-4 rounded-xl text-zinc-700 dark:text-zinc-300 font-semibold leading-relaxed mt-1.5 whitespace-pre-wrap max-h-40 overflow-y-auto">
                   {selectedTicket.description}
                 </div>
               </div>
@@ -327,7 +327,7 @@ export default function AdminReportsClient() {
 
             <div className="space-y-4 text-xs font-bold text-left">
               <div className="space-y-1.5">
-                <label className="text-zinc-650 dark:text-zinc-400">Select Resolution Status *</label>
+                <label className="text-zinc-600 dark:text-zinc-400">Select Resolution Status *</label>
                 <select
                   value={newStatus}
                   onChange={(e: any) => setNewStatus(e.target.value)}
@@ -345,7 +345,7 @@ export default function AdminReportsClient() {
                 type="button"
                 disabled={isUpdating}
                 onClick={() => setIsEditModalOpen(false)}
-                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 disabled:opacity-50 px-4 py-2.5 text-xs font-bold text-zinc-750 dark:text-zinc-350 cursor-pointer"
+                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-55 disabled:opacity-50 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer"
               >
                 Cancel
               </button>

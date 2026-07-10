@@ -93,7 +93,7 @@ export default function FAQPage() {
                 placeholder="Search for questions, terms, features..."
                 value={searchVal}
                 onChange={(e) => setSearchVal(e.target.value)}
-                className="w-full pl-11 pr-5 py-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-sm font-semibold text-zinc-850 dark:text-zinc-255 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
+                className="w-full pl-11 pr-5 py-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-sm font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
               />
             </div>
           </div>
@@ -134,16 +134,16 @@ export default function FAQPage() {
         {isLoading ? (
           <div className="space-y-4 animate-pulse">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="h-16 bg-zinc-150 dark:bg-zinc-900 rounded-2xl" />
+              <div key={i} className="h-16 bg-zinc-200 dark:bg-zinc-900 rounded-2xl" />
             ))}
           </div>
         ) : filteredFaqs.length === 0 ? (
-          <div className="text-center py-16 bg-zinc-50/30 dark:bg-zinc-900/10 border border-zinc-150 dark:border-zinc-850 rounded-2xl p-8">
+          <div className="text-center py-16 bg-zinc-50/30 dark:bg-zinc-900/10 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8">
             <svg className="mx-auto h-12 w-12 text-zinc-300 mb-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
             </svg>
-            <h3 className="text-sm font-bold text-zinc-850 dark:text-zinc-200 uppercase tracking-wider">No matching FAQs found</h3>
-            <p className="mt-2 text-xs text-zinc-450 dark:text-zinc-500">Try switching categories or searching for different keywords.</p>
+            <h3 className="text-sm font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wider">No matching FAQs found</h3>
+            <p className="mt-2 text-xs text-zinc-400 dark:text-zinc-500">Try switching categories or searching for different keywords.</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -152,7 +152,7 @@ export default function FAQPage() {
               return (
                 <div
                   key={faq.id}
-                  className="bg-zinc-50/30 dark:bg-zinc-900/10 border border-zinc-150/70 dark:border-zinc-850/80 rounded-2xl overflow-hidden transition-all duration-300 shadow-xs"
+                  className="bg-zinc-50/30 dark:bg-zinc-900/10 border border-zinc-200/70 dark:border-zinc-800/80 rounded-2xl overflow-hidden transition-all duration-300 shadow-xs"
                 >
                   <button
                     onClick={() => toggleFaq(faq.id)}
@@ -161,7 +161,7 @@ export default function FAQPage() {
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
                       <span>{faq.question}</span>
                       {activeCategory === "All" && (
-                        <span className="inline-flex self-start sm:self-auto items-center rounded-full bg-zinc-100 dark:bg-zinc-850 px-2 py-0.5 text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest leading-none">
+                        <span className="inline-flex self-start sm:self-auto items-center rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[9px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest leading-none">
                           {faq.category || "General"}
                         </span>
                       )}
@@ -174,7 +174,7 @@ export default function FAQPage() {
                   </button>
 
                   <div
-                    className={`transition-all duration-300 ease-in-out border-zinc-150 dark:border-zinc-850 ${
+                    className={`transition-all duration-300 ease-in-out border-zinc-200 dark:border-zinc-800 ${
                       isOpen ? "max-h-[500px] border-t p-5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
                     }`}
                   >
@@ -194,7 +194,7 @@ export default function FAQPage() {
       {/* ========================================================================= */}
       <section className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 pt-16">
         <div className="rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-linear-to-br from-zinc-50/50 via-white to-blue-50/10 dark:from-zinc-900/30 dark:via-zinc-950 dark:to-blue-950/10 p-8 text-center space-y-4 shadow-xs">
-          <h3 className="font-serif text-lg sm:text-xl font-bold text-zinc-905 dark:text-white">
+          <h3 className="font-serif text-lg sm:text-xl font-bold text-zinc-900 dark:text-white">
             Still have questions?
           </h3>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-sm mx-auto leading-relaxed">

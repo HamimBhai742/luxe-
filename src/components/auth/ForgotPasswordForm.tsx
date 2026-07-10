@@ -55,7 +55,7 @@ export default function ForgotPasswordForm() {
 
       {/* Error Message Alert */}
       {errorMessage && (
-        <div className="mt-4 w-full rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-650 dark:bg-red-950/20 dark:text-red-400 border border-red-100 dark:border-red-950/30">
+        <div className="mt-4 w-full rounded-xl bg-red-50 p-3 text-xs font-semibold text-red-600 dark:bg-red-950/20 dark:text-red-400 border border-red-100 dark:border-red-950/30">
           {errorMessage}
         </div>
       )}

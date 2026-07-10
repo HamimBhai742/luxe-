@@ -252,20 +252,20 @@ export default function DashboardAddressesClient() {
     const normType = type.toLowerCase();
     if (normType.includes("primary") || normType.includes("home") || normType.includes("default")) {
       return (
-        <svg className="h-5 w-5 text-zinc-350" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+        <svg className="h-5 w-5 text-zinc-300" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
         </svg>
       );
     }
     if (normType.includes("work") || normType.includes("office")) {
       return (
-        <svg className="h-5 w-5 text-zinc-350" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+        <svg className="h-5 w-5 text-zinc-300" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 16.5h1.5M13.5 16.5H15" />
         </svg>
       );
     }
     return (
-      <svg className="h-5 w-5 text-zinc-350" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+      <svg className="h-5 w-5 text-zinc-300" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A11.386 11.386 0 0110.089 21c-2.24 0-4.367-.64-6.173-1.763A11.37 11.37 0 0110 18c2.23 0 4.29.64 6 1.73M13.5 7a3.5 3.5 0 11-7 0 3.5 3.5 0 017 0zM18 10a2.499 2.499 0 11-5 0 2.499 2.499 0 015 0z" />
       </svg>
     );
@@ -297,17 +297,17 @@ export default function DashboardAddressesClient() {
       </div>
 
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-zinc-900/40 border border-zinc-150 dark:border-zinc-800 rounded-3xl">
+        <div className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-3xl">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-zinc-250 dark:border-zinc-800 border-t-blue-600"></div>
           <p className="mt-3 text-xs text-zinc-400 font-semibold">Loading your addresses...</p>
         </div>
       ) : addresses.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 bg-white dark:bg-zinc-900/40 border border-zinc-150 dark:border-zinc-800 rounded-3xl text-center">
+        <div className="flex flex-col items-center justify-center py-16 bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-3xl text-center">
           <svg className="h-12 w-12 text-zinc-300 mb-3" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25S12 3 12 3s7.5 4.108 7.5 11.25z" />
           </svg>
-          <h3 className="text-sm font-bold text-zinc-905 dark:text-white font-serif uppercase">No addresses saved</h3>
+          <h3 className="text-sm font-bold text-zinc-900 dark:text-white font-serif uppercase">No addresses saved</h3>
           <p className="mt-1 text-xs text-zinc-400">Save your shipping and billing addresses for a faster checkout experience.</p>
         </div>
       ) : (
@@ -324,7 +324,7 @@ export default function DashboardAddressesClient() {
               {/* Header badges & indicators */}
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h4 className="text-base font-extrabold text-zinc-905 dark:text-white font-serif">
+                  <h4 className="text-base font-extrabold text-zinc-900 dark:text-white font-serif">
                     {addr.name}
                   </h4>
                   <span className={`inline-block text-[9px] font-black uppercase mt-1 px-2.5 py-0.5 rounded-full tracking-wide ${
@@ -344,7 +344,7 @@ export default function DashboardAddressesClient() {
                 {addr.line2 && <p>{addr.line2}</p>}
                 <p>{addr.city}, {addr.state} {addr.zip}</p>
                 <p>{addr.country}</p>
-                <div className="flex items-center gap-2 mt-4 text-zinc-650 dark:text-zinc-300 font-bold">
+                <div className="flex items-center gap-2 mt-4 text-zinc-600 dark:text-zinc-300 font-bold">
                   <svg className="h-4 w-4 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.824-1.557-5.183-3.916-6.74-6.74l1.293-.97c.362-.271.528-.733.417-1.173L6.763 3.628a1.125 1.125 0 00-1.091-.852H4.25a2.25 2.25 0 00-2.25 2.25v2.25z" />
                   </svg>
@@ -367,7 +367,7 @@ export default function DashboardAddressesClient() {
                 {addr.isPrimary ? (
                   <button
                     onClick={() => handleRemove(addr.id, addr.type)}
-                    className="flex items-center gap-1.5 text-red-650 hover:text-red-500 cursor-pointer transition-colors"
+                    className="flex items-center gap-1.5 text-red-600 hover:text-red-500 cursor-pointer transition-colors"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -378,7 +378,7 @@ export default function DashboardAddressesClient() {
                   <div className="flex gap-4">
                     <button
                       onClick={() => handleSetPrimary(addr.id, addr.type)}
-                      className="flex items-center gap-1.5 text-blue-650 hover:text-blue-550 cursor-pointer transition-colors"
+                      className="flex items-center gap-1.5 text-blue-600 hover:text-blue-550 cursor-pointer transition-colors"
                     >
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
@@ -508,7 +508,7 @@ export default function DashboardAddressesClient() {
                     value={state}
                     required
                     onChange={(e) => setState(e.target.value)}
-                    className="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 px-3.5 py-2.5 font-bold text-zinc-750 dark:text-zinc-300 appearance-none focus:outline-none cursor-pointer"
+                    className="w-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 px-3.5 py-2.5 font-bold text-zinc-700 dark:text-zinc-300 appearance-none focus:outline-none cursor-pointer"
                   >
                     <option value="">Select Division</option>
                     <option value="Dhaka">Dhaka</option>
@@ -561,7 +561,7 @@ export default function DashboardAddressesClient() {
                 onChange={(e) => setIsPrimary(e.target.checked)}
                 className="h-4 w-4 rounded border-zinc-200 text-blue-600 focus:ring-blue-500 shrink-0 cursor-pointer"
               />
-              <label htmlFor="isPrimaryCheckbox" className="text-xs font-bold text-zinc-650 dark:text-zinc-400 cursor-pointer">
+              <label htmlFor="isPrimaryCheckbox" className="text-xs font-bold text-zinc-600 dark:text-zinc-400 cursor-pointer">
                 Set as primary default address
               </label>
             </div>
@@ -571,7 +571,7 @@ export default function DashboardAddressesClient() {
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-350 cursor-pointer"
+                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer"
               >
                 Cancel
               </button>

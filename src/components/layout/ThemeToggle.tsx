@@ -109,7 +109,7 @@ export default function ThemeToggle() {
             className={`w-full flex items-center justify-between gap-2.5 rounded-lg px-2.5 py-2 text-xs font-bold text-left cursor-pointer transition-colors ${
               activeTheme === "light"
                 ? "bg-blue-50 text-blue-600 dark:bg-blue-950/20 dark:text-blue-400"
-                : "text-zinc-650 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-105"
+                : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100"
             }`}
           >
             <div className="flex items-center gap-2">
@@ -129,7 +129,7 @@ export default function ThemeToggle() {
             className={`w-full flex items-center justify-between gap-2.5 rounded-lg px-2.5 py-2 text-xs font-bold text-left cursor-pointer transition-colors ${
               activeTheme === "dark"
                 ? "bg-blue-50 text-blue-600 dark:bg-blue-950/20 dark:text-blue-400"
-                : "text-zinc-650 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-105"
+                : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100"
             }`}
           >
             <div className="flex items-center gap-2">
@@ -149,7 +149,7 @@ export default function ThemeToggle() {
             className={`w-full flex items-center justify-between gap-2.5 rounded-lg px-2.5 py-2 text-xs font-bold text-left cursor-pointer transition-colors ${
               activeTheme === "system"
                 ? "bg-blue-50 text-blue-600 dark:bg-blue-950/20 dark:text-blue-400"
-                : "text-zinc-650 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-105"
+                : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-100"
             }`}
           >
             <div className="flex items-center gap-2">

@@ -53,7 +53,7 @@ export default function Hero() {
 
           {/* Heading */}
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-tight">
-            Elevate Your <span className="block text-blue-600 dark:text-blue-450 mt-1">Tech Aesthetic.</span>
+            Elevate Your <span className="block text-blue-600 dark:text-blue-400 mt-1">Tech Aesthetic.</span>
           </h1>
 
           {/* Subheading */}
@@ -81,7 +81,7 @@ export default function Hero() {
 
             <Link
               href="/collections"
-              className="inline-flex items-center justify-center px-6 py-3 text-xs sm:text-sm font-extrabold text-zinc-650 hover:text-zinc-900 dark:text-zinc-350 dark:hover:text-white transition-colors duration-300"
+              className="inline-flex items-center justify-center px-6 py-3 text-xs sm:text-sm font-extrabold text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white transition-colors duration-300"
             >
               Explore Collection
             </Link>
@@ -93,7 +93,7 @@ export default function Hero() {
           
           {/* Card 1: Aura Headphones (Floating slow) */}
           <div className="bg-white/80 dark:bg-zinc-900/80 border border-zinc-200/50 dark:border-zinc-800/80 rounded-2xl p-4 shadow-lg flex items-center gap-4 w-72 max-w-full backdrop-blur-md animate-float-slow">
-            <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
+            <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
               <Image
                 src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=200&auto=format&fit=crop"
                 alt="Aura Headphones"
@@ -117,7 +117,7 @@ export default function Hero() {
 
           {/* Card 2: AuraBook Pro (Floating reverse) */}
           <div className="bg-white/80 dark:bg-zinc-900/80 border border-zinc-200/50 dark:border-zinc-800/80 rounded-2xl p-4 shadow-lg flex items-center gap-4 w-72 max-w-full backdrop-blur-md animate-float-reverse sm:translate-y-8 lg:translate-y-0 lg:translate-x-6">
-            <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
+            <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
               <Image
                 src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=200&auto=format&fit=crop"
                 alt="AuraBook Pro 14"

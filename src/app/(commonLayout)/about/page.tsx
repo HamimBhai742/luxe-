@@ -97,7 +97,7 @@ export default function AboutPage() {
             About Our Brand
           </span>
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-tight">
-            Minimalist Design, <span className="block text-blue-600 dark:text-blue-450 mt-1 sm:mt-2">High-Performance Living.</span>
+            Minimalist Design, <span className="block text-blue-600 dark:text-blue-400 mt-1 sm:mt-2">High-Performance Living.</span>
           </h1>
           <p className="text-sm sm:text-base text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl mx-auto">
             At LUXE, we merge industrial perfection with daily workflow essentials, crafting an environment of focus, peace, and productivity.
@@ -136,17 +136,17 @@ export default function AboutPage() {
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white font-serif">
               Our Journey: Reimagining Daily Tools
             </h2>
-            <p className="text-sm text-zinc-650 dark:text-zinc-400 leading-relaxed">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
               Every item we interact with dictates our mental clarity. In 2024, our founders looked around their workspaces and saw cluttered cables, plastic builds, and compromises. LUXE was born out of a decision to change that narrative.
             </p>
-            <p className="text-sm text-zinc-650 dark:text-zinc-400 leading-relaxed">
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
               We choose metal over plastic, matte finishes over glossy coatings, and quiet dials over beeping alerts. By combining high-grade microchip engineering with sustainable Swiss craftsmanship, we design gear that performs at the highest tier while elevating your aesthetics.
             </p>
 
             <div className="pt-4">
               <Link
                 href="/collections"
-                className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-150 px-5 py-3 text-xs font-bold transition-all shadow-md"
+                className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 px-5 py-3 text-xs font-bold transition-all shadow-md"
               >
                 <span>Browse The Collection</span>
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -160,7 +160,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 gap-4 sm:gap-6 relative">
             <div className="absolute inset-0 bg-blue-500/5 dark:bg-blue-400/5 blur-3xl pointer-events-none rounded-2xl" />
             <div className="space-y-4 sm:space-y-6">
-              <div className="relative aspect-square overflow-hidden rounded-2xl border border-zinc-150 dark:border-zinc-850 shadow-sm bg-zinc-100 animate-float-slow">
+              <div className="relative aspect-square overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm bg-zinc-100 animate-float-slow">
                 <Image
                   src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=350&auto=format&fit=crop"
                   alt="Aura Audio Engineering"
@@ -168,7 +168,7 @@ export default function AboutPage() {
                   className="object-cover"
                 />
               </div>
-              <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-zinc-150 dark:border-zinc-850 shadow-sm bg-zinc-100 translate-x-4 sm:translate-x-6">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm bg-zinc-100 translate-x-4 sm:translate-x-6">
                 <Image
                   src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=350&auto=format&fit=crop"
                   alt="AuraBook Desk Layout"
@@ -178,7 +178,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="space-y-4 sm:space-y-6 pt-8">
-              <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-zinc-150 dark:border-zinc-850 shadow-sm bg-zinc-100 -translate-x-4 sm:-translate-x-6">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm bg-zinc-100 -translate-x-4 sm:-translate-x-6">
                 <Image
                   src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=350&auto=format&fit=crop"
                   alt="Premium Workspace Accessories"
@@ -186,7 +186,7 @@ export default function AboutPage() {
                   className="object-cover"
                 />
               </div>
-              <div className="relative aspect-square overflow-hidden rounded-2xl border border-zinc-150 dark:border-zinc-850 shadow-sm bg-zinc-100 animate-float-reverse">
+              <div className="relative aspect-square overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm bg-zinc-100 animate-float-reverse">
                 <Image
                   src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=350&auto=format&fit=crop"
                   alt="Sustainable Solar Assembly"
@@ -203,14 +203,14 @@ export default function AboutPage() {
       {/* ========================================================================= */}
       {/* CORE VALUES GRID SECTION */}
       {/* ========================================================================= */}
-      <section className="bg-zinc-50/50 dark:bg-zinc-955/20 border-y border-zinc-100 dark:border-zinc-900 py-20 sm:py-28">
+      <section className="bg-zinc-50/50 dark:bg-zinc-950/20 border-y border-zinc-100 dark:border-zinc-900 py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
           <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white font-serif">
               Our Core Design Principles
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-500 max-w-md mx-auto">
+            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-500 max-w-md mx-auto">
               LUXE gadgets don&apos;t just blend in; they are crafted to lead, sustain, and unify your performance workspace.
             </p>
           </div>
@@ -245,12 +245,12 @@ export default function AboutPage() {
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white font-serif">
             Our Milestones
           </h2>
-          <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-500 max-w-xs mx-auto">
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-500 max-w-xs mx-auto">
             From humble drawings to carbon-neutral shipping operations.
           </p>
         </div>
 
-        <div className="space-y-12 relative before:absolute before:inset-y-0 before:left-4 sm:before:left-1/2 before:w-0.5 before:bg-zinc-150 dark:before:bg-zinc-850">
+        <div className="space-y-12 relative before:absolute before:inset-y-0 before:left-4 sm:before:left-1/2 before:w-0.5 before:bg-zinc-200 dark:before:bg-zinc-800">
           {milestones.map((stone, idx) => {
             const isEven = idx % 2 === 0;
             return (
@@ -261,7 +261,7 @@ export default function AboutPage() {
 
                 {/* Left block (renders empty on desktop if odd, or content if even) */}
                 <div className={`w-full sm:w-[45%] pl-10 sm:pl-0 ${isEven ? "sm:text-right" : "sm:order-2"}`}>
-                  <div className="bg-zinc-50/70 dark:bg-zinc-900/40 border border-zinc-150/60 dark:border-zinc-850 p-6 rounded-2xl shadow-xs">
+                  <div className="bg-zinc-50/70 dark:bg-zinc-900/40 border border-zinc-200/60 dark:border-zinc-800 p-6 rounded-2xl shadow-xs">
                     <span className="inline-block text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-1.5">
                       {stone.year}
                     </span>
@@ -293,7 +293,7 @@ export default function AboutPage() {
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white font-serif">
               Meet The Founders & Innovators
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-500 max-w-md mx-auto">
+            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-500 max-w-md mx-auto">
               A diverse team bound by a single mission: defining the hardware standards of clean spaces.
             </p>
           </div>
@@ -302,7 +302,7 @@ export default function AboutPage() {
             {team.map((member, i) => (
               <div
                 key={i}
-                className="bg-white dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-850 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col text-center"
+                className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col text-center"
               >
                 <div className="relative h-48 w-full bg-zinc-100 dark:bg-zinc-950 overflow-hidden">
                   <Image
@@ -342,7 +342,7 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white font-serif">
             Ready to Redefine Your Space?
           </h2>
-          <p className="text-xs sm:text-sm text-zinc-550 dark:text-zinc-500 leading-relaxed max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-500 leading-relaxed max-w-md mx-auto">
             Experience electronics curated for performance. Elevate your desk layout with modern, high-precision peripherals.
           </p>
           <div className="pt-4 flex justify-center gap-4">

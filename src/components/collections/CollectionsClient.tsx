@@ -318,7 +318,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                       type="checkbox"
                       checked={selectedCategories.some(c => c.toLowerCase() === category.toLowerCase())}
                       onChange={() => handleCategoryToggle(category)}
-                      className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-955 cursor-pointer"
+                      className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 dark:border-zinc-800 dark:bg-zinc-950 cursor-pointer"
                     />
                     <span className="ml-3 text-sm text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200 transition-colors font-medium">
                       {category}
@@ -345,9 +345,9 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                 }}
                 className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-600 focus:outline-none"
               />
-              <div className="flex justify-between text-xs font-semibold text-zinc-450 dark:text-zinc-500 mt-3.5">
+              <div className="flex justify-between text-xs font-semibold text-zinc-400 dark:text-zinc-500 mt-3.5">
                 <span>$0</span>
-                <span className="text-blue-650 dark:text-blue-400 font-bold">${priceRange.toLocaleString()}+</span>
+                <span className="text-blue-600 dark:text-blue-400 font-bold">${priceRange.toLocaleString()}+</span>
               </div>
             </div>
 
@@ -421,14 +421,14 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
           
           {/* DESKTOP HEADER ACTION BAR */}
           <div className="hidden md:flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4 mb-6">
-            <span className="text-sm font-semibold text-zinc-555 dark:text-zinc-400">
+            <span className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
               Showing <span className="font-bold text-zinc-900 dark:text-white">{sortedProducts.length}</span> premium items
             </span>
             <div className="flex items-center gap-6">
               
               {/* Sort Selection */}
               <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-zinc-450 uppercase">Sort by:</span>
+                <span className="text-xs font-bold text-zinc-400 uppercase">Sort by:</span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
@@ -477,19 +477,19 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
             // Shimmer Loading Skeletons
             <div className={viewMode === "grid" ? "grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-6 gap-y-8 sm:gap-y-10" : "space-y-4"}>
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="animate-pulse flex flex-col bg-white dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs">
-                  <div className="aspect-square w-full bg-zinc-200 dark:bg-zinc-850" />
+                <div key={i} className="animate-pulse flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs">
+                  <div className="aspect-square w-full bg-zinc-200 dark:bg-zinc-800" />
                   <div className="flex-1 p-3.5 sm:p-5 space-y-3">
-                    <div className="h-2 w-1/4 bg-zinc-200 dark:bg-zinc-850 rounded" />
-                    <div className="h-3.5 w-3/4 bg-zinc-200 dark:bg-zinc-850 rounded" />
-                    <div className="h-3 w-1/2 bg-zinc-200 dark:bg-zinc-850 rounded" />
+                    <div className="h-2 w-1/4 bg-zinc-200 dark:bg-zinc-800 rounded" />
+                    <div className="h-3.5 w-3/4 bg-zinc-200 dark:bg-zinc-800 rounded" />
+                    <div className="h-3 w-1/2 bg-zinc-200 dark:bg-zinc-800 rounded" />
                   </div>
                 </div>
               ))}
             </div>
           ) : paginatedProducts.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 shadow-sm px-4">
-              <svg className="h-12 w-12 text-zinc-350 mb-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+              <svg className="h-12 w-12 text-zinc-300 mb-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25m-2.25-2.25l-2.25 2.25m2.25-2.25l2.25-2.25M3.75 7.5L5.621 3.757A1.5 1.5 0 016.964 3h10.071a1.5 1.5 0 011.343.803L20.25 7.5m-16.5 0H20.25" />
               </svg>
               <h3 className="text-base font-bold text-zinc-900 dark:text-white">No products found</h3>
@@ -506,7 +506,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                   <Link key={product.id} href={`/collections/${product.id}`} className="group relative flex flex-col cursor-pointer bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
                     
                     {/* Image Box */}
-                    <div className="relative aspect-square w-full bg-zinc-100 dark:bg-zinc-955 overflow-hidden">
+                    <div className="relative aspect-square w-full bg-zinc-100 dark:bg-zinc-950 overflow-hidden">
                       <Image
                         src={product.image}
                         alt={product.name}
@@ -522,7 +522,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                           e.preventDefault();
                           toggleFavorite(product.id, product.name);
                         }}
-                        className="absolute top-3 right-3 z-20 flex h-7.5 w-7.5 sm:h-8.5 sm:w-8.5 items-center justify-center rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-sm text-zinc-650 hover:text-red-500 dark:text-zinc-300 dark:hover:text-red-500 transition-colors cursor-pointer"
+                        className="absolute top-3 right-3 z-20 flex h-7.5 w-7.5 sm:h-8.5 sm:w-8.5 items-center justify-center rounded-full bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-sm text-zinc-600 hover:text-red-500 dark:text-zinc-300 dark:hover:text-red-500 transition-colors cursor-pointer"
                       >
                         <svg className={`h-4.5 w-4.5 ${isFavorite ? "fill-red-500 stroke-red-500" : "stroke-current"}`} fill="none" viewBox="0 0 24 24" strokeWidth="2">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
@@ -532,7 +532,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                       {/* Optional Tag Badge */}
                       {product.tag && (
                         <span className={`absolute top-3 left-3 z-10 rounded-md px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-widest text-white shadow-sm ${
-                          product.tag === "NEW" ? "bg-blue-600" : "bg-red-550"
+                          product.tag === "NEW" ? "bg-blue-600" : "bg-red-500"
                         }`}>
                           {product.tag}
                         </span>
@@ -545,7 +545,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                         <span className="text-[10px] font-bold tracking-wider text-zinc-400 uppercase">
                           {product.brand}
                         </span>
-                        <h3 className="mt-1 text-sm font-bold text-zinc-905 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
+                        <h3 className="mt-1 text-sm font-bold text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
                           {product.name}
                         </h3>
                         
@@ -567,7 +567,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
 
                         {/* Rating Row (Mobile single star indicator) */}
                         <div className="sm:hidden flex items-center gap-1 mt-1">
-                          <span className="text-[11px] font-bold text-zinc-550 dark:text-zinc-400 flex items-center gap-0.5">
+                          <span className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 flex items-center gap-0.5">
                             <span className="text-amber-450">★</span> {product.rating}
                           </span>
                         </div>
@@ -580,7 +580,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                             ${product.price.toLocaleString()}
                           </span>
                           {product.originalPrice && (
-                            <span className="text-xs text-zinc-450 dark:text-zinc-500 line-through">
+                            <span className="text-xs text-zinc-400 dark:text-zinc-500 line-through">
                               ${product.originalPrice.toLocaleString()}
                             </span>
                           )}
@@ -630,7 +630,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                 const isFavorite = isAuthenticated ? isProductInWishlist : favorites.includes(product.id);
                 return (
                   <Link key={product.id} href={`/collections/${product.id}`} className="group flex bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-                    <div className="relative w-36 sm:w-48 aspect-square shrink-0 bg-zinc-100 dark:bg-zinc-955 overflow-hidden">
+                    <div className="relative w-36 sm:w-48 aspect-square shrink-0 bg-zinc-100 dark:bg-zinc-950 overflow-hidden">
                       <Image
                         src={product.image}
                         alt={product.name}
@@ -640,7 +640,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                       />
                       {product.tag && (
                         <span className={`absolute top-3 left-3 z-10 rounded-md px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-widest text-white shadow-sm ${
-                          product.tag === "NEW" ? "bg-blue-600" : "bg-red-550"
+                          product.tag === "NEW" ? "bg-blue-600" : "bg-red-500"
                         }`}>
                           {product.tag}
                         </span>
@@ -673,7 +673,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                             e.stopPropagation();
                             toggleFavorite(product.id, product.name);
                           }}
-                          className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-800 text-zinc-655 hover:text-red-500 dark:hover:text-red-500 transition-colors shadow-sm cursor-pointer"
+                          className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-50 dark:bg-zinc-800 text-zinc-600 hover:text-red-500 dark:hover:text-red-500 transition-colors shadow-sm cursor-pointer"
                         >
                           <svg className={`h-4.5 w-4.5 ${isFavorite ? "fill-red-500 stroke-red-500" : "stroke-current"}`} fill="none" viewBox="0 0 24 24" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
@@ -683,9 +683,9 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
 
                       <div className="flex justify-between items-end mt-6">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-lg font-extrabold text-zinc-955 dark:text-zinc-50">${product.price.toLocaleString()}</span>
+                          <span className="text-lg font-extrabold text-zinc-950 dark:text-zinc-50">${product.price.toLocaleString()}</span>
                           {product.originalPrice && (
-                            <span className="text-sm text-zinc-400 dark:text-zinc-555 line-through">${product.originalPrice.toLocaleString()}</span>
+                            <span className="text-sm text-zinc-400 dark:text-zinc-500 line-through">${product.originalPrice.toLocaleString()}</span>
                           )}
                         </div>
 
@@ -716,7 +716,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-550 shadow-sm hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-500 shadow-sm hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
               >
                 <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
@@ -744,7 +744,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-550 shadow-sm hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-500 shadow-sm hover:bg-zinc-50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer"
               >
                 <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -795,7 +795,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
               <h3 className="text-base font-extrabold text-zinc-900 dark:text-white uppercase tracking-wider">Filters</h3>
               <button
                 onClick={() => setIsFilterDrawerOpen(false)}
-                className="rounded-full bg-zinc-100 dark:bg-zinc-900 p-1.5 text-zinc-500 dark:text-zinc-450 hover:bg-zinc-200 transition-colors cursor-pointer"
+                className="rounded-full bg-zinc-100 dark:bg-zinc-900 p-1.5 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-200 transition-colors cursor-pointer"
               >
                 <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -863,7 +863,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                       className={`flex-1 py-2.5 rounded-xl border flex items-center justify-center gap-1.5 text-xs font-bold transition-all cursor-pointer ${
                         isSelected
                           ? "bg-blue-600 border-blue-600 text-white"
-                          : "border-zinc-200 bg-white text-zinc-650 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400"
+                          : "border-zinc-200 bg-white text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400"
                       }`}
                     >
                       <span className="text-amber-450">★</span>
@@ -875,8 +875,8 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
             </div>
 
             {/* Stock Toggle */}
-            <div className="flex items-center justify-between py-4 border-t border-zinc-150 dark:border-zinc-800 mb-8">
-              <span className="text-xs font-bold uppercase tracking-wider text-zinc-550 dark:text-zinc-400">In Stock Only</span>
+            <div className="flex items-center justify-between py-4 border-t border-zinc-200 dark:border-zinc-800 mb-8">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">In Stock Only</span>
               <button
                 type="button"
                 onClick={() => {
@@ -919,7 +919,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
               <h3 className="text-base font-extrabold text-zinc-900 dark:text-white uppercase tracking-wider">Sort Preference</h3>
               <button
                 onClick={() => setIsSortDrawerOpen(false)}
-                className="rounded-full bg-zinc-100 dark:bg-zinc-900 p-1.5 text-zinc-500 dark:text-zinc-450 hover:bg-zinc-250 transition-colors cursor-pointer"
+                className="rounded-full bg-zinc-100 dark:bg-zinc-900 p-1.5 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-250 transition-colors cursor-pointer"
               >
                 <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -945,12 +945,12 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                     className={`w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition-colors cursor-pointer ${
                       isActive
                         ? "bg-zinc-100 dark:bg-zinc-900 text-blue-600 dark:text-blue-400"
-                        : "text-zinc-650 hover:bg-zinc-50 dark:text-zinc-350 dark:hover:bg-zinc-900"
+                        : "text-zinc-600 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-900"
                     }`}
                   >
                     <span>{option.label}</span>
                     {isActive && (
-                      <svg className="h-4.5 w-4.5 text-blue-650" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                      <svg className="h-4.5 w-4.5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       </svg>
                     )}
@@ -989,7 +989,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
               toast.info("Search bar is located in the top header!");
             }}
             className={`flex flex-col items-center gap-1 cursor-pointer transition-colors ${
-              activeMobileTab === "search" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-650"
+              activeMobileTab === "search" ? "text-zinc-900 dark:text-white" : "hover:text-zinc-600"
             }`}
           >
             <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">

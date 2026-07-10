@@ -162,7 +162,7 @@ export default function AdminFaqsClient() {
       {/* ========================================================================= */}
       {/* SEARCH AND FILTERS */}
       {/* ========================================================================= */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-white dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-850 p-4 rounded-2xl shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-4 rounded-2xl shadow-xs">
         
         {/* Keyword Search */}
         <div className="relative flex-1 max-w-sm flex items-center">
@@ -180,7 +180,7 @@ export default function AdminFaqsClient() {
 
         {/* Category Filter */}
         <div className="flex items-center gap-2">
-          <label className="text-[10px] font-bold text-zinc-400 dark:text-zinc-550 uppercase tracking-widest">
+          <label className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
             Category:
           </label>
           <select
@@ -202,7 +202,7 @@ export default function AdminFaqsClient() {
       {/* ========================================================================= */}
       {/* DATA TABLE */}
       {/* ========================================================================= */}
-      <div className="bg-white dark:bg-zinc-900 border border-zinc-150 dark:border-zinc-850 rounded-2xl overflow-hidden shadow-xs">
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs">
         {isLoading ? (
           <div className="p-8 text-center text-zinc-500 animate-pulse font-bold text-xs uppercase tracking-widest">
             Loading FAQ records...
@@ -212,23 +212,23 @@ export default function AdminFaqsClient() {
             <svg className="mx-auto h-12 w-12 text-zinc-300 mb-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
             </svg>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-350">No FAQs found</h3>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-zinc-800 dark:text-zinc-300">No FAQs found</h3>
             <p className="text-xs text-zinc-400 mt-1">Try resetting the keyword filter or add a new FAQ card.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-zinc-150 dark:border-zinc-850 bg-zinc-50/50 dark:bg-zinc-950/20">
-                  <th className="p-4 text-[10px] font-bold text-zinc-450 uppercase tracking-widest">Order</th>
-                  <th className="p-4 text-[10px] font-bold text-zinc-450 uppercase tracking-widest">Category</th>
-                  <th className="p-4 text-[10px] font-bold text-zinc-450 uppercase tracking-widest">Question</th>
-                  <th className="p-4 text-[10px] font-bold text-zinc-450 uppercase tracking-widest">Answer</th>
-                  <th className="p-4 text-[10px] font-bold text-zinc-450 uppercase tracking-widest">Created At</th>
-                  <th className="p-4 text-[10px] font-bold text-zinc-450 uppercase tracking-widest text-right">Actions</th>
+                <tr className="border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/20">
+                  <th className="p-4 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Order</th>
+                  <th className="p-4 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Category</th>
+                  <th className="p-4 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Question</th>
+                  <th className="p-4 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Answer</th>
+                  <th className="p-4 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Created At</th>
+                  <th className="p-4 text-[10px] font-bold text-zinc-400 uppercase tracking-widest text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-100 dark:divide-zinc-850/50">
+              <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/50">
                 {filteredFaqs.map((faq) => (
                   <tr key={faq.id} className="hover:bg-zinc-50/50 dark:hover:bg-zinc-950/10 transition-colors">
                     <td className="p-4 text-xs font-bold text-zinc-400">
@@ -252,7 +252,7 @@ export default function AdminFaqsClient() {
                       <div className="inline-flex items-center gap-2">
                         <button
                           onClick={() => openEditModal(faq)}
-                          className="rounded-lg p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-zinc-850 dark:hover:text-white transition-colors cursor-pointer"
+                          className="rounded-lg p-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-500 hover:text-zinc-800 dark:hover:text-white transition-colors cursor-pointer"
                           title="Edit FAQ"
                         >
                           <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -314,7 +314,7 @@ export default function AdminFaqsClient() {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950 text-xs font-semibold text-zinc-850 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950 text-xs font-semibold text-zinc-800 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700"
                 >
                   {FAQ_CATEGORIES.map((cat) => (
                     <option key={cat} value={cat}>
@@ -334,7 +334,7 @@ export default function AdminFaqsClient() {
                   placeholder="e.g. What is your hardware warranty period?"
                   value={question}
                   onChange={(e) => setQuestion(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950 text-xs font-semibold text-zinc-850 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950 text-xs font-semibold text-zinc-800 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
                 />
               </div>
 
@@ -348,7 +348,7 @@ export default function AdminFaqsClient() {
                   rows={4}
                   value={answer}
                   onChange={(e) => setAnswer(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-955 text-xs font-semibold text-zinc-850 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400 resize-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950 text-xs font-semibold text-zinc-800 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400 resize-none"
                 />
               </div>
 
@@ -362,7 +362,7 @@ export default function AdminFaqsClient() {
                   placeholder="0"
                   value={order}
                   onChange={(e) => setOrder(parseInt(e.target.value) || 0)}
-                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-955 text-xs font-semibold text-zinc-850 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950 text-xs font-semibold text-zinc-800 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all"
                 />
               </div>
 
@@ -412,7 +412,7 @@ export default function AdminFaqsClient() {
               </button>
               <button
                 onClick={handleDeleteConfirm}
-                className="rounded-xl bg-red-600 hover:bg-red-550 text-white px-5 py-2.5 text-xs font-bold cursor-pointer shadow-sm shadow-red-550/15 transition-all"
+                className="rounded-xl bg-red-600 hover:bg-red-500 text-white px-5 py-2.5 text-xs font-bold cursor-pointer shadow-sm shadow-red-500/15 transition-all"
               >
                 Yes, Delete
               </button>

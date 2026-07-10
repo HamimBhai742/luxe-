@@ -303,7 +303,7 @@ export default function DashboardOrdersClient() {
           <h1 className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-white uppercase font-serif">
             My Orders
           </h1>
-          <p className="mt-1 text-xs text-zinc-450 dark:text-zinc-500 font-semibold">
+          <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500 font-semibold">
             View and manage your recent purchases and returns.
           </p>
         </div>
@@ -351,7 +351,7 @@ export default function DashboardOrdersClient() {
                 className="w-56 pl-9.5 pr-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
               />
             </div>
-            <button className="flex items-center gap-2 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white hover:bg-zinc-55 px-4 py-2 text-xs font-bold text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-850 cursor-pointer shadow-xs">
+            <button className="flex items-center gap-2 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white hover:bg-zinc-55 px-4 py-2 text-xs font-bold text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer shadow-xs">
               <svg className="h-4 w-4 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
               </svg>
@@ -378,11 +378,11 @@ export default function DashboardOrdersClient() {
                 className="bg-white dark:bg-zinc-900/50 border border-zinc-200/80 dark:border-zinc-800 rounded-3xl overflow-hidden shadow-xs hover:shadow-sm transition-all"
               >
                 {/* Header strip */}
-                <div className="bg-zinc-50/50 dark:bg-zinc-900 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-b border-zinc-150 dark:border-zinc-800">
+                <div className="bg-zinc-50/50 dark:bg-zinc-900 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-b border-zinc-200 dark:border-zinc-800">
                   <div className="flex flex-wrap gap-8 text-xs font-bold uppercase tracking-wider text-zinc-400">
                     <div>
                       <span className="text-[10px] text-zinc-400 block mb-1">Order ID</span>
-                      <span className="text-zinc-850 dark:text-white">{ord.orderId}</span>
+                      <span className="text-zinc-800 dark:text-white">{ord.orderId}</span>
                     </div>
                     <div>
                       <span className="text-[10px] text-zinc-400 block mb-1">Date Placed</span>
@@ -402,28 +402,28 @@ export default function DashboardOrdersClient() {
                       <span className="text-[10px] text-zinc-400 block mb-1">Payment Status</span>
                       <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${
                         ord.paymentStatus === "Paid" 
-                          ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-450 border border-emerald-100/50"
+                          ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 border border-emerald-100/50"
                           : ord.paymentStatus === "Refunded"
                             ? "bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-450"
-                            : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-350"
+                            : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
                       }`}>
                         {ord.paymentStatus}
                       </span>
                     </div>
                     <div>
                       <span className="text-[10px] text-zinc-400 block mb-1">Total Amount</span>
-                      <span className="text-zinc-850 dark:text-white text-sm font-extrabold">${ord.total.toFixed(2)}</span>
+                      <span className="text-zinc-800 dark:text-white text-sm font-extrabold">${ord.total.toFixed(2)}</span>
                     </div>
                   </div>
                   
                   {/* Status badge */}
                   <div>
                     {ord.status === "Delivered" ? (
-                      <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-450 border border-emerald-100/50 dark:border-emerald-900/10">
+                      <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-100/50 dark:border-emerald-900/10">
                         &#8226; Delivered
                       </span>
                     ) : ord.status === "Shipped" ? (
-                      <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-600 dark:bg-blue-950/20 dark:text-blue-450 border border-blue-100/50 dark:border-blue-900/10">
+                      <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-600 dark:bg-blue-950/20 dark:text-blue-400 border border-blue-100/50 dark:border-blue-900/10">
                         &#8226; Shipped
                       </span>
                     ) : ord.status === "Confirmed" ? (
@@ -435,7 +435,7 @@ export default function DashboardOrdersClient() {
                         &#8226; Packed
                       </span>
                     ) : ord.status === "Cancelled" || ord.status === "Canceled" ? (
-                      <span className="inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-650 dark:bg-red-950/20 dark:text-red-450">
+                      <span className="inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-600 dark:bg-red-950/20 dark:text-red-450">
                         Cancelled
                       </span>
                     ) : ord.status === "Returned" ? (
@@ -454,7 +454,7 @@ export default function DashboardOrdersClient() {
                 <div className="p-6 divide-y divide-zinc-100 dark:divide-zinc-800/80 space-y-5">
                   {ord.items.map((item, index) => (
                     <div key={index} className="flex items-center gap-6 pt-5 first:pt-0">
-                      <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
+                      <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -465,14 +465,14 @@ export default function DashboardOrdersClient() {
                       </div>
                       <div className="flex-1">
                         <h4 className="text-sm font-extrabold text-zinc-900 dark:text-white leading-snug">{item.name}</h4>
-                        <p className="text-xs text-zinc-400 dark:text-zinc-555 mt-1 font-semibold">{item.specs}</p>
+                        <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 font-semibold">{item.specs}</p>
                       </div>
                       <div className="text-right shrink-0 flex flex-col items-end gap-1.5">
                         <span className="text-sm font-extrabold text-zinc-900 dark:text-zinc-100">${item.price.toFixed(2)}</span>
                         {ord.status === "Delivered" && !(userReviewsData?.data?.some((rev: any) => String(rev.productId) === String(item.id))) && (
                           <button
                             onClick={() => setReviewProduct({ id: item.id, name: item.name, image: item.image })}
-                            className="text-[10px] font-extrabold text-blue-600 hover:text-blue-500 dark:text-blue-450 dark:hover:text-blue-400 uppercase tracking-wider hover:underline cursor-pointer"
+                            className="text-[10px] font-extrabold text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-400 uppercase tracking-wider hover:underline cursor-pointer"
                           >
                             Review Item
                           </button>
@@ -520,7 +520,7 @@ export default function DashboardOrdersClient() {
                                 <div className="h-8 w-8 rounded-full border-2 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950" />
                               )}
                               <span className={`text-[10px] font-black mt-3 uppercase tracking-wider ${
-                                isDone || isCurrent ? "text-zinc-800 dark:text-zinc-200" : "text-zinc-400 dark:text-zinc-650"
+                                isDone || isCurrent ? "text-zinc-800 dark:text-zinc-200" : "text-zinc-400 dark:text-zinc-600"
                               }`}>
                                 {s.label}
                               </span>
@@ -534,9 +534,9 @@ export default function DashboardOrdersClient() {
 
                 {/* Footer buttons row */}
                 <div className="bg-zinc-50/25 dark:bg-zinc-900/30 px-6 py-4 flex flex-wrap justify-between items-center gap-4 border-t border-zinc-100 dark:border-zinc-800/80">
-                  <div className="flex items-center gap-2 text-xs font-bold text-zinc-500 dark:text-zinc-450">
+                  <div className="flex items-center gap-2 text-xs font-bold text-zinc-500 dark:text-zinc-400">
                     {ord.status === "Delivered" ? (
-                      <span className="flex items-center gap-1.5 text-emerald-650 dark:text-emerald-450">
+                      <span className="flex items-center gap-1.5 text-emerald-650 dark:text-emerald-400">
                         <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -603,7 +603,7 @@ export default function DashboardOrdersClient() {
                         {(ord.status === "Processing" || ord.status === "Confirmed" || ord.status === "Packed") && (
                           <button
                             onClick={() => handleCancelOrder(ord.id, ord.orderId)}
-                            className="rounded-xl border border-red-200 dark:border-red-900 bg-white hover:bg-red-50 dark:bg-zinc-900 dark:hover:bg-red-950/20 px-4 py-2.5 text-xs font-bold text-red-650 dark:text-red-400 shadow-sm transition-all cursor-pointer"
+                            className="rounded-xl border border-red-200 dark:border-red-900 bg-white hover:bg-red-50 dark:bg-zinc-900 dark:hover:bg-red-950/20 px-4 py-2.5 text-xs font-bold text-red-600 dark:text-red-400 shadow-sm transition-all cursor-pointer"
                           >
                             Cancel Order
                           </button>
@@ -734,19 +734,19 @@ export default function DashboardOrdersClient() {
         {/* Mobile Card list */}
         <div className="space-y-4 px-4 pt-1">
           {filteredOrders.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center rounded-2xl bg-white dark:bg-zinc-900/50 border border-zinc-150 p-6">
+            <div className="flex flex-col items-center justify-center py-12 text-center rounded-2xl bg-white dark:bg-zinc-900/50 border border-zinc-200 p-6">
               <span className="text-xs font-bold text-zinc-400">No matching orders</span>
             </div>
           ) : (
             paginatedOrders.map((ord) => (
               <div
                 key={ord.id}
-                className="bg-white dark:bg-zinc-900 border border-zinc-150/60 dark:border-zinc-850 rounded-2xl p-4 shadow-sm space-y-4"
+                className="bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-zinc-800 rounded-2xl p-4 shadow-sm space-y-4"
               >
                 {/* Mobile Card Header */}
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="text-sm font-black text-zinc-850 dark:text-white font-serif">{ord.orderId}</h4>
+                    <h4 className="text-sm font-black text-zinc-800 dark:text-white font-serif">{ord.orderId}</h4>
                     <span className="text-[10px] font-bold text-zinc-400 block mt-0.5">{ord.date}</span>
                   </div>
                   <div>
@@ -781,8 +781,8 @@ export default function DashboardOrdersClient() {
                 {/* Mobile Payment details row */}
                 <div className="flex justify-between items-center text-[10px] font-bold text-zinc-400 border-b border-zinc-100 dark:border-zinc-800 pb-2">
                   <div>
-                    <span className="text-[9px] text-zinc-450 block">Payment Method</span>
-                    <span className="text-zinc-850 dark:text-zinc-200 capitalize">
+                    <span className="text-[9px] text-zinc-400 block">Payment Method</span>
+                    <span className="text-zinc-800 dark:text-zinc-200 capitalize">
                       {ord.paymentMethod === "card" 
                         ? "Stripe (Card)" 
                         : ord.paymentMethod === "bkash" 
@@ -791,7 +791,7 @@ export default function DashboardOrdersClient() {
                     </span>
                   </div>
                   <div className="text-right">
-                    <span className="text-[9px] text-zinc-450 block">Payment Status</span>
+                    <span className="text-[9px] text-zinc-400 block">Payment Status</span>
                     <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-extrabold ${
                       ord.paymentStatus === "Paid" 
                         ? "bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400"
@@ -808,7 +808,7 @@ export default function DashboardOrdersClient() {
                 <div className="divide-y divide-zinc-100 dark:divide-zinc-800/80 space-y-4">
                   {ord.items.map((item, idx) => (
                     <div key={idx} className="flex gap-4 items-center pt-3 first:pt-0">
-                      <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
+                      <div className="h-16 w-16 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-xl overflow-hidden flex items-center justify-center p-1.5 shrink-0">
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -823,13 +823,13 @@ export default function DashboardOrdersClient() {
                         </h5>
                         <p className="text-[10px] text-zinc-400 mt-1 font-semibold">{item.specs}</p>
                         <div className="flex justify-between items-center mt-1">
-                          <span className="text-[10px] font-semibold text-zinc-450 block">
+                          <span className="text-[10px] font-semibold text-zinc-400 block">
                             Qty: {item.qty} • ${item.price.toFixed(2)}
                           </span>
                           {ord.status === "Delivered" && (
                             <button
                               onClick={() => setReviewProduct({ id: item.id, name: item.name, image: item.image })}
-                              className="text-[10px] font-extrabold text-blue-600 dark:text-blue-450 uppercase tracking-wider hover:underline cursor-pointer"
+                              className="text-[10px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-wider hover:underline cursor-pointer"
                             >
                               Review
                             </button>
@@ -874,10 +874,10 @@ export default function DashboardOrdersClient() {
                                 <span className="h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
                               </div>
                             ) : (
-                              <div className="h-7 w-7 rounded-full border-2 border-zinc-200 dark:border-zinc-850 bg-white dark:bg-zinc-950" />
+                              <div className="h-7 w-7 rounded-full border-2 border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950" />
                             )}
                             <span className={`text-[8px] font-black mt-2 uppercase tracking-wide ${
-                              isDone || isCurrent ? "text-zinc-800 dark:text-zinc-200" : "text-zinc-400 dark:text-zinc-650"
+                              isDone || isCurrent ? "text-zinc-800 dark:text-zinc-200" : "text-zinc-400 dark:text-zinc-600"
                             }`}>
                               {s.label}
                             </span>
@@ -904,7 +904,7 @@ export default function DashboardOrdersClient() {
                               setReviewProduct({ id: itm.id, name: itm.name, image: itm.image });
                             }
                           }}
-                          className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3.5 py-2 text-xs font-bold text-zinc-650 dark:text-zinc-300"
+                          className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3.5 py-2 text-xs font-bold text-zinc-600 dark:text-zinc-300"
                         >
                           Review
                         </button>
@@ -927,14 +927,14 @@ export default function DashboardOrdersClient() {
                         {(ord.status === "Processing" || ord.status === "Confirmed" || ord.status === "Packed") && (
                           <button
                             onClick={() => handleCancelOrder(ord.id, ord.orderId)}
-                            className="rounded-xl border border-red-200 dark:border-red-900 bg-white hover:bg-red-50 dark:bg-zinc-900 dark:hover:bg-red-950/20 px-3.5 py-2 text-xs font-bold text-red-650 dark:text-red-400 cursor-pointer"
+                            className="rounded-xl border border-red-200 dark:border-red-900 bg-white hover:bg-red-50 dark:bg-zinc-900 dark:hover:bg-red-950/20 px-3.5 py-2 text-xs font-bold text-red-600 dark:text-red-400 cursor-pointer"
                           >
                             Cancel
                           </button>
                         )}
                         <button
                           onClick={() => handleInvoice(ord.id, ord.orderId)}
-                          className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3.5 py-2 text-xs font-bold text-zinc-650 dark:text-zinc-300"
+                          className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3.5 py-2 text-xs font-bold text-zinc-600 dark:text-zinc-300"
                         >
                           Invoice
                         </button>
@@ -986,7 +986,7 @@ export default function DashboardOrdersClient() {
         </div>
 
         {/* Mobile Navigation Dock (Active Wishlist circular overlay matches screenshot design) */}
-        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-zinc-950 border-t border-zinc-150 dark:border-zinc-900 px-6 py-2 shadow-lg">
+        <div className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-zinc-950 border-t border-zinc-200 dark:border-zinc-900 px-6 py-2 shadow-lg">
           <div className="flex items-center justify-between text-zinc-400">
             <Link href="/" onClick={() => setActiveMobileTab("home")} className="flex flex-col items-center gap-0.5 transition-colors">
               <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="1.75" stroke="currentColor">
@@ -1003,7 +1003,7 @@ export default function DashboardOrdersClient() {
             <button
               onClick={() => setActiveMobileTab("wishlist")}
               className={`flex h-9 w-9 items-center justify-center rounded-full cursor-pointer transition-all shadow-xs ${
-                activeMobileTab === "wishlist" ? "bg-blue-600 text-white" : "text-zinc-450 hover:bg-zinc-50"
+                activeMobileTab === "wishlist" ? "bg-blue-600 text-white" : "text-zinc-400 hover:bg-zinc-50"
               }`}
             >
               <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
@@ -1029,12 +1029,12 @@ export default function DashboardOrdersClient() {
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h3 className="text-base font-extrabold text-zinc-900 dark:text-white uppercase tracking-wider">Write a Review</h3>
-                <p className="text-xs text-zinc-400 dark:text-zinc-555 mt-1 font-semibold">Share your experience with this item</p>
+                <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 font-semibold">Share your experience with this item</p>
               </div>
               <button
                 type="button"
                 onClick={() => setReviewProduct(null)}
-                className="p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-650 transition-colors cursor-pointer"
+                className="p-1.5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-600 transition-colors cursor-pointer"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -1043,7 +1043,7 @@ export default function DashboardOrdersClient() {
             </div>
 
             {/* Product details summary in modal */}
-            <div className="flex items-center gap-4 p-3.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-850 rounded-2xl mb-6">
+            <div className="flex items-center gap-4 p-3.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-2xl mb-6">
               <div className="h-12 w-12 bg-white dark:bg-zinc-900 rounded-lg overflow-hidden flex items-center justify-center p-1 shrink-0">
                 <img
                   src={reviewProduct.image}
@@ -1060,7 +1060,7 @@ export default function DashboardOrdersClient() {
             <form onSubmit={handleModalReviewSubmit}>
               {/* Star Rating Selection */}
               <div className="mb-6">
-                <label className="block text-xs font-bold text-zinc-555 dark:text-zinc-400 uppercase tracking-wide mb-2.5">Your Rating</label>
+                <label className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-2.5">Your Rating</label>
                 <div className="flex items-center gap-2">
                   {Array.from({ length: 5 }).map((_, i) => {
                     const starVal = i + 1;
@@ -1075,7 +1075,7 @@ export default function DashboardOrdersClient() {
                         className="text-amber-400 hover:scale-110 transition-all duration-150 cursor-pointer focus:outline-none"
                       >
                         <svg
-                          className={`h-8 w-8 ${isHighlighted ? "fill-amber-400" : "fill-zinc-200 dark:fill-zinc-850"}`}
+                          className={`h-8 w-8 ${isHighlighted ? "fill-amber-400" : "fill-zinc-200 dark:fill-zinc-800"}`}
                           viewBox="0 0 20 20"
                         >
                           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -1083,7 +1083,7 @@ export default function DashboardOrdersClient() {
                       </button>
                     );
                   })}
-                  <span className="text-xs font-bold text-zinc-450 dark:text-zinc-555 ml-2">
+                  <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500 ml-2">
                     {modalHoveredRating !== null ? `${modalHoveredRating} Star${modalHoveredRating > 1 ? 's' : ''}` : `${modalRating} Star${modalRating > 1 ? 's' : ''}`}
                   </span>
                 </div>
@@ -1091,7 +1091,7 @@ export default function DashboardOrdersClient() {
 
               {/* Review Comment Details */}
               <div className="mb-6">
-                <label htmlFor="modal-comment-text" className="block text-xs font-bold text-zinc-555 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Details</label>
+                <label htmlFor="modal-comment-text" className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Details</label>
                 <textarea
                   id="modal-comment-text"
                   rows={4}
@@ -1105,7 +1105,7 @@ export default function DashboardOrdersClient() {
 
               {/* Image upload field */}
               <div className="mb-6">
-                <label className="block text-xs font-bold text-zinc-555 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Image (Optional)</label>
+                <label className="block text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-2">Review Image (Optional)</label>
                 <div className="flex flex-wrap items-center gap-4">
                   <input
                     type="file"
@@ -1166,7 +1166,7 @@ export default function DashboardOrdersClient() {
                 <button
                   type="submit"
                   disabled={isSubmittingReview}
-                  className="flex-1 rounded-xl bg-zinc-950 hover:bg-zinc-850 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 px-4 py-3 text-xs font-extrabold shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
+                  className="flex-1 rounded-xl bg-zinc-950 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-950 px-4 py-3 text-xs font-extrabold shadow-sm hover:shadow-md transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
                 >
                   {isSubmittingReview ? (
                     <>

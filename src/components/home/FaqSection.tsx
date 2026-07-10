@@ -54,7 +54,7 @@ export default function FaqSection() {
               Help Center
             </span>
             <h2 className="font-serif text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-tight">
-              Common Questions <span className="block text-blue-600 dark:text-blue-450 mt-1">Answered.</span>
+              Common Questions <span className="block text-blue-600 dark:text-blue-400 mt-1">Answered.</span>
             </h2>
             <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium">
               Find answers to core features, compatibility queries, and order procedures. Need further assistance? Our legal data officers are always on hand.
@@ -86,7 +86,7 @@ export default function FaqSection() {
                 return (
                   <div
                     key={faq.id}
-                    className="bg-white dark:bg-zinc-900 border border-zinc-150/70 dark:border-zinc-850/80 rounded-2xl overflow-hidden transition-all duration-300 shadow-xs"
+                    className="bg-white dark:bg-zinc-900 border border-zinc-200/70 dark:border-zinc-800/80 rounded-2xl overflow-hidden transition-all duration-300 shadow-xs"
                   >
                     <button
                       onClick={() => toggleFaq(faq.id)}
@@ -106,11 +106,11 @@ export default function FaqSection() {
                     </button>
 
                     <div
-                      className={`transition-all duration-300 ease-in-out border-zinc-150 dark:border-zinc-850 ${
+                      className={`transition-all duration-300 ease-in-out border-zinc-200 dark:border-zinc-800 ${
                         isOpen ? "max-h-[300px] border-t p-5 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
                       }`}
                     >
-                      <p className="text-xs sm:text-[13px] text-zinc-550 dark:text-zinc-450 leading-relaxed font-medium whitespace-pre-line">
+                      <p className="text-xs sm:text-[13px] text-zinc-500 dark:text-zinc-400 leading-relaxed font-medium whitespace-pre-line">
                         {faq.answer}
                       </p>
                     </div>

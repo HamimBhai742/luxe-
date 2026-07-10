@@ -316,7 +316,7 @@ export default function AdminCouponsClient() {
         );
       case "Expired":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-[10px] font-bold text-red-750 dark:bg-red-950/20 dark:text-red-400">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-[10px] font-bold text-red-700 dark:bg-red-950/20 dark:text-red-400">
             <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
             Expired
           </span>
@@ -367,7 +367,7 @@ export default function AdminCouponsClient() {
             <svg className="h-3 w-3 text-zinc-300" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
-            <span className="text-zinc-650 dark:text-zinc-350">Coupons</span>
+            <span className="text-zinc-600 dark:text-zinc-300">Coupons</span>
           </nav>
           <h1 className="text-2xl font-black text-zinc-950 dark:text-white mt-1">Coupons</h1>
           <p className="text-xs text-zinc-400 mt-1">Create and manage promotional discounts and coupon codes.</p>
@@ -376,7 +376,7 @@ export default function AdminCouponsClient() {
         <div className="flex items-center gap-3 self-start sm:self-center">
           <button
             onClick={handleExport}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-705 dark:text-zinc-300 cursor-pointer shadow-xs transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-705 dark:text-zinc-300 cursor-pointer shadow-xs transition-colors"
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -400,17 +400,17 @@ export default function AdminCouponsClient() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         
         {/* Card 1: Total Coupons */}
-        <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 flex justify-between items-center relative overflow-hidden shadow-xs">
+        <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 flex justify-between items-center relative overflow-hidden shadow-xs">
           <div>
             <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Total Coupons</span>
-            <span className="text-3xl font-black text-zinc-955 dark:text-white mt-2 block">{totalCouponsCount}</span>
+            <span className="text-3xl font-black text-zinc-950 dark:text-white mt-2 block">{totalCouponsCount}</span>
             <div className="flex items-center gap-3 mt-3">
               <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-600">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                 {activeCouponsCount} Active
               </span>
               <span className="flex items-center gap-1.5 text-[10px] font-bold text-zinc-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-zinc-350" />
+                <span className="h-1.5 w-1.5 rounded-full bg-zinc-300" />
                 {inactiveCouponsCount} Inactive
               </span>
             </div>
@@ -423,10 +423,10 @@ export default function AdminCouponsClient() {
         </div>
 
         {/* Card 2: Total Savings */}
-        <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 flex justify-between items-center relative overflow-hidden shadow-xs">
+        <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 flex justify-between items-center relative overflow-hidden shadow-xs">
           <div>
             <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Total Savings</span>
-            <span className="text-3xl font-black text-zinc-955 dark:text-white mt-2 block">{displaySavings}</span>
+            <span className="text-3xl font-black text-zinc-950 dark:text-white mt-2 block">{displaySavings}</span>
             <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 mt-3">
               <svg className="h-3 w-3 fill-current" viewBox="0 0 24 24">
                 <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z" />
@@ -442,10 +442,10 @@ export default function AdminCouponsClient() {
         </div>
 
         {/* Card 3: Total Redemptions */}
-        <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 flex justify-between items-center relative overflow-hidden shadow-xs">
+        <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 flex justify-between items-center relative overflow-hidden shadow-xs">
           <div>
             <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider block">Total Redemptions</span>
-            <span className="text-3xl font-black text-zinc-955 dark:text-white mt-2 block">{totalRedemptionsCount.toLocaleString()}</span>
+            <span className="text-3xl font-black text-zinc-950 dark:text-white mt-2 block">{totalRedemptionsCount.toLocaleString()}</span>
             <span className="text-[10px] font-bold text-zinc-400 mt-3.5 block">Across {activeCouponsCount} active campaigns</span>
           </div>
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-rose-50/60 dark:bg-zinc-900">
@@ -459,7 +459,7 @@ export default function AdminCouponsClient() {
 
 
       {/* Main Console Box */}
-      <div className="rounded-3xl border border-zinc-150 bg-white dark:border-zinc-900 dark:bg-zinc-950 overflow-hidden shadow-xs">
+      <div className="rounded-3xl border border-zinc-200 bg-white dark:border-zinc-900 dark:bg-zinc-950 overflow-hidden shadow-xs">
         
         {/* Filters Bar */}
         <div className="border-b border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -474,7 +474,7 @@ export default function AdminCouponsClient() {
               placeholder="Search by code or name..."
               value={filterSearch}
               onChange={(e) => setFilterSearch(e.target.value)}
-              className="w-full pl-9.5 pr-4 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-medium text-zinc-800 outline-none focus:border-zinc-350 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
+              className="w-full pl-9.5 pr-4 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-medium text-zinc-800 outline-none focus:border-zinc-300 focus:bg-white dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
             />
           </div>
 
@@ -484,7 +484,7 @@ export default function AdminCouponsClient() {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-755 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
+                className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">Status</option>
                 <option value="Active">Active</option>
@@ -501,7 +501,7 @@ export default function AdminCouponsClient() {
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-755 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
+                className="w-full pl-3.5 pr-8 py-2 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
               >
                 <option value="All">Discount Type</option>
                 <option value="Percentage">Percentage</option>
@@ -526,7 +526,7 @@ export default function AdminCouponsClient() {
                     type="checkbox"
                     checked={selectedCoupons.length === coupons.length && coupons.length > 0}
                     onChange={toggleSelectAll}
-                    className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-905"
+                    className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-900"
                   />
                 </th>
                 <th className="py-4 px-4 font-bold text-[10px] border-0">Coupon Code</th>
@@ -541,9 +541,9 @@ export default function AdminCouponsClient() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={8} className="py-16 text-center text-zinc-400 dark:text-zinc-550 font-bold border-0">
+                  <td colSpan={8} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold border-0">
                     <div className="flex flex-col items-center justify-center gap-3">
-                      <svg className="animate-spin h-6 w-6 text-blue-650" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
@@ -564,7 +564,7 @@ export default function AdminCouponsClient() {
                   return (
                     <tr
                       key={c.id}
-                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-850/10 transition-colors border-b border-zinc-100 dark:border-zinc-900/50 last:border-0 ${
+                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-800/10 transition-colors border-b border-zinc-100 dark:border-zinc-900/50 last:border-0 ${
                         isSelected ? "bg-blue-50/20 dark:bg-blue-950/5" : ""
                       }`}
                     >
@@ -574,19 +574,19 @@ export default function AdminCouponsClient() {
                           type="checkbox"
                           checked={isSelected}
                           onChange={() => toggleSelectCoupon(c.id)}
-                          className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-955"
+                          className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-950"
                         />
                       </td>
 
                       {/* Coupon Code */}
                       <td className="py-4 px-4 border-0">
-                        <span className="font-extrabold text-blue-600 dark:text-blue-450 uppercase tracking-wide">
+                        <span className="font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-wide">
                           {c.code}
                         </span>
                       </td>
 
                       {/* Type */}
-                      <td className="py-4 px-4 text-xs font-semibold text-zinc-650 dark:text-zinc-400 border-0">
+                      <td className="py-4 px-4 text-xs font-semibold text-zinc-600 dark:text-zinc-400 border-0">
                         {c.type}
                       </td>
 
@@ -616,7 +616,7 @@ export default function AdminCouponsClient() {
                           <button
                             type="button"
                             onClick={() => handleStartEdit(c)}
-                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-650 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
                             title="Edit Coupon"
                           >
                             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -629,7 +629,7 @@ export default function AdminCouponsClient() {
                               e.stopPropagation();
                               setActiveMenuId((prev) => (prev === c.id ? null : c.id));
                             }}
-                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-655 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                            className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-50 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 transition-colors cursor-pointer"
                           >
                             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
@@ -654,7 +654,7 @@ export default function AdminCouponsClient() {
                             <button
                               type="button"
                               onClick={() => handleDeleteCoupon(c.id, c.code)}
-                              className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-bold text-red-650 hover:bg-red-50 dark:text-red-450 dark:hover:bg-red-955/20 transition-colors cursor-pointer"
+                              className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-bold text-red-600 hover:bg-red-50 dark:text-red-450 dark:hover:bg-red-950/20 transition-colors cursor-pointer"
                             >
                               <svg className="h-4 w-4 text-red-405" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -675,7 +675,7 @@ export default function AdminCouponsClient() {
 
         {/* Footer pagination */}
         <div className="border-t border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-550">
+          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500">
             Showing 1 to {filteredCoupons.length} of {coupons.length} entries
           </span>
 
@@ -683,7 +683,7 @@ export default function AdminCouponsClient() {
             {/* Prev */}
             <button
               onClick={() => toast.info("Opening previous page...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
             >
               &lt;
             </button>
@@ -696,7 +696,7 @@ export default function AdminCouponsClient() {
             {/* 2 */}
             <button
               onClick={() => toast.info("Opening page 2...")}
-              className="rounded-xl border border-zinc-255 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              className="rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
             >
               2
             </button>
@@ -706,7 +706,7 @@ export default function AdminCouponsClient() {
             {/* Next */}
             <button
               onClick={() => toast.info("Opening next page...")}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
             >
               &gt;
             </button>
@@ -718,12 +718,12 @@ export default function AdminCouponsClient() {
       {/* Add / Update Coupon Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300 animate-fade-in">
-          <div className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
+          <div className="w-full max-w-lg transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
             
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 mb-5">
               <div>
-                <h3 className="text-lg font-bold text-zinc-955 dark:text-white flex items-center gap-2">
+                <h3 className="text-lg font-bold text-zinc-950 dark:text-white flex items-center gap-2">
                   <svg className="h-5.5 w-5.5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 14.25l6-6m4.5-3.493V21a.75.75 0 01-1.127.65l-2.243-1.32-2.243 1.32a.75.75 0 01-.754 0l-2.243-1.32-2.243 1.32a.75.75 0 01-1.127-.65V3.757c0-.987.808-1.782 1.808-1.782h9.704c.983 0 1.785.785 1.808 1.768z" />
                   </svg>
@@ -748,7 +748,7 @@ export default function AdminCouponsClient() {
               
               {/* Coupon Code */}
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-1.5">
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
                   Coupon Code *
                 </label>
                 <input
@@ -771,7 +771,7 @@ export default function AdminCouponsClient() {
                     <select
                       value={type}
                       onChange={(e) => setType(e.target.value as any)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-955 transition-all cursor-pointer"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-950 transition-all cursor-pointer"
                     >
                       <option value="Percentage">Percentage (%)</option>
                       <option value="Fixed Amount">Fixed Amount ($)</option>
@@ -795,7 +795,7 @@ export default function AdminCouponsClient() {
                     placeholder={type === "Percentage" ? "20" : type === "Fixed Amount" ? "15.00" : "Standard"}
                     value={type === "Free Shipping" ? "Standard" : value}
                     onChange={(e) => setValue(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-305 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400 disabled:opacity-60 disabled:cursor-not-allowed"
                   />
                 </div>
               </div>
@@ -851,14 +851,14 @@ export default function AdminCouponsClient() {
 
               {/* Status */}
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-550 mb-1.5">
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
                   Coupon Status *
                 </label>
                 <div className="relative">
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value as any)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-750 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-955 transition-all cursor-pointer"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-950 transition-all cursor-pointer"
                   >
                     <option value="Active">Active</option>
                     <option value="Expired">Expired</option>
@@ -875,7 +875,7 @@ export default function AdminCouponsClient() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="flex-1 rounded-xl border border-zinc-250 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-905 transition-colors cursor-pointer"
+                  className="flex-1 rounded-xl border border-zinc-250 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -901,7 +901,7 @@ export default function AdminCouponsClient() {
           <div className="w-px h-4 bg-zinc-700 dark:bg-zinc-300" />
           <button
             onClick={handleBulkDelete}
-            className="flex items-center gap-1.5 text-xs font-black text-red-400 hover:text-red-300 dark:text-red-650 dark:hover:text-red-550 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 text-xs font-black text-red-400 hover:text-red-300 dark:text-red-600 dark:hover:text-red-500 transition-colors cursor-pointer"
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
