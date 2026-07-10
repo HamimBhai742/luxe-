@@ -602,7 +602,7 @@ export default function CheckoutClient() {
                 </div>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl font-black text-zinc-955 dark:text-white tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-black text-zinc-950 dark:text-white tracking-tight">
                 Order Confirmed!
               </h1>
               <p className="text-sm text-zinc-500 dark:text-zinc-400 font-semibold max-w-md mt-3 leading-relaxed">
@@ -635,8 +635,8 @@ export default function CheckoutClient() {
               <div className="lg:col-span-7 space-y-6">
                 
                 {/* Ordered Items List */}
-                <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs">
-                  <h3 className="text-base font-extrabold text-zinc-955 dark:text-white mb-4 flex items-center gap-2">
+                <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
+                  <h3 className="text-base font-extrabold text-zinc-950 dark:text-white mb-4 flex items-center gap-2">
                     <svg className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                     </svg>
@@ -664,7 +664,7 @@ export default function CheckoutClient() {
                               </span>
                             </div>
                             <div className="text-right flex flex-col items-end gap-1 shrink-0">
-                              <span className="font-black text-zinc-955 dark:text-white text-sm">${item.price.toFixed(2)}</span>
+                              <span className="font-black text-zinc-950 dark:text-white text-sm">${item.price.toFixed(2)}</span>
                               <span className="text-[10px] text-zinc-400 font-bold">Qty: {item.quantity}</span>
                             </div>
                           </div>
@@ -680,7 +680,7 @@ export default function CheckoutClient() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   
                   {/* Shipping Address Box */}
-                  <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs">
+                  <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
                     <h4 className="text-xs font-black uppercase tracking-wider text-zinc-400 mb-3.5 flex items-center gap-1.5">
                       <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -703,7 +703,7 @@ export default function CheckoutClient() {
                   </div>
 
                   {/* Payment Info Box */}
-                  <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs">
+                  <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
                     <h4 className="text-xs font-black uppercase tracking-wider text-zinc-400 mb-3.5 flex items-center gap-1.5">
                       <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-19.5 5.25h6m-6 2.25h3m-3.75-3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5h15a2.25 2.25 0 002.25-2.25V14" />
@@ -716,7 +716,7 @@ export default function CheckoutClient() {
                         <div className="flex items-center gap-2">
                           {displayPaymentMethod === "card" && (
                             <>
-                              <span className="bg-blue-50 dark:bg-blue-955/30 border border-blue-100 dark:border-blue-900 px-2 py-0.5 rounded text-[10px] font-black uppercase text-blue-600">Card (Stripe)</span>
+                              <span className="bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900 px-2 py-0.5 rounded text-[10px] font-black uppercase text-blue-600">Card (Stripe)</span>
                               <span className="text-zinc-600 dark:text-zinc-400 text-[11px] font-semibold">
                                 {cardNumber ? `Visa ending in ${cardNumber.replace(/\s/g, "").slice(-4)}` : "Credit/Debit Card"}
                               </span>
@@ -724,12 +724,12 @@ export default function CheckoutClient() {
                           )}
                           {displayPaymentMethod === "bkash" && (
                             <>
-                              <span className="bg-pink-50 dark:bg-pink-955/30 border border-pink-100 dark:border-pink-900 px-2 py-0.5 rounded text-[10px] font-black uppercase text-pink-600">bKash</span>
+                              <span className="bg-pink-50 dark:bg-pink-950/30 border border-pink-100 dark:border-pink-900 px-2 py-0.5 rounded text-[10px] font-black uppercase text-pink-600">bKash</span>
                               <span className="text-zinc-600 dark:text-zinc-400 text-[11px] font-semibold">{bkashNumber || "Mobile Wallet"}</span>
                             </>
                           )}
                           {displayPaymentMethod === "cod" && (
-                            <span className="bg-orange-50 dark:bg-orange-955/30 border border-orange-100 dark:border-orange-900 px-2 py-0.5 rounded text-[10px] font-black uppercase text-orange-600">Cash on Delivery</span>
+                            <span className="bg-orange-50 dark:bg-orange-950/30 border border-orange-100 dark:border-orange-900 px-2 py-0.5 rounded text-[10px] font-black uppercase text-orange-600">Cash on Delivery</span>
                           )}
                         </div>
                       </div>
@@ -738,7 +738,7 @@ export default function CheckoutClient() {
                         <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
                           createdOrder?.paymentStatus === "Paid" || displayPaymentMethod === "card" || displayPaymentMethod === "bkash"
                             ? "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 border border-emerald-100 dark:border-emerald-900"
-                            : "bg-amber-50 dark:bg-amber-955/15 text-amber-600 border border-amber-100 dark:border-amber-900"
+                            : "bg-amber-50 dark:bg-amber-950/15 text-amber-600 border border-amber-100 dark:border-amber-900"
                         }`}>
                           {createdOrder?.paymentStatus || (displayPaymentMethod === "card" || displayPaymentMethod === "bkash" ? "Paid" : "Pending")}
                         </span>
@@ -754,8 +754,8 @@ export default function CheckoutClient() {
               <div className="lg:col-span-5 space-y-6">
                 
                 {/* Live Order Tracker */}
-                <div className="rounded-3xl border border-zinc-205 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs">
-                  <h3 className="text-base font-extrabold text-zinc-955 dark:text-white mb-5 flex items-center gap-2">
+                <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
+                  <h3 className="text-base font-extrabold text-zinc-950 dark:text-white mb-5 flex items-center gap-2">
                     <svg className="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -763,7 +763,7 @@ export default function CheckoutClient() {
                   </h3>
 
                   <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-150 dark:border-zinc-900 p-4 rounded-2xl flex items-center gap-3.5 mb-6">
-                    <div className="h-10 w-10 bg-blue-50 dark:bg-blue-955/15 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+                    <div className="h-10 w-10 bg-blue-50 dark:bg-blue-950/15 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
                       <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.129-1.125V11.25M3 14.25h15m0 0V11.25m0 0h1.875c.621 0 1.125-.504 1.125-1.125V6.75H13.5v4.5M3.75 6.75h9.75M3 14.25v-7.5" />
                       </svg>
@@ -787,18 +787,18 @@ export default function CheckoutClient() {
                         </svg>
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-extrabold text-zinc-955 dark:text-white">Order Placed</span>
+                        <span className="font-extrabold text-zinc-950 dark:text-white">Order Placed</span>
                         <span className="text-[10px] text-zinc-400 font-medium">Successfully processed</span>
                       </div>
                     </div>
 
                     {/* Step 2: Processing */}
                     <div className="relative flex gap-3 text-xs leading-normal">
-                      <div className="absolute -left-6.5 mt-0.5 h-5 w-5 rounded-full border-2 border-blue-600 bg-white dark:bg-zinc-955 flex items-center justify-center">
+                      <div className="absolute -left-6.5 mt-0.5 h-5 w-5 rounded-full border-2 border-blue-600 bg-white dark:bg-zinc-950 flex items-center justify-center">
                         <span className="h-1.5 w-1.5 bg-blue-600 rounded-full animate-ping"></span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-extrabold text-zinc-955 dark:text-white">Processing</span>
+                        <span className="font-extrabold text-zinc-950 dark:text-white">Processing</span>
                         <span className="text-[10px] text-zinc-500 font-semibold dark:text-zinc-400">Preparing package at warehouse</span>
                       </div>
                     </div>
@@ -817,10 +817,10 @@ export default function CheckoutClient() {
                 </div>
 
                 {/* Billing Summary Receipt */}
-                <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-850 dark:bg-zinc-955 shadow-xs space-y-4">
-                  <h3 className="text-base font-extrabold text-zinc-955 dark:text-white pb-3 border-b border-zinc-100 dark:border-zinc-900 flex justify-between items-center">
+                <div className="rounded-3xl border border-zinc-200 bg-white p-6 dark:border-zinc-850 dark:bg-zinc-950 shadow-xs space-y-4">
+                  <h3 className="text-base font-extrabold text-zinc-950 dark:text-white pb-3 border-b border-zinc-100 dark:border-zinc-900 flex justify-between items-center">
                     <span>Receipt Summary</span>
-                    <span className="text-[10px] bg-blue-50 dark:bg-blue-955/10 text-blue-600 dark:text-blue-400 px-2.5 py-0.5 rounded-full font-black uppercase tracking-wide">
+                    <span className="text-[10px] bg-blue-50 dark:bg-blue-950/10 text-blue-600 dark:text-blue-400 px-2.5 py-0.5 rounded-full font-black uppercase tracking-wide">
                       Invoice details
                     </span>
                   </h3>
@@ -888,7 +888,7 @@ export default function CheckoutClient() {
                           toast.error("Order details not found. Cannot download invoice.");
                         }
                       }}
-                      className="w-full flex items-center justify-center gap-2 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-955 rounded-xl py-3 text-xs font-black shadow-md transition-all cursor-pointer select-none"
+                      className="w-full flex items-center justify-center gap-2 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-950 rounded-xl py-3 text-xs font-black shadow-md transition-all cursor-pointer select-none"
                     >
                       <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -937,7 +937,7 @@ export default function CheckoutClient() {
       
       {/* Top Header Bar */}
       <div>
-        <header className="border-b border-zinc-150 bg-white px-6 py-4 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs">
+        <header className="border-b border-zinc-150 bg-white px-6 py-4 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
           <div className="mx-auto max-w-7xl flex items-center justify-center relative">
             <Link href="/" className="text-lg font-black text-zinc-900 dark:text-white tracking-tight flex flex-col items-center">
               <span>Aura Marketplace</span>
@@ -1074,7 +1074,7 @@ export default function CheckoutClient() {
               {activeStep === "shipping" && (
                 <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs min-h-[380px] space-y-6">
                   <div>
-                    <h2 className="text-xl font-bold text-zinc-955 dark:text-white">
+                    <h2 className="text-xl font-bold text-zinc-950 dark:text-white">
                       Shipping Address
                     </h2>
                     <p className="text-xs text-zinc-400 mt-1">
@@ -1137,13 +1137,13 @@ export default function CheckoutClient() {
                           required
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all"
                         />
                       </div>
 
                       {/* Phone Number */}
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1.5">
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                           Phone Number
                         </label>
                         <input
@@ -1151,14 +1151,14 @@ export default function CheckoutClient() {
                           required
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-305 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all"
                         />
                       </div>
                     </div>
 
                     {/* Address Line 1 */}
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1.5">
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                         Address Line 1
                       </label>
                       <input
@@ -1166,27 +1166,27 @@ export default function CheckoutClient() {
                         required
                         value={addressLine1}
                         onChange={(e) => setAddressLine1(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all"
                       />
                     </div>
 
                     {/* Address Line 2 */}
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1.5">
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                         Address Line 2 (Optional)
                       </label>
                       <input
                         type="text"
                         value={addressLine2}
                         onChange={(e) => setAddressLine2(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all"
                       />
                     </div>
 
                     <div className="grid grid-cols-3 gap-4">
                       {/* City */}
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1.5">
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                           City
                         </label>
                         <input
@@ -1194,20 +1194,20 @@ export default function CheckoutClient() {
                           required
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all"
                         />
                       </div>
 
                       {/* State */}
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1.5">
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                           Division / State
                         </label>
                         <div className="relative">
                           <select
                             value={state}
                             onChange={(e) => setState(e.target.value)}
-                            className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-750 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-305 cursor-pointer"
+                            className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 appearance-none focus:outline-none dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 cursor-pointer"
                           >
                             <option value="">Select Division</option>
                             <option value="Dhaka">Dhaka</option>
@@ -1227,7 +1227,7 @@ export default function CheckoutClient() {
 
                       {/* Zip Code */}
                       <div>
-                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1.5">
+                        <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                           Zip Code
                         </label>
                         <input
@@ -1235,19 +1235,19 @@ export default function CheckoutClient() {
                           required
                           value={zipCode}
                           onChange={(e) => setZipCode(e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-305 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all"
                         />
                       </div>
                     </div>
 
                     {/* Add to address book checkbox */}
                     <div className="pt-2">
-                      <label className="flex items-center gap-2.5 text-xs font-bold text-zinc-750 dark:text-zinc-300 cursor-pointer select-none">
+                      <label className="flex items-center gap-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer select-none">
                         <input
                           type="checkbox"
                           checked={addToAddressBook}
                           onChange={(e) => setAddToAddressBook(e.target.checked)}
-                          className="h-4.5 w-4.5 rounded border-zinc-305 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-955"
+                          className="h-4.5 w-4.5 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-950"
                         />
                         <span>Add to Address Book for future purchases</span>
                       </label>
@@ -1261,7 +1261,7 @@ export default function CheckoutClient() {
               {activeStep === "delivery" && (
                 <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs min-h-[380px] space-y-6">
                   <div>
-                    <h2 className="text-xl font-bold text-zinc-955 dark:text-white">
+                    <h2 className="text-xl font-bold text-zinc-950 dark:text-white">
                       Delivery Method
                     </h2>
                     <p className="text-xs text-zinc-400 mt-1">
@@ -1274,8 +1274,8 @@ export default function CheckoutClient() {
                     {/* Standard Shipping */}
                     <label className={`flex flex-col border rounded-3xl p-5 cursor-pointer transition-all relative ${
                       deliveryMethod === "standard"
-                        ? "border-blue-600 bg-blue-50/10 dark:bg-blue-955/5"
-                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-955 dark:hover:bg-zinc-900"
+                        ? "border-blue-600 bg-blue-50/10 dark:bg-blue-950/5"
+                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900"
                     }`}>
                       <div className="flex justify-between items-start">
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50/60 text-blue-600 dark:bg-zinc-900">
@@ -1294,11 +1294,11 @@ export default function CheckoutClient() {
                       
                       <div className="mt-5">
                         <span className="text-xs font-black text-zinc-900 dark:text-white block">Standard Shipping</span>
-                        <span className="text-[10px] text-zinc-455 dark:text-zinc-550 font-bold mt-0.5 block">3-5 business days</span>
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-550 font-bold mt-0.5 block">3-5 business days</span>
                       </div>
 
                       <div className="mt-4 flex items-baseline justify-between pt-4 border-t border-zinc-100 dark:border-zinc-900">
-                        <span className="text-sm font-black text-zinc-955 dark:text-white">Free</span>
+                        <span className="text-sm font-black text-zinc-950 dark:text-white">Free</span>
                         <span className="text-[9px] font-bold text-zinc-400">Est. Arrival: {getEstimatedDeliveryRange(state)}</span>
                       </div>
                     </label>
@@ -1306,7 +1306,7 @@ export default function CheckoutClient() {
                     {/* Express Delivery */}
                     <label className={`flex flex-col border rounded-3xl p-5 cursor-pointer transition-all relative ${
                       deliveryMethod === "express"
-                        ? "border-blue-600 bg-blue-50/10 dark:bg-blue-955/5"
+                        ? "border-blue-600 bg-blue-50/10 dark:bg-blue-950/5"
                         : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900"
                     }`}>
                       <div className="flex justify-between items-start">
@@ -1330,7 +1330,7 @@ export default function CheckoutClient() {
                       </div>
 
                       <div className="mt-4 flex items-baseline justify-between pt-4 border-t border-zinc-100 dark:border-zinc-900">
-                        <span className="text-sm font-black text-zinc-955 dark:text-white">$25.00</span>
+                        <span className="text-sm font-black text-zinc-950 dark:text-white">$25.00</span>
                         <span className="text-[9px] font-bold text-zinc-400">Est. Arrival: Tomorrow</span>
                       </div>
                     </label>
@@ -1339,11 +1339,10 @@ export default function CheckoutClient() {
                 </div>
               )}
 
-              {/* STEP 3: Payment Details */}
               {activeStep === "payment" && (
-                <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs min-h-[380px] space-y-6">
+                <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs min-h-[380px] space-y-6">
                   <div>
-                    <h2 className="text-xl font-bold text-zinc-955 dark:text-white">
+                    <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
                       Payment Method
                     </h2>
                   </div>
@@ -1353,8 +1352,8 @@ export default function CheckoutClient() {
                     {/* Option 1: Credit/Debit Card (Stripe) */}
                     <div className={`border rounded-3xl overflow-hidden transition-all ${
                       paymentMethod === "card"
-                        ? "border-blue-600 bg-white dark:bg-zinc-955"
-                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-955 dark:hover:bg-zinc-900"
+                        ? "border-blue-600 bg-white dark:bg-zinc-950"
+                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900"
                     }`}>
                       {/* Top Selection Row */}
                       <button
@@ -1366,7 +1365,7 @@ export default function CheckoutClient() {
                           <svg className="h-5.5 w-5.5 text-blue-600 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-5.25-6h18A2.25 2.25 0 0122.5 12v5.25A2.25 2.25 0 0120.25 19.5H3.75A2.25 2.25 0 011.5 17.25V12a2.25 2.25 0 012.25-2.25z" />
                           </svg>
-                          <span className="text-xs font-black text-zinc-955 dark:text-white">Credit/Debit Card (Stripe)</span>
+                          <span className="text-xs font-black text-zinc-900 dark:text-white">Credit/Debit Card (Stripe)</span>
                         </div>
                         <input
                           type="radio"
@@ -1383,7 +1382,7 @@ export default function CheckoutClient() {
                           {/* Saved Cards List Option */}
                           {savedCards.length > 0 && (
                             <div className="space-y-2 mb-2">
-                              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 mb-1">
+                              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">
                                 Saved Payment Cards
                               </label>
                               <div className="grid grid-cols-1 gap-2">
@@ -1394,24 +1393,24 @@ export default function CheckoutClient() {
                                     onClick={() => handleSelectSavedCard(card)}
                                     className={`flex items-center justify-between p-3.5 rounded-2xl border text-xs font-semibold cursor-pointer text-left transition-all ${
                                       selectedSavedCardId === card.id
-                                        ? "border-blue-655 bg-blue-50/5 dark:bg-blue-955/5"
-                                        : "border-zinc-200 dark:border-zinc-805 bg-white hover:bg-zinc-50 dark:bg-zinc-950/20"
+                                        ? "border-blue-600 bg-blue-50/5 dark:bg-blue-900/5"
+                                        : "border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-950/20"
                                     }`}
                                   >
                                     <div className="flex items-center gap-3">
-                                      <div className="h-6 w-10 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded flex items-center justify-center text-[9px] font-black italic text-zinc-550">
+                                      <div className="h-6 w-10 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded flex items-center justify-center text-[9px] font-black italic text-zinc-500">
                                         {card.brand === "Visa" ? "VISA" : "MC"}
                                       </div>
                                       <div>
-                                        <p className="text-zinc-850 dark:text-white font-black">
+                                        <p className="text-zinc-800 dark:text-white font-black">
                                           {card.brand} ending in {card.last4}
                                         </p>
-                                        <span className="text-[10px] text-zinc-455 block">Expires {card.expiry}</span>
+                                        <span className="text-[10px] text-zinc-400 block">Expires {card.expiry}</span>
                                       </div>
                                     </div>
                                     <div className={`h-4.5 w-4.5 rounded-full border flex items-center justify-center ${
                                       selectedSavedCardId === card.id
-                                        ? "border-blue-650 bg-blue-600 text-white"
+                                        ? "border-blue-600 bg-blue-600 text-white"
                                         : "border-zinc-300 dark:border-zinc-700"
                                     }`}>
                                       {selectedSavedCardId === card.id && (
@@ -1431,19 +1430,19 @@ export default function CheckoutClient() {
                                   }}
                                   className={`flex items-center justify-between p-3.5 rounded-2xl border text-xs font-semibold cursor-pointer text-left transition-all ${
                                     selectedSavedCardId === null
-                                      ? "border-blue-650 bg-blue-50/5 dark:bg-blue-955/5"
-                                      : "border-zinc-200 dark:border-zinc-805 bg-white hover:bg-zinc-50 dark:bg-zinc-950/20"
+                                      ? "border-blue-600 bg-blue-50/5 dark:bg-blue-900/5"
+                                      : "border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-950/20"
                                   }`}
                                 >
                                   <div className="flex items-center gap-3">
-                                    <div className="h-6 w-10 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-805 rounded flex items-center justify-center text-xs font-black text-zinc-555">
+                                    <div className="h-6 w-10 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded flex items-center justify-center text-xs font-black text-zinc-500">
                                       +
                                     </div>
-                                    <p className="text-zinc-855 dark:text-white font-black">Use another card</p>
+                                    <p className="text-zinc-800 dark:text-white font-black">Use another card</p>
                                   </div>
                                   <div className={`h-4.5 w-4.5 rounded-full border flex items-center justify-center ${
                                     selectedSavedCardId === null
-                                      ? "border-blue-650 bg-blue-600 text-white"
+                                      ? "border-blue-600 bg-blue-600 text-white"
                                       : "border-zinc-300 dark:border-zinc-700"
                                   }`}>
                                     {selectedSavedCardId === null && (
@@ -1472,7 +1471,7 @@ export default function CheckoutClient() {
                                 value={cardNumber}
                                 onChange={(e) => handleCardNumberChange(e.target.value)}
                                 readOnly={selectedSavedCardId !== null}
-                                className="w-full pl-10 pr-16 py-2.5 rounded-xl border border-zinc-255 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all read-only:opacity-80"
+                                className="w-full pl-10 pr-16 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all read-only:opacity-80"
                               />
                               <div className="absolute inset-y-0 right-3.5 flex items-center gap-1.5">
                                 <span className="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-1.5 py-0.5 rounded text-[8px] font-black uppercase text-zinc-400">VI</span>
@@ -1483,12 +1482,12 @@ export default function CheckoutClient() {
 
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1.5">
+                              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                                 Expiry Date (MM/YY)
                               </label>
                               <div className="relative">
                                 <div className="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
-                                  <svg className="h-4.5 w-4.5 text-zinc-405" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                                  <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
                                   </svg>
                                 </div>
@@ -1499,18 +1498,18 @@ export default function CheckoutClient() {
                                   value={cardExpiry}
                                   onChange={(e) => handleExpiryChange(e.target.value)}
                                   readOnly={selectedSavedCardId !== null}
-                                  className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all read-only:opacity-80"
+                                  className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all read-only:opacity-80"
                                 />
                               </div>
                             </div>
 
                             <div>
-                              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1.5">
+                              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                                 CVC
                               </label>
                               <div className="relative">
                                 <div className="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
-                                  <svg className="h-4.5 w-4.5 text-zinc-405" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                                  <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0V10.5m-3.75 3h15.75m-15.75 0a2.25 2.25 0 00-2.25 2.25v3a2.25 2.25 0 002.25 2.25h15.75a2.25 2.25 0 002.25-2.25v-3a2.25 2.25 0 00-2.25-2.25M3 10.5h18" />
                                   </svg>
                                 </div>
@@ -1521,7 +1520,7 @@ export default function CheckoutClient() {
                                   value={cardCvv}
                                   onChange={(e) => handleCvcChange(e.target.value)}
                                   readOnly={selectedSavedCardId !== null}
-                                  className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all read-only:opacity-80"
+                                  className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all read-only:opacity-80"
                                 />
                               </div>
                             </div>
@@ -1533,14 +1532,14 @@ export default function CheckoutClient() {
                                 type="checkbox"
                                 checked={saveCardForFuture}
                                 onChange={(e) => setSaveCardForFuture(e.target.checked)}
-                                className="h-4.5 w-4.5 rounded border-zinc-305 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-950"
+                                className="h-4.5 w-4.5 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-950"
                               />
                               <span>Save this card for future purchases</span>
                             </label>
                           </div>
 
                           <div className="flex items-center justify-between border-t border-zinc-100 dark:border-zinc-900 pt-4 mt-2">
-                            <div className="flex items-center gap-4 text-[10px] font-bold text-emerald-650 dark:text-emerald-500">
+                            <div className="flex items-center gap-4 text-[10px] font-bold text-emerald-600 dark:text-emerald-500">
                               <span className="flex items-center gap-1">
                                 <svg className="h-4 w-4 text-emerald-600" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0V10.5m-3.75 3h15.75m-15.75 0a2.25 2.25 0 00-2.25 2.25v3a2.25 2.25 0 002.25 2.25h15.75a2.25 2.25 0 002.25-2.25v-3a2.25 2.25 0 00-2.25-2.25M3 10.5h18" />
@@ -1570,8 +1569,8 @@ export default function CheckoutClient() {
                     {/* Option 2: bKash (Mobile Banking) */}
                     <div className={`border rounded-3xl overflow-hidden transition-all ${
                       paymentMethod === "bkash"
-                        ? "border-blue-600 bg-white dark:bg-zinc-955"
-                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-805 dark:bg-zinc-955 dark:hover:bg-zinc-900"
+                        ? "border-blue-600 bg-white dark:bg-zinc-950"
+                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900"
                     }`}>
                       <button
                         type="button"
@@ -1579,8 +1578,8 @@ export default function CheckoutClient() {
                         className="w-full flex items-center justify-between p-5 cursor-pointer text-left focus:outline-none"
                       >
                         <div className="flex items-center gap-3.5">
-                          <div className="h-5.5 w-10 bg-pink-650 rounded flex items-center justify-center text-[7px] font-black text-white shrink-0">bKash</div>
-                          <span className="text-xs font-black text-zinc-955 dark:text-white">Mobile Banking (bKash)</span>
+                          <div className="h-5.5 w-10 bg-pink-600 rounded flex items-center justify-center text-[7px] font-black text-white shrink-0">bKash</div>
+                          <span className="text-xs font-black text-zinc-900 dark:text-white">Mobile Banking (bKash)</span>
                         </div>
                         <input
                           type="radio"
@@ -1590,12 +1589,11 @@ export default function CheckoutClient() {
                           className="h-4.5 w-4.5 text-blue-600 focus:ring-blue-500 cursor-pointer"
                         />
                       </button>
-
                       {paymentMethod === "bkash" && (
                         <div className="px-5 pb-5 border-t border-zinc-100 dark:border-zinc-900 pt-5 space-y-4 animate-fade-in">
                           {savedBkash.length > 0 && (
                             <div className="space-y-2 mb-2">
-                              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 mb-1">
+                              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">
                                 Saved bKash Accounts
                               </label>
                               <div className="grid grid-cols-1 gap-2">
@@ -1606,8 +1604,8 @@ export default function CheckoutClient() {
                                     onClick={() => handleSelectBkash(acc)}
                                     className={`flex items-center justify-between p-3.5 rounded-2xl border text-xs font-semibold cursor-pointer text-left transition-all ${
                                       selectedBkashId === acc.id
-                                        ? "border-blue-655 bg-blue-50/5 dark:bg-blue-955/5"
-                                        : "border-zinc-200 dark:border-zinc-805 bg-white hover:bg-zinc-50 dark:bg-zinc-950/20"
+                                        ? "border-blue-600 bg-blue-50/5 dark:bg-blue-900/5"
+                                        : "border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-950/20"
                                     }`}
                                   >
                                     <div className="flex items-center gap-3">
@@ -1615,15 +1613,15 @@ export default function CheckoutClient() {
                                         BKASH
                                       </div>
                                       <div>
-                                        <p className="text-zinc-850 dark:text-white font-black">
+                                        <p className="text-zinc-800 dark:text-white font-black">
                                           {acc.number}
                                         </p>
-                                        <span className="text-[10px] text-zinc-450 block">Verified Account</span>
+                                        <span className="text-[10px] text-zinc-400 block">Verified Account</span>
                                       </div>
                                     </div>
                                     <div className={`h-4.5 w-4.5 rounded-full border flex items-center justify-center ${
                                       selectedBkashId === acc.id
-                                        ? "border-blue-650 bg-blue-600 text-white"
+                                        ? "border-blue-600 bg-blue-600 text-white"
                                         : "border-zinc-300 dark:border-zinc-700"
                                     }`}>
                                       {selectedBkashId === acc.id && (
@@ -1641,19 +1639,19 @@ export default function CheckoutClient() {
                                   }}
                                   className={`flex items-center justify-between p-3.5 rounded-2xl border text-xs font-semibold cursor-pointer text-left transition-all ${
                                     selectedBkashId === null
-                                      ? "border-blue-650 bg-blue-50/5 dark:bg-blue-955/5"
-                                      : "border-zinc-200 dark:border-zinc-805 bg-white hover:bg-zinc-50 dark:bg-zinc-950/20"
+                                      ? "border-blue-600 bg-blue-50/5 dark:bg-blue-900/5"
+                                      : "border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-950/20"
                                   }`}
                                 >
                                   <div className="flex items-center gap-3">
-                                    <div className="h-6 w-10 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-805 rounded flex items-center justify-center text-xs font-black text-zinc-555">
+                                    <div className="h-6 w-10 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded flex items-center justify-center text-xs font-black text-zinc-500">
                                       +
                                     </div>
-                                    <p className="text-zinc-855 dark:text-white font-black">Use another bKash number</p>
+                                    <p className="text-zinc-800 dark:text-white font-black">Use another bKash number</p>
                                   </div>
                                   <div className={`h-4.5 w-4.5 rounded-full border flex items-center justify-center ${
                                     selectedBkashId === null
-                                      ? "border-blue-650 bg-blue-600 text-white"
+                                      ? "border-blue-600 bg-blue-600 text-white"
                                       : "border-zinc-300 dark:border-zinc-700"
                                   }`}>
                                     {selectedBkashId === null && (
@@ -1666,7 +1664,7 @@ export default function CheckoutClient() {
                           )}
 
                           <div>
-                            <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-450 mb-1.5">
+                            <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1.5">
                               bKash Mobile Number
                             </label>
                             <input
@@ -1676,7 +1674,7 @@ export default function CheckoutClient() {
                               value={bkashNumber}
                               onChange={(e) => setBkashNumber(e.target.value)}
                               readOnly={selectedBkashId !== null}
-                              className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-955 transition-all read-only:opacity-80"
+                              className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all read-only:opacity-80"
                             />
                           </div>
 
@@ -1687,7 +1685,7 @@ export default function CheckoutClient() {
                                 checked={saveBkashForFuture}
                                 onChange={(e) => setSaveBkashForFuture(e.target.checked)}
                                 disabled={selectedBkashId !== null}
-                                className="h-4.5 w-4.5 rounded border-zinc-305 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-950 disabled:opacity-50"
+                                className="h-4.5 w-4.5 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-950 disabled:opacity-50"
                               />
                               <span>Save this bKash account for future purchases</span>
                             </label>
@@ -1700,8 +1698,8 @@ export default function CheckoutClient() {
                     {/* Option 3: Cash on Delivery */}
                     <div className={`border rounded-3xl overflow-hidden transition-all ${
                       paymentMethod === "cod"
-                        ? "border-blue-600 bg-white dark:bg-zinc-955"
-                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-955 dark:hover:bg-zinc-900"
+                        ? "border-blue-600 bg-white dark:bg-zinc-950"
+                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900"
                     }`}>
                       <button
                         type="button"
@@ -1709,10 +1707,10 @@ export default function CheckoutClient() {
                         className="w-full flex items-center justify-between p-5 cursor-pointer text-left focus:outline-none"
                       >
                         <div className="flex items-center gap-3.5">
-                          <svg className="h-5.5 w-5.5 text-zinc-450 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
+                          <svg className="h-5.5 w-5.5 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
                           </svg>
-                          <span className="text-xs font-black text-zinc-955 dark:text-white">Cash on Delivery (COD)</span>
+                          <span className="text-xs font-black text-zinc-900 dark:text-white">Cash on Delivery (COD)</span>
                         </div>
                         <input
                           type="radio"
@@ -1734,7 +1732,7 @@ export default function CheckoutClient() {
                   
                   {/* Header Title */}
                   <div>
-                    <h2 className="text-2xl font-black text-zinc-955 dark:text-white">
+                    <h2 className="text-2xl font-black text-zinc-900 dark:text-white">
                       Review Your Order
                     </h2>
                     <p className="text-xs text-zinc-400 mt-1.5">
@@ -1743,7 +1741,7 @@ export default function CheckoutClient() {
                   </div>
 
                   {/* Estimated Delivery Banner */}
-                  <div className="flex items-center gap-4 rounded-2xl bg-blue-50/80 border border-blue-100 p-4 dark:bg-blue-955/10 dark:border-blue-900/30">
+                  <div className="flex items-center gap-4 rounded-2xl bg-blue-50/80 border border-blue-100 p-4 dark:bg-blue-950/10 dark:border-blue-900/30">
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
                       <svg className="h-5.5 w-5.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.129-1.125V11.25M3 14.25h15m0 0V11.25m0 0h1.875c.621 0 1.125-.504 1.125-1.125V6.75H13.5v4.5M3.75 6.75h9.75M3 14.25v-7.5" />
@@ -1778,7 +1776,7 @@ export default function CheckoutClient() {
                           Edit
                         </button>
                       </div>
-                      <div className="text-xs text-zinc-655 dark:text-zinc-455 leading-relaxed font-bold space-y-0.5">
+                      <div className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed font-bold space-y-0.5">
                         <p className="text-zinc-900 dark:text-white font-extrabold">{fullName}</p>
                         <p>{addressLine1}</p>
                         {addressLine2 && <p>{addressLine2}</p>}
@@ -1804,7 +1802,7 @@ export default function CheckoutClient() {
                           Edit
                         </button>
                       </div>
-                      <div className="text-xs text-zinc-650 dark:text-zinc-450 leading-relaxed font-bold space-y-2">
+                      <div className="text-xs text-zinc-600 dark:text-zinc-450 leading-relaxed font-bold space-y-2">
                         {paymentMethod === "card" ? (
                           <div className="flex items-center gap-2">
                             <span className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 px-2 py-0.5 rounded text-[9px] font-black uppercase text-zinc-500 tracking-wider">
@@ -1921,7 +1919,7 @@ export default function CheckoutClient() {
 
             {/* RIGHT COLUMN: Order Summary Card (4 cols) */}
             <div className="lg:col-span-4 space-y-4">
-              <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-955 shadow-xs">
+              <div className="rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-900 dark:bg-zinc-950 shadow-xs">
                 <h2 className="text-base font-extrabold text-zinc-950 dark:text-white border-b border-zinc-100 dark:border-zinc-900 pb-3.5">
                   Order Summary
                 </h2>
@@ -1964,7 +1962,7 @@ export default function CheckoutClient() {
                       <div className="flex-1 flex justify-between text-xs leading-normal">
                         <div className="flex flex-col">
                           <span className="font-extrabold text-zinc-900 dark:text-white">AeroRun Pro</span>
-                          <span className="text-[10px] text-zinc-455 font-bold">Qty: 1</span>
+                          <span className="text-[10px] text-zinc-400 font-bold">Qty: 1</span>
                         </div>
                         <span className="font-black text-zinc-850 dark:text-zinc-200">$150.00</span>
                       </div>
@@ -2056,7 +2054,7 @@ export default function CheckoutClient() {
                 </div>
 
                 {/* Padlock Secure Transaction indicator */}
-                <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-zinc-400 dark:text-zinc-555 mt-6 select-none">
+                <div className="flex items-center justify-center gap-1.5 text-[10px] font-bold text-zinc-400 dark:text-zinc-500 mt-6 select-none">
                   <svg className="h-3.5 w-3.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0V10.5m-3.75 3h15.75m-15.75 0a2.25 2.25 0 00-2.25 2.25v3a2.25 2.25 0 002.25 2.25h15.75a2.25 2.25 0 002.25-2.25v-3a2.25 2.25 0 00-2.25-2.25M3 10.5h18" />
                   </svg>
@@ -2065,7 +2063,7 @@ export default function CheckoutClient() {
 
                 {/* Agreement notice */}
                 {activeStep === "review" && (
-                  <p className="text-[10px] text-zinc-400 dark:text-zinc-555 text-center leading-relaxed mt-4">
+                  <p className="text-[10px] text-zinc-400 dark:text-zinc-500 text-center leading-relaxed mt-4">
                     By placing your order, you agree to our{" "}
                     <Link href="#" className="underline text-blue-600 hover:text-blue-500">Terms of Service</Link>{" "}
                     and{" "}
@@ -2095,7 +2093,7 @@ export default function CheckoutClient() {
 
       {/* Stripe Payment Modal */}
       {showStripeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-955/65 backdrop-blur-xs animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/65 backdrop-blur-xs animate-fade-in">
           <div className="relative w-full max-w-md rounded-3xl border border-zinc-150 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950 shadow-2xl space-y-6">
             
             {/* Close Button */}
@@ -2107,7 +2105,7 @@ export default function CheckoutClient() {
                   setStripeSuccess(false);
                 }
               }}
-              className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-650 dark:hover:text-zinc-300 disabled:opacity-50 cursor-pointer"
+              className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 disabled:opacity-50 cursor-pointer"
               disabled={stripeProcessing}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -2117,12 +2115,12 @@ export default function CheckoutClient() {
 
             {/* Header */}
             <div className="flex flex-col items-center text-center space-y-2 mt-2">
-              <div className="h-12 w-12 rounded-2xl bg-blue-50 dark:bg-blue-955/15 flex items-center justify-center text-blue-600">
+              <div className="h-12 w-12 rounded-2xl bg-blue-50 dark:bg-blue-900/15 flex items-center justify-center text-blue-600">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0V10.5m-3.75 3h15.75m-15.75 0a2.25 2.25 0 00-2.25 2.25v3a2.25 2.25 0 002.25 2.25h15.75a2.25 2.25 0 002.25-2.25v-3a2.25 2.25 0 00-2.25-2.25M3 10.5h18" />
                 </svg>
               </div>
-              <h3 className="text-lg font-black text-zinc-955 dark:text-white">Stripe Secure Checkout</h3>
+              <h3 className="text-lg font-black text-zinc-900 dark:text-white">Stripe Secure Checkout</h3>
               <p className="text-xs text-zinc-450">Pay securely with Credit or Debit card via Stripe</p>
             </div>
 
@@ -2139,7 +2137,7 @@ export default function CheckoutClient() {
                 <div className="flex flex-col items-center justify-center py-8 space-y-4">
                   {stripeSuccess ? (
                     <>
-                      <div className="h-14 w-14 rounded-full bg-emerald-650 text-white flex items-center justify-center shadow-lg shadow-emerald-500/10 animate-scale-up">
+                      <div className="h-14 w-14 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-lg shadow-emerald-500/20 animate-scale-up">
                         <svg className="h-7 w-7 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="3">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                         </svg>
@@ -2175,7 +2173,7 @@ export default function CheckoutClient() {
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-455 mb-1">CVC</label>
+                      <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">CVC</label>
                       <input
                         type="text"
                         className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none"
