@@ -296,7 +296,6 @@ export default function AdminOrdersClient() {
     );
   };
 
-
   const renderPaymentBadge = (p: string) => {
     switch (p) {
       case "Paid":
@@ -307,13 +306,13 @@ export default function AdminOrdersClient() {
         );
       case "Pending":
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-150 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-zinc-650 dark:bg-zinc-800 dark:text-zinc-400">
+          <span className="inline-flex items-center rounded-full bg-zinc-200 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
             Pending
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-zinc-500 dark:bg-zinc-850 dark:text-zinc-500">
+          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-zinc-500 dark:bg-zinc-800 dark:text-zinc-500">
             Refunded
           </span>
         );
@@ -360,12 +359,13 @@ export default function AdminOrdersClient() {
         );
       default:
         return (
-          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-zinc-550 dark:bg-zinc-850 dark:text-zinc-500">
+          <span className="inline-flex items-center rounded-full bg-zinc-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-zinc-500 dark:bg-zinc-800 dark:text-zinc-500">
             Returned
           </span>
         );
     }
   };
+
 
   return (
     <div className="space-y-6">
@@ -378,7 +378,7 @@ export default function AdminOrdersClient() {
             <svg className="h-3 w-3 text-zinc-300" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
-            <span className="text-zinc-650 dark:text-zinc-350">Orders</span>
+            <span className="text-zinc-600 dark:text-zinc-350">Orders</span>
           </nav>
           <h1 className="text-2xl font-black text-zinc-950 dark:text-white mt-1">Orders</h1>
           <p className="text-xs text-zinc-400 mt-1">Manage and track customer orders, fulfillment status, and payment processing.</p>
@@ -387,7 +387,7 @@ export default function AdminOrdersClient() {
         <div className="flex items-center gap-3 self-start sm:self-center">
           <button
             onClick={handleExport}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-4 py-2.5 text-xs font-bold text-zinc-705 dark:text-zinc-300 cursor-pointer shadow-xs transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer shadow-xs transition-colors"
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
@@ -408,9 +408,7 @@ export default function AdminOrdersClient() {
       </div>
 
       {/* Main Console Box */}
-      <div className="rounded-3xl border border-zinc-150 bg-white dark:border-zinc-900 dark:bg-zinc-955 overflow-hidden shadow-xs">
-        
-        {/* Filters Bar */}
+      <div className="rounded-3xl border border-zinc-200 bg-white dark:border-zinc-900 dark:bg-zinc-950 overflow-hidden shadow-xs">
         <div className="border-b border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 lg:flex-row lg:items-center">
           
           {/* Search Field */}
@@ -524,7 +522,7 @@ export default function AdminOrdersClient() {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={8} className="py-16 text-center text-zinc-400 dark:text-zinc-550 font-bold border-0">
+                  <td colSpan={8} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold border-0">
                     <div className="flex flex-col items-center justify-center gap-3">
                       <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -546,7 +544,7 @@ export default function AdminOrdersClient() {
                   return (
                     <tr
                       key={o.id}
-                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-850/10 transition-colors border-b border-zinc-100 dark:border-zinc-900/50 last:border-0 ${
+                      className={`hover:bg-zinc-50/40 dark:hover:bg-zinc-800/10 transition-colors border-b border-zinc-100 dark:border-zinc-900/50 last:border-0 ${
                         isSelected ? "bg-blue-50/20 dark:bg-blue-950/5" : ""
                       }`}
                     >
@@ -579,23 +577,23 @@ export default function AdminOrdersClient() {
                       {/* Customer */}
                       <td className="py-4 px-4 border-0">
                         <div className="flex flex-col">
-                          <span className="text-xs font-extrabold text-zinc-850 dark:text-white leading-tight">
+                          <span className="text-xs font-extrabold text-zinc-800 dark:text-white leading-tight">
                             {o.customerName}
                           </span>
-                          <span className="text-[10px] text-zinc-400 dark:text-zinc-550 font-bold mt-0.5">
+                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-bold mt-0.5">
                             {o.customerEmail}
                           </span>
                         </div>
                       </td>
 
                       {/* Total */}
-                      <td className="py-4 px-4 text-xs font-black text-zinc-850 dark:text-white border-0">
+                      <td className="py-4 px-4 text-xs font-black text-zinc-800 dark:text-white border-0">
                         ${o.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
 
                       {/* Payment */}
                       <td className="py-4 px-4 text-xs font-bold border-0 align-middle">
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col items-start gap-1">
                           {renderPaymentBadge(o.paymentStatus)}
                           <span className="text-[10px] text-zinc-400 capitalize">
                             {o.paymentMethod === "card" 
@@ -691,7 +689,7 @@ export default function AdminOrdersClient() {
 
         {/* Footer pagination */}
         <div className="border-t border-zinc-100 dark:border-zinc-900 p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-550">
+          <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500">
             Showing {orders.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} orders
           </span>
 
@@ -700,7 +698,7 @@ export default function AdminOrdersClient() {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1 || isLoading}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               &lt;
             </button>
@@ -714,7 +712,7 @@ export default function AdminOrdersClient() {
                 className={`rounded-xl px-3.5 py-2 text-xs font-black cursor-pointer transition-colors ${
                   currentPage === page
                     ? "bg-blue-600 text-white shadow-xs shadow-blue-500/10"
-                    : "border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 text-zinc-700 dark:text-zinc-300"
+                    : "border border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
                 } disabled:opacity-50`}
               >
                 {page}
@@ -725,7 +723,7 @@ export default function AdminOrdersClient() {
             <button
               onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages || isLoading}
-              className="rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-850 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-3.5 py-2 text-xs font-extrabold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               &gt;
             </button>
@@ -776,7 +774,7 @@ export default function AdminOrdersClient() {
                   placeholder="e.g. John Doe"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
                 />
               </div>
 
@@ -791,7 +789,7 @@ export default function AdminOrdersClient() {
                   placeholder="john.doe@example.com"
                   value={customerEmail}
                   onChange={(e) => setCustomerEmail(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
                 />
               </div>
 
@@ -808,7 +806,7 @@ export default function AdminOrdersClient() {
                     placeholder="e.g. 199.00"
                     value={total}
                     onChange={(e) => setTotal(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
                   />
                 </div>
 
@@ -885,7 +883,7 @@ export default function AdminOrdersClient() {
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="flex-1 rounded-xl border border-zinc-250 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-905 transition-colors cursor-pointer"
+                  className="flex-1 rounded-xl border border-zinc-200 py-2.5 text-xs font-extrabold text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -905,7 +903,7 @@ export default function AdminOrdersClient() {
       {/* View Order Summary Modal (READ-ONLY) */}
       {viewingOrder && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300 animate-fade-in">
-          <div className="w-full max-w-md transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-150 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
+          <div className="w-full max-w-md transform overflow-hidden rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col">
             
             {/* Header */}
             <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-4 mb-4">
@@ -928,18 +926,17 @@ export default function AdminOrdersClient() {
             {/* Content summary */}
             <div className="space-y-4 py-2 text-xs">
               
-              <div className="grid grid-cols-2 gap-4 rounded-2xl bg-zinc-50/50 dark:bg-zinc-900 p-4 border border-zinc-100 dark:border-zinc-850">
+              <div className="grid grid-cols-2 gap-4 rounded-2xl bg-zinc-50/50 dark:bg-zinc-900 p-4 border border-zinc-100 dark:border-zinc-800">
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Customer</span>
                   <span className="font-extrabold text-zinc-800 dark:text-zinc-200 block mt-1">{viewingOrder.customerName}</span>
-                  <span className="text-zinc-450 dark:text-zinc-500 font-medium block mt-0.5">{viewingOrder.customerEmail}</span>
+                  <span className="text-zinc-400 dark:text-zinc-500 font-medium block mt-0.5">{viewingOrder.customerEmail}</span>
                 </div>
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Transaction</span>
-                  <span className="font-black text-zinc-850 dark:text-white block mt-1 text-sm">${viewingOrder.total.toFixed(2)}</span>
+                  <span className="font-black text-zinc-800 dark:text-white block mt-1 text-sm">${viewingOrder.total.toFixed(2)}</span>
                 </div>
               </div>
-
               <div className="grid grid-cols-3 gap-4">
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Payment Status</span>
@@ -947,7 +944,7 @@ export default function AdminOrdersClient() {
                 </div>
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Payment Method</span>
-                  <span className="text-xs font-black text-zinc-800 dark:text-zinc-250 block mt-1 capitalize">
+                  <span className="text-xs font-black text-zinc-800 dark:text-zinc-300 block mt-1 capitalize">
                     {viewingOrder.paymentMethod === "card" 
                       ? "Stripe (Card)" 
                       : viewingOrder.paymentMethod === "bkash" 
@@ -966,7 +963,7 @@ export default function AdminOrdersClient() {
               <div className="border-t border-zinc-100 dark:border-zinc-900 pt-4 mt-2">
                 <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block mb-2">Order Items (Mocked)</span>
                 <div className="space-y-2">
-                  <div className="flex justify-between items-center bg-zinc-50/30 dark:bg-zinc-900/40 p-2.5 rounded-xl border border-zinc-150/40 dark:border-zinc-850/50">
+                  <div className="flex justify-between items-center bg-zinc-50/30 dark:bg-zinc-900/40 p-2.5 rounded-xl border border-zinc-200/40 dark:border-zinc-800/50">
                     <span className="font-bold text-zinc-700 dark:text-zinc-300">1x Aura Wireless Earbuds</span>
                     <span className="font-black text-zinc-800 dark:text-zinc-200">${(viewingOrder.total).toFixed(2)}</span>
                   </div>
