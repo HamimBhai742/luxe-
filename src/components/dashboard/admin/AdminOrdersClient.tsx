@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
-
+import JSZip from "jszip";
 interface OrderItem {
   id: string;
   orderId: string;
@@ -278,8 +278,90 @@ export default function AdminOrdersClient() {
     }
   };
 
-  const handleExport = () => {
-    toast.info("Export CSV action triggered!");
+  const handleExport = async () => {
+    if (selectedOrders.length > 0) {
+      const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
+      const toastId = toast.loading(`Preparing zip archive for ${selectedOrders.length} invoice(s)...`);
+
+      try {
+        const zip = new JSZip();
+
+        // Fetch each PDF invoice as a blob and append to zip
+        for (let i = 0; i < selectedOrders.length; i++) {
+          const orderId = selectedOrders[i];
+          const order = orders.find((o) => o.id === orderId);
+          const orderIdName = order ? order.orderId : `order-${orderId}`;
+          const cleanOrderIdName = orderIdName.replace(/#/g, ""); // Clean filename character
+          const downloadUrl = `${baseUrl}/orders/${orderId}/invoice/download`;
+          
+          try {
+            const response = await fetch(downloadUrl);
+            if (!response.ok) throw new Error("Failed to fetch");
+            
+            const blob = await response.blob();
+            // Add file to ZIP folder structure
+            zip.file(`invoice-${cleanOrderIdName}.pdf`, blob);
+          } catch (err) {
+            console.error(`Error adding invoice ${orderIdName} to zip:`, err);
+            toast.error(`Could not add invoice for order ${orderIdName} to zip`, { id: toastId });
+            return;
+          }
+        }
+
+        // Generate the ZIP file
+        toast.loading("Compiling files into ZIP folder...", { id: toastId });
+        const content = await zip.generateAsync({ type: "blob" });
+
+        // Trigger download of the compiled ZIP file
+        const blobUrl = URL.createObjectURL(content);
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.setAttribute("download", `invoices-export-${new Date().toISOString().slice(0, 10)}.zip`);
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
+        toast.success("Invoices zip folder downloaded successfully!", { id: toastId });
+      } catch (err) {
+        console.error("ZIP Generation error:", err);
+        toast.error("Failed to generate ZIP archive of invoices.", { id: toastId });
+      }
+    } else {
+      // Export all orders to CSV
+      try {
+        toast.info("Exporting all orders to CSV...");
+        
+        const headers = ["Order ID", "Date", "Customer Name", "Customer Email", "Total", "Payment Status", "Payment Method", "Fulfillment Status"];
+        
+        const csvRows = orders.map((o) => [
+          o.orderId,
+          o.date,
+          o.customerName,
+          o.customerEmail,
+          o.total,
+          o.paymentStatus,
+          o.paymentMethod,
+          o.fulfillmentStatus
+        ]);
+        
+        const csvContent = [headers.join(","), ...csvRows.map((row) => row.map(val => `"${String(val).replace(/"/g, '""')}"`).join(","))].join("\n");
+        
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `orders-export-${new Date().toISOString().slice(0, 10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        toast.success("CSV export downloaded successfully!");
+      } catch (err) {
+        console.error("CSV Export error:", err);
+        toast.error("Failed to export CSV.");
+      }
+    }
   };
 
   const toggleSelectAll = () => {
@@ -387,12 +469,16 @@ export default function AdminOrdersClient() {
         <div className="flex items-center gap-3 self-start sm:self-center">
           <button
             onClick={handleExport}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer shadow-xs transition-colors"
+            className={`inline-flex items-center gap-1.5 rounded-xl border px-4 py-2.5 text-xs font-bold cursor-pointer shadow-xs transition-colors ${
+              selectedOrders.length > 0
+                ? "border-blue-200 bg-blue-50/50 hover:bg-blue-100/50 text-blue-600 dark:border-blue-900/50 dark:bg-blue-950/20 dark:text-blue-400"
+                : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300"
+            }`}
           >
             <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
             </svg>
-            <span>Export</span>
+            <span>{selectedOrders.length > 0 ? `Download Invoices (${selectedOrders.length})` : "Export"}</span>
           </button>
           
           <button
