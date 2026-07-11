@@ -3,7 +3,7 @@ FROM node:20-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 # Stage-2: Build the app
 FROM node:20-alpine AS builder
@@ -17,7 +17,7 @@ ARG NEXT_PUBLIC_GOOGLE_CLIENT_ID
 ENV NEXT_PUBLIC_URL=$NEXT_PUBLIC_URL
 ENV NEXT_PUBLIC_GOOGLE_CLIENT_ID=$NEXT_PUBLIC_GOOGLE_CLIENT_ID
 
-RUN npm run build
+RUN --mount=type=cache,target=/app/.next/cache npm run build
 
 # Stage 3: Runner
 FROM node:20-alpine AS runner
