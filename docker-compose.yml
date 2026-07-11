@@ -1,0 +1,14 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_URL=${NEXT_PUBLIC_URL:-http://localhost:5001/api/v1}
+        - NEXT_PUBLIC_GOOGLE_CLIENT_ID=${NEXT_PUBLIC_GOOGLE_CLIENT_ID:-743488041393-89ce4ohfu63oa5hj1celjp06n258rleh.apps.googleusercontent.com}
+    container_name: luxe-frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    restart: always
