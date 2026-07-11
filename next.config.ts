@@ -19,10 +19,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Restrict compilation CPU/memory spikes on low-resource VPS
-  experimental: {
-    cpus: 1,
-  },
+
 };
 
 export default nextConfig;
