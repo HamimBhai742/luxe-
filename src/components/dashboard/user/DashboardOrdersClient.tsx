@@ -412,7 +412,7 @@ export default function DashboardOrdersClient() {
                     </div>
                     <div>
                       <span className="text-[10px] text-zinc-400 block mb-1">Total Amount</span>
-                      <span className="text-zinc-800 dark:text-white text-sm font-extrabold">${ord.total.toFixed(2)}</span>
+                      <span className="text-zinc-800 dark:text-white text-sm font-extrabold">৳{ord.total.toFixed(2)}</span>
                     </div>
                   </div>
                   
@@ -468,7 +468,7 @@ export default function DashboardOrdersClient() {
                         <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 font-semibold">{item.specs}</p>
                       </div>
                       <div className="text-right shrink-0 flex flex-col items-end gap-1.5">
-                        <span className="text-sm font-extrabold text-zinc-900 dark:text-zinc-100">${item.price.toFixed(2)}</span>
+                        <span className="text-sm font-extrabold text-zinc-900 dark:text-zinc-100">৳{item.price.toFixed(2)}</span>
                         {ord.status === "Delivered" && !(userReviewsData?.data?.some((rev: any) => String(rev.productId) === String(item.id))) && (
                           <button
                             onClick={() => setReviewProduct({ id: item.id, name: item.name, image: item.image })}
@@ -824,7 +824,7 @@ export default function DashboardOrdersClient() {
                         <p className="text-[10px] text-zinc-400 mt-1 font-semibold">{item.specs}</p>
                         <div className="flex justify-between items-center mt-1">
                           <span className="text-[10px] font-semibold text-zinc-400 block">
-                            Qty: {item.qty} • ${item.price.toFixed(2)}
+                            Qty: {item.qty} • ৳{item.price.toFixed(2)}
                           </span>
                           {ord.status === "Delivered" && (
                             <button

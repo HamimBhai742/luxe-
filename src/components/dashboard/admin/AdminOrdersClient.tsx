@@ -1020,7 +1020,7 @@ export default function AdminOrdersClient() {
                 </div>
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Transaction</span>
-                  <span className="font-black text-zinc-800 dark:text-white block mt-1 text-sm">${viewingOrder.total.toFixed(2)}</span>
+                  <span className="font-black text-zinc-800 dark:text-white block mt-1 text-sm">৳{viewingOrder.total.toFixed(2)}</span>
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-4">
@@ -1051,7 +1051,7 @@ export default function AdminOrdersClient() {
                 <div className="space-y-2">
                   <div className="flex justify-between items-center bg-zinc-50/30 dark:bg-zinc-900/40 p-2.5 rounded-xl border border-zinc-200/40 dark:border-zinc-800/50">
                     <span className="font-bold text-zinc-700 dark:text-zinc-300">1x Aura Wireless Earbuds</span>
-                    <span className="font-black text-zinc-800 dark:text-zinc-200">${(viewingOrder.total).toFixed(2)}</span>
+                    <span className="font-black text-zinc-800 dark:text-zinc-200">৳{(viewingOrder.total).toFixed(2)}</span>
                   </div>
                 </div>
               </div>

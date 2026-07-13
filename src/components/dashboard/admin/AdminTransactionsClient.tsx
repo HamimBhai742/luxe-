@@ -161,7 +161,7 @@ export default function AdminTransactionsClient() {
   };
 
   const formatStatValue = (val: number, isCurrency = true) => {
-    const prefix = isCurrency ? "$" : "";
+    const prefix = isCurrency ? "৳" : "";
     if (val >= 1000000) {
       return `${prefix}${(val / 1000000).toFixed(2)}M`;
     }

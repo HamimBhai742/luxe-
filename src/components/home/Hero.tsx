@@ -107,7 +107,7 @@ export default function Hero() {
                 Aura Headphones
               </h4>
               <span className="text-xs font-black text-zinc-950 dark:text-zinc-200 block mt-1">
-                $249.00
+                ৳249.00
               </span>
               <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block mt-1">
                 Noise Cancellation
@@ -131,7 +131,7 @@ export default function Hero() {
                 AuraBook Pro 14"
               </h4>
               <span className="text-xs font-black text-zinc-950 dark:text-zinc-200 block mt-1">
-                $1,299.00
+                ৳1,299.00
               </span>
               <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block mt-1">
                 M3 Pro Chipset

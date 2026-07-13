@@ -22,7 +22,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         <p className="text-[10px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">{label}</p>
         <div className="space-y-0.5">
           <p className="text-sm font-black text-zinc-950 dark:text-white">
-            Revenue: <span className="text-blue-600 dark:text-blue-400">${Number(payload[0].value).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+            Revenue: <span className="text-blue-600 dark:text-blue-400">৳{Number(payload[0].value).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
           </p>
           <p className="text-xs font-bold text-zinc-500 dark:text-zinc-400">
             Sales Volume: <span className="text-zinc-700 dark:text-zinc-300">{payload[0].payload.Orders || 0} orders</span>
@@ -402,7 +402,7 @@ export default function AdminDashboardOverviewClient() {
             </p>
           </div>
           <span className="text-xs font-bold text-zinc-400 dark:text-zinc-500 bg-zinc-50 dark:bg-zinc-800 px-3 py-1 rounded-lg border border-zinc-200 dark:border-zinc-800">
-            Daily average: $4,152
+            Daily average: ৳4,152
           </span>
         </div>
 
@@ -438,7 +438,7 @@ export default function AdminDashboardOverviewClient() {
                 tickLine={false}
                 axisLine={false}
                 dx={-10}
-                tickFormatter={(val) => `$${val}`}
+                tickFormatter={(val) => `৳${val}`}
               />
               <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#3b82f6', strokeWidth: 1, strokeDasharray: '4 4' }} />
               <Area
@@ -501,7 +501,7 @@ export default function AdminDashboardOverviewClient() {
                         <td className="py-4 text-zinc-500 dark:text-zinc-400">{ord.customerName}</td>
                         <td className="py-4">{renderStatus(ord.fulfillmentStatus)}</td>
                         <td className="py-4 text-right pr-2 text-zinc-900 dark:text-white">
-                          ${Number(ord.total).toFixed(2)}
+                          ৳{Number(ord.total).toFixed(2)}
                         </td>
                       </tr>
                     ))}
@@ -567,7 +567,7 @@ export default function AdminDashboardOverviewClient() {
 
                   <div className="text-right">
                     <span className="text-xs font-extrabold text-zinc-900 dark:text-white block">
-                      ${prod.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                      ৳{prod.price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                     </span>
                     <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400">
                       Published

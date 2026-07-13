@@ -168,7 +168,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
         if (coupon.type === "Percentage") {
           desc = `${coupon.value}% off`;
         } else if (coupon.type === "Fixed Amount") {
-          desc = `$${coupon.value} off`;
+          desc = `৳${coupon.value} off`;
         } else {
           desc = "Free Shipping";
         }
@@ -356,7 +356,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
               <div className="space-y-3.5 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
                 <div className="flex justify-between">
                   <span>Subtotal ({itemsCount} {itemsCount === 1 ? 'item' : 'items'})</span>
-                  <span className="text-zinc-900 dark:text-zinc-100 font-extrabold">${subtotal.toLocaleString()}.00</span>
+                  <span className="text-zinc-900 dark:text-zinc-100 font-extrabold">৳{subtotal.toLocaleString()}.00</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping Estimate</span>
@@ -366,12 +366,12 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                 </div>
                 <div className="flex justify-between">
                   <span>Estimated Tax</span>
-                  <span className="text-zinc-900 dark:text-zinc-100 font-extrabold">${tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span className="text-zinc-900 dark:text-zinc-100 font-extrabold">৳{tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
                 {appliedCoupon && (
                   <div className="flex justify-between text-green-600 font-bold">
                     <span>Discount ({appliedCoupon.code})</span>
-                    <span>-${discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    <span>-৳{discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                 )}
               </div>
@@ -381,7 +381,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
               <div className="flex items-baseline justify-between">
                 <span className="text-sm font-extrabold text-zinc-900 dark:text-white">Total</span>
                 <span className="text-2xl font-black text-zinc-950 dark:text-zinc-50">
-                  ${total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  ৳{total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
 
@@ -432,7 +432,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                   <svg className="h-4.5 w-4.5 text-zinc-300 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.02-1.66l1.049-2.223a.75.75 0 00.07-.312V5.58c0-.98.79-1.78 1.78-1.78h10.375c.99 0 1.78.8 1.78 1.78v8.622a.75.75 0 00.07.312l1.049 2.222a1.125 1.125 0 01-1.02 1.66H17.25m-11.25 0a1.5 1.5 0 00-3 0m3 0a1.5 1.5 0 01-3 0m11.25 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-1.5-12.75h.007v.008H12v-.008z" />
                   </svg>
-                  <span>Free shipping on orders over $50</span>
+                  <span>Free shipping on orders over ৳5,000</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <svg className="h-4.5 w-4.5 text-zinc-300 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
@@ -467,7 +467,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                       {rec.name}
                     </h3>
                     <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300 block mt-2">
-                      ${rec.price.toLocaleString()}.00
+                      ৳{rec.price.toLocaleString()}.00
                     </span>
                   </div>
                   <button
@@ -540,7 +540,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                         {item.name}
                       </h3>
                       <span className="text-sm font-extrabold text-zinc-900 dark:text-zinc-100 mt-1 block">
-                        ${item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        ৳{item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </span>
                     </div>
 
@@ -629,7 +629,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
                           {rec.name}
                         </h3>
                         <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300 block mt-1">
-                          ${rec.price.toLocaleString()}.00
+                          ৳{rec.price.toLocaleString()}.00
                         </span>
                       </div>
                       <button

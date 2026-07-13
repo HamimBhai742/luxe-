@@ -9,7 +9,7 @@ interface CouponItem {
   id: string;
   code: string;
   type: "Percentage" | "Fixed Amount" | "Free Shipping";
-  value: string; // e.g. "20%", "$15.00", "Standard"
+  value: string; // e.g. "20%", "৳15.00", "Standard"
   usageUsed: number;
   usageMax: number; // -1 represents Infinity
   expiryDate: string; // "Never" or Date format e.g. "Dec 31, 2024"
@@ -64,8 +64,8 @@ export default function AdminCouponsClient() {
     return sum + (c.usageUsed * itemSavings);
   }, 0);
   const displaySavings = totalSavingsVal >= 1000
-    ? `$${(totalSavingsVal / 1000).toFixed(1)}K`
-    : `$${totalSavingsVal.toFixed(2)}`;
+    ? `৳${(totalSavingsVal / 1000).toFixed(1)}K`
+    : `৳${totalSavingsVal.toFixed(2)}`;
 
 
   // Fetch coupons on mount
@@ -125,7 +125,7 @@ export default function AdminCouponsClient() {
     setEditingCouponId(coupon.id);
     setCode(coupon.code);
     setType(coupon.type);
-    setValue(coupon.value.replace(/[%$]/g, ""));
+    setValue(coupon.value.replace(/[%৳]/g, ""));
     setUsageUsed(String(coupon.usageUsed));
     if (coupon.usageMax === -1) {
       setUsageMax("");
@@ -209,7 +209,7 @@ export default function AdminCouponsClient() {
     if (type === "Percentage") {
       displayValue = value.endsWith("%") ? value : `${value}%`;
     } else if (type === "Fixed Amount") {
-      displayValue = value.startsWith("$") ? value : `$${Number(value).toFixed(2)}`;
+      displayValue = value.startsWith("৳") ? value : `৳${Number(value).toFixed(2)}`;
     } else {
       displayValue = "Standard";
     }

@@ -228,7 +228,7 @@ export default function DashboardWishlistClient() {
                   
                   {/* Footer Price & Add */}
                   <div className="flex justify-between items-center mt-4">
-                    <span className="text-sm font-extrabold text-zinc-900 dark:text-white">${item.price.toFixed(2)}</span>
+                    <span className="text-sm font-extrabold text-zinc-900 dark:text-white">৳{item.price.toFixed(2)}</span>
                     <button
                       onClick={() => handleAddToCart(item)}
                       className="rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 text-[10px] font-bold shadow-xs hover:shadow-md transition-all cursor-pointer"
@@ -306,7 +306,7 @@ export default function DashboardWishlistClient() {
                       {item.name}
                     </h4>
                     <span className="text-xs font-black text-zinc-900 dark:text-zinc-100 block mt-1">
-                      ${item.price.toFixed(2)}
+                      ৳{item.price.toFixed(2)}
                     </span>
                   </div>
                   <button
@@ -378,7 +378,7 @@ export default function DashboardWishlistClient() {
                     {prod.name}
                   </h4>
                   <span className="text-[11px] font-black text-zinc-900 dark:text-zinc-200 block mt-2">
-                    ${prod.price.toLocaleString()}.00
+                    ৳{prod.price.toLocaleString()}.00
                   </span>
                 </div>
               </div>

@@ -344,7 +344,7 @@ export default function CollectionDetailsClient({
               <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
                 {product.originalPrice && product.price < product.originalPrice && (
                   <span className="rounded-md bg-red-600 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-sm">
-                    SAVE ${product.originalPrice - product.price}
+                    SAVE ৳{product.originalPrice - product.price}
                   </span>
                 )}
                 {product.tag && (
@@ -420,11 +420,11 @@ export default function CollectionDetailsClient({
             {/* Pricing */}
             <div className="border-t border-zinc-100 dark:border-zinc-800 pt-5 flex items-baseline gap-3">
               <span className="text-3xl font-extrabold text-zinc-950 dark:text-zinc-50">
-                ${product.price.toLocaleString()}
+                ৳{product.price.toLocaleString()}
               </span>
               {product.originalPrice && (
                 <span className="text-base text-zinc-400 dark:text-zinc-500 line-through">
-                  ${product.originalPrice.toLocaleString()}
+                  ৳{product.originalPrice.toLocaleString()}
                 </span>
               )}
             </div>
@@ -476,7 +476,7 @@ export default function CollectionDetailsClient({
               <svg className="h-4.5 w-4.5 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.02-1.66l1.049-2.223a.75.75 0 00.07-.312V5.58c0-.98.79-1.78 1.78-1.78h10.375c.99 0 1.78.8 1.78 1.78v8.622a.75.75 0 00.07.312l1.049 2.222a1.125 1.125 0 01-1.02 1.66H17.25m-11.25 0a1.5 1.5 0 00-3 0m3 0a1.5 1.5 0 01-3 0m11.25 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-1.5-12.75h.007v.008H12v-.008z" />
               </svg>
-              <span>Free shipping on orders over $500</span>
+              <span>Free shipping on orders over ৳5,000</span>
             </div>
 
           </div>
@@ -735,7 +735,7 @@ export default function CollectionDetailsClient({
                       {p.name}
                     </h3>
                   </div>
-                  <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300 block mt-3">${p.price.toLocaleString()}</span>
+                  <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300 block mt-3">৳{p.price.toLocaleString()}</span>
                 </div>
               </Link>
             ))}
@@ -790,7 +790,7 @@ export default function CollectionDetailsClient({
           <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
             {product.originalPrice && product.price < product.originalPrice && (
               <span className="rounded bg-red-600 px-2 py-0.5 text-[8px] font-extrabold uppercase tracking-wide text-white shadow-xs">
-                SAVE ${product.originalPrice - product.price}
+                SAVE ৳{product.originalPrice - product.price}
               </span>
             )}
             {product.tag && (
@@ -827,11 +827,11 @@ export default function CollectionDetailsClient({
             </div>
             <div className="text-right">
               <span className="text-xl font-extrabold text-blue-600 dark:text-blue-400 block">
-                ${product.price.toLocaleString()}
+                ৳{product.price.toLocaleString()}
               </span>
               {product.originalPrice && (
                 <span className="text-xs text-zinc-400 line-through">
-                  ${product.originalPrice.toLocaleString()}
+                  ৳{product.originalPrice.toLocaleString()}
                 </span>
               )}
             </div>

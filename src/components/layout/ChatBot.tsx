@@ -44,7 +44,7 @@ const BOT_CATEGORIES: BotCategory[] = [
       "what brand is this", "tell me about nike shoes", "do you have watch",
       "list premium goods", "prices of watches"
     ],
-    response: "We offer a curated selection of premium products:\n\n• **Sony Noise Cancelling Headphones** ($299.00)\n• **Apple Watch Series 8** ($399.00)\n• **Polaroid Now+ Instant Camera** ($149.00)\n• **Nike Air Max 270** ($160.00)\n\nYou can browse details, add products to your cart, and add to wishlist directly on the **[Collections page](/collections)**!",
+    response: "We offer a curated selection of premium products:\n\n• **Sony Noise Cancelling Headphones** (৳299.00)\n• **Apple Watch Series 8** (৳399.00)\n• **Polaroid Now+ Instant Camera** (৳149.00)\n• **Nike Air Max 270** (৳160.00)\n\nYou can browse details, add products to your cart, and add to wishlist directly on the **[Collections page](/collections)**!",
   },
   {
     id: "points",
@@ -56,7 +56,7 @@ const BOT_CATEGORIES: BotCategory[] = [
       "tell me about my loyalty points", "where can I check my aura points",
       "loyalty scheme dashboard points score calculation", "what are dynamic aura points"
     ],
-    response: "Aura Points is our loyalty program! You earn **5 Aura Points for every $1 spent** on our store. These points are calculated automatically based on your total order value and are displayed dynamically on your **[Dashboard Overview](/dashboard)**.",
+    response: "Aura Points is our loyalty program! You earn **5 Aura Points for every ৳100 spent** on our store. These points are calculated automatically based on your total order value and are displayed dynamically on your **[Dashboard Overview](/dashboard)**.",
   },
   {
     id: "shipping",
@@ -259,11 +259,11 @@ export default function ChatBot() {
     );
 
     if (matchingProduct) {
-      return `Yes! We carry **${matchingProduct.name}** in stock.\n\n• **Price**: $${matchingProduct.price.toFixed(2)}\n• **Description**: ${matchingProduct.description}\n• **Category**: ${matchingProduct.category}\n\nWould you like to buy it? You can view it here: **[View Product](/collections/${matchingProduct.id})**!`;
+      return `Yes! We carry **${matchingProduct.name}** in stock.\n\n• **Price**: ৳${matchingProduct.price.toFixed(2)}\n• **Description**: ${matchingProduct.description}\n• **Category**: ${matchingProduct.category}\n\nWould you like to buy it? You can view it here: **[View Product](/collections/${matchingProduct.id})**!`;
     } else if (bestCategory && maxScore > 0.08) {
       if (bestCategory.id === "products") {
         if (productsList.length > 0) {
-          const itemsText = productsList.slice(0, 5).map(p => `• **${p.name}** ($${p.price.toFixed(2)})`).join("\n");
+          const itemsText = productsList.slice(0, 5).map(p => `• **${p.name}** (৳${p.price.toFixed(2)})`).join("\n");
           return `We currently offer these premium products in our catalog:\n\n${itemsText}\n\nYou can browse details, add products to your cart, or save to your wishlist on the **[Collections page](/collections)**!`;
         } else {
           return bestCategory.response;

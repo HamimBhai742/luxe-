@@ -346,8 +346,8 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                 className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-600 focus:outline-none"
               />
               <div className="flex justify-between text-xs font-semibold text-zinc-400 dark:text-zinc-500 mt-3.5">
-                <span>$0</span>
-                <span className="text-blue-600 dark:text-blue-400 font-bold">${priceRange.toLocaleString()}+</span>
+                <span>৳0</span>
+                <span className="text-blue-600 dark:text-blue-400 font-bold">৳{priceRange.toLocaleString()}+</span>
               </div>
             </div>
 
@@ -683,9 +683,9 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
 
                       <div className="flex justify-between items-end mt-6">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-lg font-extrabold text-zinc-950 dark:text-zinc-50">${product.price.toLocaleString()}</span>
+                          <span className="text-lg font-extrabold text-zinc-950 dark:text-zinc-50">৳{product.price.toLocaleString()}</span>
                           {product.originalPrice && (
-                            <span className="text-sm text-zinc-400 dark:text-zinc-500 line-through">${product.originalPrice.toLocaleString()}</span>
+                            <span className="text-sm text-zinc-400 dark:text-zinc-500 line-through">৳{product.originalPrice.toLocaleString()}</span>
                           )}
                         </div>
 
@@ -773,7 +773,7 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                 <div className="p-3">
                   <span className="text-[9px] font-bold tracking-wider text-zinc-400 uppercase">{product.brand}</span>
                   <h3 className="text-xs font-bold text-zinc-900 dark:text-white truncate mt-0.5">{product.name}</h3>
-                  <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300 block mt-1.5">${product.price}</span>
+                  <span className="text-xs font-bold text-zinc-800 dark:text-zinc-300 block mt-1.5">৳{product.price}</span>
                 </div>
               </Link>
             ))}
@@ -842,8 +842,8 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                 className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-600 focus:outline-none"
               />
               <div className="flex justify-between text-xs font-bold text-zinc-500 mt-2.5">
-                <span>$0</span>
-                <span className="text-blue-600 dark:text-blue-400 font-extrabold">${priceRange.toLocaleString()}</span>
+                <span>৳0</span>
+                <span className="text-blue-600 dark:text-blue-400 font-extrabold">৳{priceRange.toLocaleString()}</span>
               </div>
             </div>
 

@@ -270,7 +270,7 @@ export default function DashboardOverviewClient() {
                     </td>
                     <td className="py-4 text-zinc-500 dark:text-zinc-400">{ord.date}</td>
                     <td className="py-4">{renderStatusPill(ord.fulfillmentStatus)}</td>
-                    <td className="py-4 text-right pr-3 font-bold text-zinc-900 dark:text-white">${ord.total.toFixed(2)}</td>
+                    <td className="py-4 text-right pr-3 font-bold text-zinc-900 dark:text-white">৳{ord.total.toFixed(2)}</td>
                   </tr>
                 ))
               )}
@@ -345,7 +345,7 @@ export default function DashboardOverviewClient() {
                     
                     {/* Price & CTA */}
                     <div className="flex justify-between items-center mt-4">
-                      <span className="text-sm font-extrabold text-zinc-900 dark:text-white">${item.price.toFixed(2)}</span>
+                      <span className="text-sm font-extrabold text-zinc-900 dark:text-white">৳{item.price.toFixed(2)}</span>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();

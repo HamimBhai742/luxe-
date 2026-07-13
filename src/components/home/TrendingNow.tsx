@@ -71,7 +71,7 @@ export default function TrendingNow({ products }: TrendingNowProps) {
                 id={String(product.id)}
                 name={product.name}
                 subtitle={product.category || "Premium Workspaces"}
-                price={`$${Number(product.price).toFixed(2)}`}
+                price={`৳${Number(product.price).toFixed(2)}`}
                 image={product.image}
                 isNew={product.status === "Published"}
                 gradientFrom={gradient.from}

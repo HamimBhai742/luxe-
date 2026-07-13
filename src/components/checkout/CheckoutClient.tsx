@@ -311,7 +311,7 @@ export default function CheckoutClient() {
     const cost = getShippingCost();
     if (typeof cost === "string") return cost;
     if (appliedCoupon && appliedCoupon.type === "Free Shipping") return "Free (Coupon Applied)";
-    return cost === 0 ? "Free" : `$${cost.toFixed(2)}`;
+    return cost === 0 ? "Free" : `৳${cost.toFixed(2)}`;
   };
 
   const getGrandTotal = () => {
@@ -665,7 +665,7 @@ export default function CheckoutClient() {
                               </span>
                             </div>
                             <div className="text-right flex flex-col items-end gap-1 shrink-0">
-                              <span className="font-black text-zinc-950 dark:text-white text-sm">${item.price.toFixed(2)}</span>
+                              <span className="font-black text-zinc-950 dark:text-white text-sm">৳{item.price.toFixed(2)}</span>
                               <span className="text-[10px] text-zinc-400 font-bold">Qty: {item.quantity}</span>
                             </div>
                           </div>
@@ -829,21 +829,21 @@ export default function CheckoutClient() {
                   <div className="space-y-3.5 text-xs text-zinc-500 dark:text-zinc-400 font-semibold">
                     <div className="flex justify-between items-center">
                       <span>Subtotal</span>
-                      <span className="text-zinc-800 dark:text-zinc-200 font-extrabold">${displaySubtotal.toFixed(2)}</span>
+                      <span className="text-zinc-800 dark:text-zinc-200 font-extrabold">৳{displaySubtotal.toFixed(2)}</span>
                     </div>
 
                     {/* Shipping Row */}
                     <div className="flex justify-between items-center">
                       <span>Shipping</span>
                       <span className="text-zinc-800 dark:text-zinc-200 font-extrabold">
-                        {displayShipping === 0 ? "Free" : `$${displayShipping.toFixed(2)}`}
+                        {displayShipping === 0 ? "Free" : `৳${displayShipping.toFixed(2)}`}
                       </span>
                     </div>
 
                     {/* Tax Row */}
                     <div className="flex justify-between items-center">
                       <span>Tax (8%)</span>
-                      <span className="text-zinc-800 dark:text-zinc-200 font-extrabold">${displayTax.toFixed(2)}</span>
+                      <span className="text-zinc-800 dark:text-zinc-200 font-extrabold">৳{displayTax.toFixed(2)}</span>
                     </div>
 
                     {/* Coupon Discount Row if > 0 */}
@@ -856,14 +856,14 @@ export default function CheckoutClient() {
                           </svg>
                           <span>Discount {confirmedDetails?.couponCode ? `(${confirmedDetails.couponCode})` : ""}</span>
                         </span>
-                        <span>- ${displayDiscount.toFixed(2)}</span>
+                        <span>- ৳{displayDiscount.toFixed(2)}</span>
                       </div>
                     )}
 
                     {/* Grand Total */}
                     <div className="border-t border-zinc-200 dark:border-zinc-900 pt-4 mt-2 flex justify-between items-baseline bg-zinc-50 dark:bg-zinc-900/40 p-3 rounded-2xl">
                       <span className="text-sm font-black text-zinc-950 dark:text-white">Amount Paid</span>
-                      <span className="text-xl font-black text-blue-600 dark:text-blue-400">${displayTotal.toFixed(2)}</span>
+                      <span className="text-xl font-black text-blue-600 dark:text-blue-400">৳{displayTotal.toFixed(2)}</span>
                     </div>
                   </div>
 
@@ -1331,7 +1331,7 @@ export default function CheckoutClient() {
                       </div>
 
                       <div className="mt-4 flex items-baseline justify-between pt-4 border-t border-zinc-100 dark:border-zinc-900">
-                        <span className="text-sm font-black text-zinc-950 dark:text-white">$25.00</span>
+                        <span className="text-sm font-black text-zinc-950 dark:text-white">৳2,500</span>
                         <span className="text-[9px] font-bold text-zinc-400">Est. Arrival: Tomorrow</span>
                       </div>
                     </label>
@@ -1853,7 +1853,7 @@ export default function CheckoutClient() {
                               <span className="text-[10px] text-zinc-400 font-bold mt-1">{item.specsText}</span>
                               <span className="text-[10px] text-zinc-400 font-bold mt-0.5">Qty: {item.quantity}</span>
                             </div>
-                            <span className="text-xs font-black text-zinc-950 dark:text-white">${item.price.toFixed(2)}</span>
+                            <span className="text-xs font-black text-zinc-950 dark:text-white">৳{item.price.toFixed(2)}</span>
                           </div>
                         </div>
                       ))}
@@ -1945,7 +1945,7 @@ export default function CheckoutClient() {
                           <span className="font-extrabold text-zinc-900 dark:text-white">Minimalist Smart Speaker</span>
                           <span className="text-[10px] text-zinc-400 font-bold">Qty: 1</span>
                         </div>
-                        <span className="font-black text-zinc-800 dark:text-zinc-200">$120.00</span>
+                        <span className="font-black text-zinc-800 dark:text-zinc-200">৳12,000</span>
                       </div>
                     </div>
 
@@ -1965,7 +1965,7 @@ export default function CheckoutClient() {
                           <span className="font-extrabold text-zinc-900 dark:text-white">AeroRun Pro</span>
                           <span className="text-[10px] text-zinc-400 font-bold">Qty: 1</span>
                         </div>
-                        <span className="font-black text-zinc-800 dark:text-zinc-200">$150.00</span>
+                        <span className="font-black text-zinc-800 dark:text-zinc-200">৳15,000</span>
                       </div>
                     </div>
 
@@ -1977,7 +1977,7 @@ export default function CheckoutClient() {
                   {/* Subtotal */}
                   <div className="flex justify-between items-center text-zinc-500 font-semibold">
                     <span>{getSubtotalLabel()}</span>
-                    <span className="font-extrabold text-zinc-800 dark:text-zinc-200">${subtotal.toFixed(2)}</span>
+                    <span className="font-extrabold text-zinc-800 dark:text-zinc-200">৳{subtotal.toFixed(2)}</span>
                   </div>
 
                   {/* Shipping */}
@@ -1991,21 +1991,21 @@ export default function CheckoutClient() {
                   {/* Taxes */}
                   <div className="flex justify-between items-center text-zinc-500 font-semibold">
                     <span>{getTaxLabel()}</span>
-                    <span className="font-extrabold text-zinc-800 dark:text-zinc-200">${tax.toFixed(2)}</span>
+                    <span className="font-extrabold text-zinc-800 dark:text-zinc-200">৳{tax.toFixed(2)}</span>
                   </div>
 
                   {/* Discount */}
                   {appliedCoupon && (
                     <div className="flex justify-between items-center text-green-600 font-bold">
                       <span>Discount ({appliedCoupon.code})</span>
-                      <span>-${discountAmount.toFixed(2)}</span>
+                      <span>-৳{discountAmount.toFixed(2)}</span>
                     </div>
                   )}
 
                   {/* Divider */}
                   <div className="border-t border-zinc-100 dark:border-zinc-900 pt-3.5 mt-2 flex justify-between items-baseline">
                     <span className="text-sm font-black text-zinc-950 dark:text-white">Total</span>
-                    <span className="text-xl font-black text-blue-600 dark:text-blue-400">${getGrandTotal().toFixed(2)}</span>
+                    <span className="text-xl font-black text-blue-600 dark:text-blue-400">৳{getGrandTotal().toFixed(2)}</span>
                   </div>
 
                 </div>
@@ -2131,7 +2131,7 @@ export default function CheckoutClient() {
               {/* Order total info */}
               <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 p-4 border border-zinc-200 dark:border-zinc-800 flex justify-between items-center text-xs">
                 <span className="font-bold text-zinc-500">Amount to Pay</span>
-                <span className="text-sm font-black text-blue-600 dark:text-blue-400">${getGrandTotal().toFixed(2)}</span>
+                <span className="text-sm font-black text-blue-600 dark:text-blue-400">৳{getGrandTotal().toFixed(2)}</span>
               </div>
 
               {stripeProcessing ? (

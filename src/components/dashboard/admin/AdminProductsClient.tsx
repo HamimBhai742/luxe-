@@ -42,6 +42,7 @@ export default function AdminProductsClient() {
   const API_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
 
   const [products, setProducts] = useState<ProductItem[]>([]);
+  const [dbCategories, setDbCategories] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   
@@ -107,6 +108,27 @@ export default function AdminProductsClient() {
     fetchProducts();
   }, [API_URL]);
 
+  // Fetch categories from database on mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`${API_URL}/categories`);
+        const data = await res.json();
+        if (data.success) {
+          setDbCategories(data.data);
+          // Set initial default category if available
+          const activeCategories = data.data.filter((c: any) => c.status === "Active");
+          if (activeCategories.length > 0) {
+            setCategory(activeCategories[0].name);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, [API_URL]);
+
   // Derived state to check if modal should be open (either triggered locally or via URL params)
   const isModalOpen = localIsModalOpen || searchParams.get("create") === "true";
 
@@ -126,7 +148,8 @@ export default function AdminProductsClient() {
     }
     // Clear form inputs
     setName("");
-    setCategory("Electronics");
+    const activeCategories = dbCategories.filter((c: any) => c.status === "Active");
+    setCategory(activeCategories.length > 0 ? activeCategories[0].name : "Electronics");
     setSku("");
     setBarcode("");
     setPrice("");
@@ -459,7 +482,9 @@ export default function AdminProductsClient() {
     }
   };
 
-  const categories = ["All", "Electronics", "Furniture", "Home Goods"];
+  const categories = dbCategories.length > 0
+    ? ["All", ...dbCategories.filter((c: any) => c.status === "Active").map((c: any) => c.name)]
+    : ["All", "Electronics", "Furniture", "Home Goods"];
   const statuses = ["All", "Published", "Draft", "Out of Stock"];
 
   return (
@@ -705,11 +730,11 @@ export default function AdminProductsClient() {
                       <td className="py-4 px-4">
                         <div className="flex flex-col">
                           <span className="text-sm font-extrabold text-zinc-900 dark:text-white">
-                            ${p.price.toFixed(2)}
+                            ৳{p.price.toFixed(2)}
                           </span>
                           {p.originalPrice && p.originalPrice > p.price && (
                             <span className="text-[10px] text-zinc-400 dark:text-zinc-500 line-through font-bold">
-                              ${p.originalPrice.toFixed(2)}
+                              ৳{p.originalPrice.toFixed(2)}
                             </span>
                           )}
                         </div>
@@ -957,9 +982,14 @@ export default function AdminProductsClient() {
                       onChange={(e) => setCategory(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-950 transition-all"
                     >
-                      <option value="Electronics">Electronics</option>
-                      <option value="Furniture">Furniture</option>
-                      <option value="Home Goods">Home Goods</option>
+                      {(dbCategories.length > 0
+                        ? dbCategories.filter((c: any) => c.status === "Active").map((c: any) => c.name)
+                        : ["Electronics", "Furniture", "Home Goods"]
+                      ).map((catName) => (
+                        <option key={catName} value={catName}>
+                          {catName}
+                        </option>
+                      ))}
                     </select>
                     <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />

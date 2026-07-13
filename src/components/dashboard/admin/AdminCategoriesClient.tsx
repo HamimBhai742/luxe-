@@ -419,17 +419,15 @@ export default function AdminCategoriesClient() {
                   />
                 </th>
                 <th className="py-4 px-4 font-bold text-[10px]">Category</th>
-                <th className="py-4 px-4 font-bold text-[10px]">Parent</th>
                 <th className="py-4 px-4 font-bold text-[10px]">Products</th>
                 <th className="py-4 px-4 font-bold text-[10px]">Status</th>
-                <th className="py-4 px-4 font-bold text-[10px]">Visibility</th>
                 <th className="py-4 pr-6 text-right font-bold text-[10px]">Actions</th>
               </tr>
             </thead>
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold">
+                  <td colSpan={5} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold">
                     <div className="flex flex-col items-center justify-center gap-3">
                       <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -441,7 +439,7 @@ export default function AdminCategoriesClient() {
                 </tr>
               ) : filteredCategories.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold">
+                  <td colSpan={5} className="py-16 text-center text-zinc-400 dark:text-zinc-500 font-bold">
                     No categories found. Click "Create Category" to add one.
                   </td>
                 </tr>
@@ -480,16 +478,7 @@ export default function AdminCategoriesClient() {
                         </div>
                       </td>
 
-                      {/* Parent category */}
-                      <td className="py-4 px-4 text-xs font-bold text-zinc-600 dark:text-zinc-400">
-                        {c.parent === "--" ? (
-                          <span className="text-zinc-300 dark:text-zinc-600">--</span>
-                        ) : (
-                          <span className="inline-flex items-center rounded-md bg-zinc-50 border border-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-600 dark:bg-zinc-900 dark:border-zinc-800 dark:text-zinc-400">
-                            {c.parent}
-                          </span>
-                        )}
-                      </td>
+
 
                       {/* Products count */}
                       <td className="py-4 px-4 text-xs font-black text-zinc-700 dark:text-zinc-300">
@@ -499,32 +488,6 @@ export default function AdminCategoriesClient() {
                       {/* Status */}
                       <td className="py-4 px-4">
                         {renderStatusBadge(c.status)}
-                      </td>
-
-                      {/* Visibility */}
-                      <td className="py-4 px-4">
-                        {!c.visibility.web && !c.visibility.mobile ? (
-                          <span className="text-[10px] text-zinc-400 dark:text-zinc-500 italic font-semibold">
-                            Hidden
-                          </span>
-                        ) : (
-                          <div className="flex items-center gap-2 text-zinc-500">
-                            {c.visibility.web && (
-                              <span title="Web/Desktop Storefront">
-                                <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3" />
-                                </svg>
-                              </span>
-                            )}
-                            {c.visibility.mobile && (
-                              <span title="Mobile App Storefront">
-                                <svg className="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" strokeWidth="2.25" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H13.5M10.5 22.5H13.5M9 3.75H15M6.75 3.75V20.25C6.75 21.493 7.757 22.5 9 22.5H15C16.243 22.5 17.25 21.493 17.25 20.25V3.75C17.25 2.507 16.243 1.5 15 1.5H9C7.757 1.5 6.75 2.507 6.75 3.75Z" />
-                                </svg>
-                              </span>
-                            )}
-                          </div>
-                        )}
                       </td>
 
                       {/* Actions dropdown */}
@@ -701,42 +664,18 @@ export default function AdminCategoriesClient() {
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                {/* Parent Selection */}
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
-                    Parent Category
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={parent}
-                      onChange={(e) => setParent(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-950 transition-all cursor-pointer"
-                    >
-                      <option value="--">-- None --</option>
-                      <option value="Electronics">Electronics</option>
-                      <option value="Furniture">Furniture</option>
-                      <option value="Home Goods">Home Goods</option>
-                    </select>
-                    <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Products Count Initial */}
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
-                    Product Count
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="e.g. 150"
-                    value={productsCount}
-                    onChange={(e) => setProductsCount(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
-                  />
-                </div>
+              {/* Products Count Initial */}
+              <div>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
+                  Initial Product Count
+                </label>
+                <input
+                  type="number"
+                  placeholder="e.g. 0"
+                  value={productsCount}
+                  onChange={(e) => setProductsCount(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-200 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 focus:bg-white dark:focus:bg-zinc-950 transition-all placeholder:text-zinc-400"
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -784,33 +723,7 @@ export default function AdminCategoriesClient() {
                 </div>
               </div>
 
-              {/* Visibility Options */}
-              <div>
-                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2">
-                  Visibility / Publishing Channels
-                </label>
-                <div className="flex items-center gap-6 rounded-xl border border-zinc-200 dark:border-zinc-800 p-3 bg-zinc-50/50 dark:bg-zinc-900">
-                  <label className="flex items-center gap-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={visWeb}
-                      onChange={(e) => setVisWeb(e.target.checked)}
-                      className="h-4.5 w-4.5 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-950"
-                    />
-                    <span>Web/Desktop Storefront</span>
-                  </label>
 
-                  <label className="flex items-center gap-2 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={visMobile}
-                      onChange={(e) => setVisMobile(e.target.checked)}
-                      className="h-4.5 w-4.5 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer dark:border-zinc-800 dark:bg-zinc-950"
-                    />
-                    <span>Mobile App Channels</span>
-                  </label>
-                </div>
-              </div>
 
               {/* Modal Actions */}
               <div className="flex items-center gap-3 pt-3 border-t border-zinc-100 dark:border-zinc-900 mt-6">
