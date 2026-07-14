@@ -674,7 +674,7 @@ export default function AdminOrdersClient() {
 
                       {/* Total */}
                       <td className="py-4 px-4 text-xs font-black text-zinc-800 dark:text-white border-0">
-                        ${o.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        ৳{o.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                       </td>
 
                       {/* Payment */}
@@ -883,7 +883,7 @@ export default function AdminOrdersClient() {
                 {/* Total */}
                 <div className="col-span-1">
                   <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1.5">
-                    Order Total ($) *
+                    Order Total (৳) *
                   </label>
                   <input
                     type="number"

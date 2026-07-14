@@ -891,7 +891,7 @@ export default function DashboardOrdersClient() {
                 {/* Mobile Bottom Actions */}
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-sm font-extrabold text-zinc-900 dark:text-zinc-100">
-                    ${ord.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    ৳{ord.total.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </span>
 
                   <div className="flex gap-2">
