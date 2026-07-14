@@ -15,6 +15,7 @@ interface OrderItem {
   paymentStatus: "Paid" | "Pending" | "Refunded";
   paymentMethod?: "card" | "bkash" | "cod";
   fulfillmentStatus: "Shipped" | "Processing" | "Delivered" | "Canceled" | "Returned" | "Confirmed" | "Packed";
+  transactionId?: string;
 }
 
 const INITIAL_ORDERS: OrderItem[] = [
@@ -133,6 +134,7 @@ export default function AdminOrdersClient() {
   const [paymentStatus, setPaymentStatus] = useState<"Paid" | "Pending" | "Refunded">("Paid");
   const [paymentMethod, setPaymentMethod] = useState<"card" | "bkash" | "cod">("card");
   const [fulfillmentStatus, setFulfillmentStatus] = useState<"Shipped" | "Processing" | "Delivered" | "Canceled" | "Returned" | "Confirmed" | "Packed">("Processing");
+  const [transactionId, setTransactionId] = useState("");
 
   // View detail modal states
   const [viewingOrder, setViewingOrder] = useState<OrderItem | null>(null);
@@ -166,6 +168,7 @@ export default function AdminOrdersClient() {
     setPaymentMethod("card");
     setFulfillmentStatus("Processing");
     setEditingOrderId(null);
+    setTransactionId("");
   };
 
   const handleCreateOrder = () => {
@@ -180,6 +183,7 @@ export default function AdminOrdersClient() {
     setPaymentStatus(order.paymentStatus);
     setPaymentMethod((order.paymentMethod as any) || "card");
     setFulfillmentStatus(order.fulfillmentStatus);
+    setTransactionId(order.transactionId || "");
     setLocalIsModalOpen(true);
     setActiveMenuId(null);
   };
@@ -239,6 +243,7 @@ export default function AdminOrdersClient() {
         paymentStatus,
         paymentMethod,
         fulfillmentStatus,
+        transactionId: transactionId || null,
       };
 
       let res;
@@ -1023,6 +1028,25 @@ export default function AdminOrdersClient() {
                   <span className="font-black text-zinc-800 dark:text-white block mt-1 text-sm">৳{viewingOrder.total.toFixed(2)}</span>
                 </div>
               </div>
+
+              {viewingOrder.transactionId && (
+                <div className="bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200/50 dark:border-zinc-800/80 p-3 rounded-2xl flex items-center justify-between">
+                  <div>
+                    <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Submitted Mobile Banking Txn ID</span>
+                    <span className="text-xs font-mono font-bold text-blue-600 dark:text-blue-400 mt-0.5 block">{viewingOrder.transactionId}</span>
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(viewingOrder.transactionId || "");
+                      toast.success("Transaction ID copied!");
+                    }}
+                    className="text-[10px] bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 font-bold px-2 py-1 rounded-md text-zinc-700 dark:text-zinc-300 cursor-pointer"
+                  >
+                    Copy
+                  </button>
+                </div>
+              )}
               <div className="grid grid-cols-3 gap-4">
                 <div>
                   <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Payment Status</span>

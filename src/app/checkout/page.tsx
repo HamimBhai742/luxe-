@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import CheckoutClient from "@/components/checkout/CheckoutClient";
+import CheckoutPageClient from "./CheckoutPageClient";
 
 export default function CheckoutPage() {
   return (
@@ -8,7 +8,7 @@ export default function CheckoutPage() {
         Loading Secure Checkout...
       </div>
     }>
-      <CheckoutClient />
+      <CheckoutPageClient />
     </Suspense>
   );
 }

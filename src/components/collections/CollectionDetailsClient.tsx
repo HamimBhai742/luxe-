@@ -616,7 +616,7 @@ export default function CollectionDetailsClient({
 
                     {filePreview && (
                       <div className="relative h-16 w-16 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
-                        <img src={filePreview} alt="Review preview" className="object-cover h-full w-full" />
+                        <Image src={filePreview} alt="Review preview" fill className="object-cover" />
                         <button
                           type="button"
                           onClick={() => {
@@ -701,10 +701,11 @@ export default function CollectionDetailsClient({
                     <div className="flex flex-wrap gap-2.5 mt-3">
                       {rev.images.map((imgUrl, imgIdx) => (
                         <div key={imgIdx} className="relative h-20 w-20 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950">
-                          <img
+                          <Image
                             src={imgUrl}
                             alt={`Review asset ${imgIdx + 1}`}
-                            className="object-cover h-full w-full cursor-zoom-in hover:scale-105 transition-all duration-300"
+                            fill
+                            className="object-cover cursor-zoom-in hover:scale-105 transition-all duration-300"
                             onClick={() => window.open(imgUrl, "_blank")}
                           />
                         </div>

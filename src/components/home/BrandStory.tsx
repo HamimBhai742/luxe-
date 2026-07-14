@@ -12,6 +12,7 @@ export default function BrandStory() {
               src="/images/brand_story_gradient.png"
               alt="Brand Story premium mesh gradient"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover object-center"
             />
           </div>

@@ -1044,12 +1044,12 @@ export default function DashboardOrdersClient() {
 
             {/* Product details summary in modal */}
             <div className="flex items-center gap-4 p-3.5 bg-zinc-50 dark:bg-zinc-950 border border-zinc-100 dark:border-zinc-800 rounded-2xl mb-6">
-              <div className="h-12 w-12 bg-white dark:bg-zinc-900 rounded-lg overflow-hidden flex items-center justify-center p-1 shrink-0">
-                <img
+              <div className="relative h-12 w-12 bg-white dark:bg-zinc-900 rounded-lg overflow-hidden flex items-center justify-center p-1 shrink-0">
+                <Image
                   src={reviewProduct.image}
                   alt={reviewProduct.name}
-                  className="object-contain max-h-full max-w-full"
-                  style={{ width: "48px", height: "48px" }}
+                  fill
+                  className="object-contain"
                 />
               </div>
               <div className="min-w-0">
@@ -1136,7 +1136,7 @@ export default function DashboardOrdersClient() {
 
                   {filePreview && (
                     <div className="relative h-16 w-16 rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
-                      <img src={filePreview} alt="Review preview" className="object-cover h-full w-full" />
+                      <Image src={filePreview} alt="Review preview" fill className="object-cover" />
                       <button
                         type="button"
                         onClick={() => {

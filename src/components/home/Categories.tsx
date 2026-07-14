@@ -20,6 +20,9 @@ export default function Categories() {
                 src="/images/category_electronics.png"
                 alt="Premium Electronics category"
                 fill
+                priority
+                loading="eager"
+                sizes="(max-width: 768px) 100vw, 66vw"
                 className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
@@ -60,6 +63,7 @@ export default function Categories() {
                   src="/images/category_fashion.png"
                   alt="Minimalist Fashion category"
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
@@ -82,6 +86,7 @@ export default function Categories() {
                   src="/images/category_home.png"
                   alt="Modern Home category"
                   fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>

@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
+      {
+        protocol: "https",
+        hostname: "luxe-448477198956-ap-southeast-1-an.s3.ap-southeast-1.amazonaws.com",
+      },
     ],
   },
 
