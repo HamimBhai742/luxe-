@@ -573,15 +573,14 @@ export default function CollectionsClient({ products }: CollectionsClientProps) 
                         </div>
                       </div>
 
-                      {/* Pricing + Cart Button Panel */}
                       <div className="mt-4 flex items-center justify-between">
                         <div className="flex items-baseline gap-1.5">
                           <span className="text-sm sm:text-base font-extrabold text-zinc-950 dark:text-zinc-50">
-                            ${product.price.toLocaleString()}
+                            ৳{product.price.toLocaleString()}
                           </span>
                           {product.originalPrice && (
                             <span className="text-xs text-zinc-400 dark:text-zinc-500 line-through">
-                              ${product.originalPrice.toLocaleString()}
+                              ৳{product.originalPrice.toLocaleString()}
                             </span>
                           )}
                         </div>

@@ -186,7 +186,9 @@ export default function AdminDashboardSidebar({ onCloseMobileDrawer }: SidebarPr
           {/* Links stack */}
           <nav className="space-y-0.5">
             {mainMenuItems.map((item) => {
-              const isActive = pathname === item.path || (item.path !== "/" && pathname?.startsWith(item.path) && item.path !== "#");
+              const isActive = item.path === "/admin/dashboard"
+                ? pathname === "/admin/dashboard"
+                : pathname === item.path || (item.path !== "/" && pathname?.startsWith(item.path) && item.path !== "#");
               return (
                 <Link
                   key={item.name}

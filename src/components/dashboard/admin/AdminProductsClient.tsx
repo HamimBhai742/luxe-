@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "sonner";
@@ -40,6 +40,7 @@ export default function AdminProductsClient() {
   const router = useRouter();
 
   const API_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [dbCategories, setDbCategories] = useState<any[]>([]);
@@ -375,8 +376,109 @@ export default function AdminProductsClient() {
     }
   };
 
-  const handleImportExport = () => {
-    toast.info("Import / Export CSV action triggered!");
+  const handleImportTrigger = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Reset value so the user can select the same file again
+    e.target.value = "";
+
+    const toastId = toast.loading("Reading JSON file...");
+    try {
+      const text = await file.text();
+      const jsonData = JSON.parse(text);
+
+      if (!Array.isArray(jsonData)) {
+        toast.error("Import failed: JSON must be an array of products.", { id: toastId });
+        return;
+      }
+
+      toast.loading(`Importing ${jsonData.length} products...`, { id: toastId });
+
+      let successCount = 0;
+      let failCount = 0;
+      const importedProducts: ProductItem[] = [];
+
+      for (let i = 0; i < jsonData.length; i++) {
+        const item = jsonData[i];
+
+        if (!item.name || !item.sku || item.price === undefined) {
+          console.warn(`Product at index ${i} is missing name, sku, or price.`);
+          failCount++;
+          continue;
+        }
+
+        // Default premium placeholder image if missing
+        const defaultImage = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop";
+
+        const payload = {
+          name: String(item.name).trim(),
+          category: String(item.category || "Electronics").trim(),
+          sku: String(item.sku).trim(),
+          barcode: item.barcode ? String(item.barcode).trim() : undefined,
+          inventoryType: item.inventoryCount === undefined || item.inventoryCount === "" ? "untracked" : "tracked",
+          inventoryCount: item.inventoryCount === undefined || item.inventoryCount === "" ? 0 : Number(item.inventoryCount),
+          price: Number(item.price),
+          originalPrice: item.originalPrice ? Number(item.originalPrice) : undefined,
+          status: item.status || "Published",
+          image: item.image || defaultImage,
+          images: Array.isArray(item.images) ? item.images : [item.image || defaultImage],
+          description: String(item.description || item.name || "No description provided.").trim(),
+          brand: item.brand ? String(item.brand).trim() : undefined,
+        };
+
+        try {
+          const res = await fetch(`${API_URL}/products`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await res.json();
+          if (res.ok && data.success) {
+            successCount++;
+            importedProducts.push(data.data);
+          } else {
+            console.error(`Failed to import product ${item.name}:`, data.message);
+            failCount++;
+          }
+        } catch (err) {
+          console.error(`Error importing product ${item.name}:`, err);
+          failCount++;
+        }
+      }
+
+      if (successCount > 0) {
+        setProducts((prev) => [...importedProducts, ...prev]);
+        toast.success(`Successfully imported ${successCount} products! ${failCount > 0 ? `(${failCount} failed)` : ""}`, { id: toastId });
+      } else {
+        toast.error(`Import failed. All ${failCount} products failed to save. Check console for details.`, { id: toastId });
+      }
+
+    } catch (error) {
+      console.error("JSON parsing error:", error);
+      toast.error("Invalid JSON file structure. Make sure it is valid JSON.", { id: toastId });
+    }
+  };
+
+  const handleExportJSON = () => {
+    try {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products, null, 2));
+      const downloadAnchor = document.createElement("a");
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "products_export.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      toast.success("Successfully exported products to JSON file!");
+    } catch (err) {
+      console.error("Export failed:", err);
+      toast.error("Failed to export products.");
+    }
   };
 
   const toggleSelectAll = () => {
@@ -502,15 +604,33 @@ export default function AdminProductsClient() {
         </div>
         
         <div className="flex items-center gap-3 self-start sm:self-center">
-          {/* Import / Export Outline Button */}
+          {/* Import JSON Button */}
           <button
-            onClick={handleImportExport}
+            onClick={handleImportTrigger}
             className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-xs transition-all duration-200 cursor-pointer"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 004.5 9.75v7.5a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-.75m-6-3h10.5m0 0L17.25 10.5M21 13.5L17.25 16.5" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
             </svg>
-            <span>Import / Export</span>
+            <span>Import JSON</span>
+          </button>
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept=".json"
+            onChange={handleFileImport}
+            className="hidden"
+          />
+
+          {/* Export JSON Button */}
+          <button
+            onClick={handleExportJSON}
+            className="inline-flex items-center gap-1.5 rounded-xl border border-zinc-250 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 shadow-xs transition-all duration-200 cursor-pointer"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            <span>Export JSON</span>
           </button>
 
           {/* Create Product Button */}
