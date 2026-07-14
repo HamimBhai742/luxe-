@@ -44,6 +44,13 @@ export default function CheckoutClient() {
   // Delivery Method Selection
   const [deliveryMethod, setDeliveryMethod] = useState<"standard" | "express">("standard");
 
+  // Force standard delivery if location is outside Dhaka
+  useEffect(() => {
+    if (state && state.toLowerCase() !== "dhaka" && deliveryMethod === "express") {
+      setDeliveryMethod("standard");
+    }
+  }, [state, deliveryMethod]);
+
   // Payment Form Selection: 'card' (Stripe) | 'cod' (Cash on Delivery)
   const [paymentMethod, setPaymentMethod] = useState<"card" | "bkash" | "cod">("card");
   const [saveBkashForFuture, setSaveBkashForFuture] = useState(false);
@@ -299,11 +306,13 @@ export default function CheckoutClient() {
     if (activeStep === "shipping") return "Calculated next step";
     if (isConfirmStage) return 0.00;
     
+    const isInsideDhaka = state.toLowerCase() === "dhaka";
+
     switch (deliveryMethod) {
       case "express":
-        return 25.00;
+        return isInsideDhaka ? 100.00 : 80.00;
       default:
-        return 0.00;
+        return isInsideDhaka ? 40.00 : 80.00;
     }
   };
 
@@ -1299,16 +1308,20 @@ export default function CheckoutClient() {
                       </div>
 
                       <div className="mt-4 flex items-baseline justify-between pt-4 border-t border-zinc-100 dark:border-zinc-900">
-                        <span className="text-sm font-black text-zinc-950 dark:text-white">Free</span>
+                        <span className="text-sm font-black text-zinc-950 dark:text-white">
+                          ৳{state.toLowerCase() === "dhaka" ? "40" : "80"}
+                        </span>
                         <span className="text-[9px] font-bold text-zinc-400">Est. Arrival: {getEstimatedDeliveryRange(state)}</span>
                       </div>
                     </label>
 
                     {/* Express Delivery */}
-                    <label className={`flex flex-col border rounded-3xl p-5 cursor-pointer transition-all relative ${
-                      deliveryMethod === "express"
-                        ? "border-blue-600 bg-blue-50/10 dark:bg-blue-950/5"
-                        : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900"
+                    <label className={`flex flex-col border rounded-3xl p-5 transition-all relative ${
+                      state.toLowerCase() !== "dhaka"
+                        ? "opacity-50 border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/20 cursor-not-allowed"
+                        : deliveryMethod === "express"
+                          ? "border-blue-600 bg-blue-50/10 dark:bg-blue-950/5 cursor-pointer"
+                          : "border-zinc-200 bg-white hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900 cursor-pointer"
                     }`}>
                       <div className="flex justify-between items-start">
                         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50/60 text-blue-600 dark:bg-zinc-900">
@@ -1316,13 +1329,19 @@ export default function CheckoutClient() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 9.725A.75.75 0 013.882 8.5H7.5l2-4h5l2 4h3.618a.75.75 0 01.613 1.225L18 12M6 12v3.75a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25V12M6 12h12" />
                           </svg>
                         </div>
-                        <input
-                          type="radio"
-                          name="delivery"
-                          checked={deliveryMethod === "express"}
-                          onChange={() => setDeliveryMethod("express")}
-                          className="h-4.5 w-4.5 text-blue-600 focus:ring-blue-500 cursor-pointer"
-                        />
+                        {state.toLowerCase() === "dhaka" ? (
+                          <input
+                            type="radio"
+                            name="delivery"
+                            checked={deliveryMethod === "express"}
+                            onChange={() => setDeliveryMethod("express")}
+                            className="h-4.5 w-4.5 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                          />
+                        ) : (
+                          <span className="text-[10px] font-bold text-red-500 bg-red-50 dark:bg-red-950/25 px-2 py-0.5 rounded-md uppercase">
+                            Unavailable
+                          </span>
+                        )}
                       </div>
                       
                       <div className="mt-5">
@@ -1331,8 +1350,12 @@ export default function CheckoutClient() {
                       </div>
 
                       <div className="mt-4 flex items-baseline justify-between pt-4 border-t border-zinc-100 dark:border-zinc-900">
-                        <span className="text-sm font-black text-zinc-950 dark:text-white">৳2,500</span>
-                        <span className="text-[9px] font-bold text-zinc-400">Est. Arrival: Tomorrow</span>
+                        <span className="text-sm font-black text-zinc-950 dark:text-white">
+                          {state.toLowerCase() === "dhaka" ? "৳100" : "—"}
+                        </span>
+                        <span className="text-[9px] font-bold text-zinc-400">
+                          {state.toLowerCase() === "dhaka" ? "Est. Arrival: Tomorrow" : "Not available for your location"}
+                        </span>
                       </div>
                     </label>
 
