@@ -70,10 +70,11 @@ export default async function CollectionDetailPage({ params }: PageProps) {
           content: r.comment,
           createdAt: r.createdAt,
           images: r.images || [],
+          isVerifiedBuyer: r.isVerifiedBuyer || false,
         }))
       : [
-          { author: "Edward N.", rating: 5, content: "Superb build quality. The leather strap is extremely premium.", createdAt: "2024-10-24T12:00:00Z" },
-          { author: "Victoria P.", rating: 4, content: "Very elegant watch. Accurate timekeeping and solid glass finish.", createdAt: "2024-10-23T12:00:00Z" }
+          { author: "Edward N.", rating: 5, content: "Superb build quality. The leather strap is extremely premium.", createdAt: "2024-10-24T12:00:00Z", isVerifiedBuyer: true },
+          { author: "Victoria P.", rating: 4, content: "Very elegant watch. Accurate timekeeping and solid glass finish.", createdAt: "2024-10-23T12:00:00Z", isVerifiedBuyer: true }
         ],
     rating: product.rating || 5.0,
     ratingCount: product.ratingCount || 12,

@@ -19,6 +19,7 @@ interface ProductReview {
   content: string;
   createdAt?: string;
   images?: string[];
+  isVerifiedBuyer?: boolean;
 }
 
 interface ProductSpecs {
@@ -145,6 +146,7 @@ export default function CollectionDetailsClient({
           content: commentInput.trim(),
           createdAt: new Date().toISOString(),
           images: uploadedImages,
+          isVerifiedBuyer: true,
         };
         const updatedReviews = [newReviewObj, ...reviewsList];
         setReviewsList(updatedReviews);
@@ -659,8 +661,16 @@ export default function CollectionDetailsClient({
                 <div key={index} className="pb-4 border-b border-zinc-100 dark:border-zinc-800 last:border-b-0">
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex flex-col">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs font-bold text-zinc-900 dark:text-white">{rev.author}</span>
+                        {rev.isVerifiedBuyer && (
+                          <span className="inline-flex items-center gap-0.5 rounded-full bg-blue-50/80 dark:bg-blue-950/40 px-1.5 py-0.5 text-[9px] font-bold text-blue-600 dark:text-blue-400 ring-1 ring-inset ring-blue-500/20 uppercase tracking-wide">
+                            <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" strokeWidth="3" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                            Verified Buyer
+                          </span>
+                        )}
                         <div className="flex text-amber-400">
                           {Array.from({ length: 5 }).map((_, i) => (
                             <svg
