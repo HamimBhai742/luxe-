@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "sonner";
@@ -27,6 +27,8 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
   const notifications = notifData?.success ? notifData.data : [];
   const unreadCount = notifications.filter((n: any) => !n.isRead).length;
 
+  const prevNotificationsRef = useRef<any[]>([]);
+
   // Close notifications popover on click outside
   useEffect(() => {
     if (!isNotifOpen) return;
@@ -34,6 +36,24 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
     document.addEventListener("click", handleCloseNotif);
     return () => document.removeEventListener("click", handleCloseNotif);
   }, [isNotifOpen]);
+
+  // Play sound when a new notification is received
+  useEffect(() => {
+    if (notifications.length > 0 && prevNotificationsRef.current.length > 0) {
+      const hasNewNotif = notifications.some(
+        (newNotif: any) => !prevNotificationsRef.current.some((prevNotif) => prevNotif.id === newNotif.id)
+      );
+
+      if (hasNewNotif) {
+        const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/951/951-200.wav");
+        audio.volume = 0.5;
+        audio.play().catch((err) => {
+          console.log("Audio play blocked by browser autoplay policy:", err);
+        });
+      }
+    }
+    prevNotificationsRef.current = notifications;
+  }, [notifications]);
 
   useEffect(() => {
     const authUserStr = localStorage.getItem("authUser");
