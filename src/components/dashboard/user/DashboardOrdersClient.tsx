@@ -27,6 +27,7 @@ interface Order {
   progressStep?: number; // 1: Confirmed, 2: Packed, 3: Shipped, 4: Delivered
   paymentStatus?: string;
   paymentMethod?: string;
+  createdAt: string;
 }
 
 export default function DashboardOrdersClient() {
@@ -36,6 +37,36 @@ export default function DashboardOrdersClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeMobileTab, setActiveMobileTab] = useState("wishlist"); // Highlight wishlist icon in mockup bottom nav
   const [currentPage, setCurrentPage] = useState(1);
+  const [dateFilter, setDateFilter] = useState<"all" | "30days" | "3months" | "6months" | "year" | "custom">("all");
+  const [customStartDate, setCustomStartDate] = useState("");
+  const [customEndDate, setCustomEndDate] = useState("");
+  const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false);
+
+  const getDateFilterLabel = () => {
+    switch (dateFilter) {
+      case "all":
+        return "All Orders";
+      case "30days":
+        return "Past 30 Days";
+      case "3months":
+        return "Past 3 Months";
+      case "6months":
+        return "Past 6 Months";
+      case "year":
+        return "Past Year";
+      case "custom":
+        if (customStartDate || customEndDate) {
+          const startStr = customStartDate ? new Date(customStartDate).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "";
+          const endStr = customEndDate ? new Date(customEndDate).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "";
+          if (startStr && endStr) return `${startStr} - ${endStr}`;
+          if (startStr) return `From ${startStr}`;
+          if (endStr) return `Until ${endStr}`;
+        }
+        return "Custom Range";
+      default:
+        return "All Orders";
+    }
+  };
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -112,6 +143,7 @@ export default function DashboardOrdersClient() {
               progressStep,
               paymentStatus: ord.paymentStatus || "Pending",
               paymentMethod: ord.paymentMethod || "card",
+              createdAt: ord.createdAt,
             };
           });
           setOrders(mappedOrders);
@@ -261,6 +293,41 @@ export default function DashboardOrdersClient() {
       if (activeFilter !== "All" && activeFilter !== "All Orders") {
         if (ord.status !== activeFilter) return false;
       }
+      
+      // Date Filter
+      if (dateFilter !== "all") {
+        const orderDate = new Date(ord.createdAt);
+        const now = new Date();
+        if (dateFilter === "30days") {
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(now.getDate() - 30);
+          if (orderDate < thirtyDaysAgo) return false;
+        } else if (dateFilter === "3months") {
+          const threeMonthsAgo = new Date();
+          threeMonthsAgo.setMonth(now.getMonth() - 3);
+          if (orderDate < threeMonthsAgo) return false;
+        } else if (dateFilter === "6months") {
+          const sixMonthsAgo = new Date();
+          sixMonthsAgo.setMonth(now.getMonth() - 6);
+          if (orderDate < sixMonthsAgo) return false;
+        } else if (dateFilter === "year") {
+          const oneYearAgo = new Date();
+          oneYearAgo.setFullYear(now.getFullYear() - 1);
+          if (orderDate < oneYearAgo) return false;
+        } else if (dateFilter === "custom") {
+          if (customStartDate) {
+            const start = new Date(customStartDate);
+            start.setHours(0, 0, 0, 0);
+            if (orderDate < start) return false;
+          }
+          if (customEndDate) {
+            const end = new Date(customEndDate);
+            end.setHours(23, 59, 59, 999);
+            if (orderDate > end) return false;
+          }
+        }
+      }
+
       // Search Box Query
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
@@ -272,7 +339,7 @@ export default function DashboardOrdersClient() {
       }
       return true;
     });
-  }, [orders, activeFilter, searchQuery]);
+  }, [orders, activeFilter, searchQuery, dateFilter, customStartDate, customEndDate]);
 
   const paginatedOrders = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -351,12 +418,103 @@ export default function DashboardOrdersClient() {
                 className="w-56 pl-9.5 pr-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900 text-xs font-semibold text-zinc-800 dark:text-zinc-250 outline-none focus:border-zinc-300 dark:focus:border-zinc-700 transition-all placeholder:text-zinc-400"
               />
             </div>
-            <button className="flex items-center gap-2 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white hover:bg-zinc-55 px-4 py-2 text-xs font-bold text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer shadow-xs">
-              <svg className="h-4 w-4 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-              </svg>
-              <span>Past 3 months</span>
-            </button>
+            <div className="relative">
+              <button 
+                onClick={() => setIsDateDropdownOpen(!isDateDropdownOpen)}
+                className="flex items-center gap-2 rounded-xl border border-zinc-250 dark:border-zinc-800 bg-white hover:bg-zinc-50 px-4 py-2 text-xs font-bold text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 cursor-pointer shadow-xs"
+              >
+                <svg className="h-4 w-4 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                </svg>
+                <span>{getDateFilterLabel()}</span>
+              </button>
+
+              {isDateDropdownOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setIsDateDropdownOpen(false)} />
+                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-xl p-4 z-20 space-y-3">
+                    <div className="text-[10px] uppercase tracking-wider font-extrabold text-zinc-400">Filter by Date</div>
+                    <div className="flex flex-col gap-1">
+                      {[
+                        { value: "all", label: "All Orders" },
+                        { value: "30days", label: "Past 30 Days" },
+                        { value: "3months", label: "Past 3 Months" },
+                        { value: "6months", label: "Past 6 Months" },
+                        { value: "year", label: "Past Year" },
+                        { value: "custom", label: "Custom Range" },
+                      ].map((opt) => (
+                        <button
+                          key={opt.value}
+                          onClick={() => {
+                            setDateFilter(opt.value as any);
+                            if (opt.value !== "custom") {
+                              setIsDateDropdownOpen(false);
+                            }
+                            setCurrentPage(1);
+                          }}
+                          className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                            dateFilter === opt.value
+                              ? "bg-blue-600 text-white"
+                              : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {dateFilter === "custom" && (
+                      <div className="border-t border-zinc-150 dark:border-zinc-800 pt-3 space-y-3">
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold text-zinc-400 block">Start Date</label>
+                          <input
+                            type="date"
+                            value={customStartDate}
+                            onChange={(e) => {
+                              setCustomStartDate(e.target.value);
+                              setCurrentPage(1);
+                            }}
+                            className="w-full text-xs font-bold text-zinc-800 dark:text-white bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 focus:outline-none focus:border-zinc-300 dark:focus:border-zinc-700"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold text-zinc-400 block">End Date</label>
+                          <input
+                            type="date"
+                            value={customEndDate}
+                            onChange={(e) => {
+                              setCustomEndDate(e.target.value);
+                              setCurrentPage(1);
+                            }}
+                            className="w-full text-xs font-bold text-zinc-800 dark:text-white bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 focus:outline-none focus:border-zinc-300 dark:focus:border-zinc-700"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setIsDateDropdownOpen(false)}
+                            className="flex-1 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition-all cursor-pointer text-center"
+                          >
+                            Apply
+                          </button>
+                          <button
+                            onClick={() => {
+                              setCustomStartDate("");
+                              setCustomEndDate("");
+                              setDateFilter("all");
+                              setIsDateDropdownOpen(false);
+                              setCurrentPage(1);
+                            }}
+                            className="flex-1 py-2 bg-zinc-100 dark:bg-zinc-800 text-zinc-750 dark:text-zinc-300 rounded-xl text-xs font-bold hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all cursor-pointer text-center"
+                          >
+                            Clear
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
         </div>
@@ -689,9 +847,9 @@ export default function DashboardOrdersClient() {
       {/* ========================================================================= */}
       <div className="md:hidden flex flex-col bg-zinc-50/40 dark:bg-zinc-950/20 pb-20">
         
-        {/* Mobile search bar */}
-        <div className="px-4 pt-4 pb-2">
-          <div className="relative">
+        {/* Mobile search bar & date filter */}
+        <div className="px-4 pt-4 pb-2 flex gap-2">
+          <div className="relative flex-1">
             <svg className="absolute left-3 top-2.5 h-4 w-4 text-zinc-400" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z" />
             </svg>
@@ -705,6 +863,103 @@ export default function DashboardOrdersClient() {
               }}
               className="w-full pl-9 pr-4 py-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-xs font-semibold outline-none placeholder:text-zinc-400"
             />
+          </div>
+
+          <div className="relative shrink-0">
+            <button 
+              onClick={() => setIsDateDropdownOpen(!isDateDropdownOpen)}
+              className="flex items-center justify-center p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 cursor-pointer shadow-xs"
+            >
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+              </svg>
+            </button>
+
+            {isDateDropdownOpen && (
+              <>
+                <div className="fixed inset-0 z-30" onClick={() => setIsDateDropdownOpen(false)} />
+                <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-xl p-4 z-40 space-y-3">
+                  <div className="text-[10px] uppercase tracking-wider font-extrabold text-zinc-400">Filter by Date</div>
+                  <div className="flex flex-col gap-1">
+                    {[
+                      { value: "all", label: "All Orders" },
+                      { value: "30days", label: "Past 30 Days" },
+                      { value: "3months", label: "Past 3 Months" },
+                      { value: "6months", label: "Past 6 Months" },
+                      { value: "year", label: "Past Year" },
+                      { value: "custom", label: "Custom Range" },
+                    ].map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => {
+                          setDateFilter(opt.value as any);
+                          if (opt.value !== "custom") {
+                            setIsDateDropdownOpen(false);
+                          }
+                          setCurrentPage(1);
+                        }}
+                        className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                          dateFilter === opt.value
+                            ? "bg-blue-600 text-white"
+                            : "text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {dateFilter === "custom" && (
+                    <div className="border-t border-zinc-150 dark:border-zinc-800 pt-3 space-y-3">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold text-zinc-400 block">Start Date</label>
+                        <input
+                          type="date"
+                          value={customStartDate}
+                          onChange={(e) => {
+                            setCustomStartDate(e.target.value);
+                            setCurrentPage(1);
+                          }}
+                          className="w-full text-xs font-bold text-zinc-800 dark:text-white bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 focus:outline-none focus:border-zinc-300 dark:focus:border-zinc-700"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold text-zinc-400 block">End Date</label>
+                        <input
+                          type="date"
+                          value={customEndDate}
+                          onChange={(e) => {
+                            setCustomEndDate(e.target.value);
+                            setCurrentPage(1);
+                          }}
+                          className="w-full text-xs font-bold text-zinc-800 dark:text-white bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 focus:outline-none focus:border-zinc-300 dark:focus:border-zinc-700"
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setIsDateDropdownOpen(false)}
+                          className="flex-1 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition-all cursor-pointer text-center"
+                        >
+                          Apply
+                        </button>
+                        <button
+                          onClick={() => {
+                            setCustomStartDate("");
+                            setCustomEndDate("");
+                            setDateFilter("all");
+                            setIsDateDropdownOpen(false);
+                            setCurrentPage(1);
+                          }}
+                          className="flex-1 py-2 bg-zinc-100 dark:bg-zinc-800 text-zinc-750 dark:text-zinc-300 rounded-xl text-xs font-bold hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all cursor-pointer text-center"
+                        >
+                          Clear
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
 
