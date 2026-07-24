@@ -6,6 +6,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useSubmitReviewMutation, useGetUserReviewsQuery } from "@/lib/features/api/reviewApi";
+import { useAppDispatch } from "@/lib/hooks";
+import { addToCart } from "@/lib/features/cart/cartSlice";
+import { useSyncDbCartMutation } from "@/lib/features/api/cartApi";
 
 interface OrderItem {
   id: string;
@@ -32,6 +35,8 @@ interface Order {
 
 export default function DashboardOrdersClient() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const dispatch = useAppDispatch();
+  const [syncDbCart] = useSyncDbCartMutation();
   const [isLoading, setIsLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
@@ -247,8 +252,40 @@ export default function DashboardOrdersClient() {
     }
   };
 
-  const handleBuyAgain = (name: string) => {
-    toast.success(`Re-added ${name} to shopping cart!`);
+  const handleBuyAgain = async (items: OrderItem[]) => {
+    if (!items || items.length === 0) return;
+
+    items.forEach((item) => {
+      dispatch(
+        addToCart({
+          id: item.id,
+          productId: item.id,
+          name: item.name,
+          brand: "LUXE",
+          price: item.price,
+          image: item.image,
+          specsText: item.specs || "Default Edition • Premium Grade",
+          quantity: item.qty,
+        })
+      );
+    });
+
+    try {
+      const dbItems = items.map((item) => ({
+        productId: item.id,
+        quantity: item.qty,
+        specsText: item.specs || "Default Edition • Premium Grade",
+      }));
+      await syncDbCart({ items: dbItems }).unwrap();
+    } catch (err) {
+      console.error("Failed to sync buy-again items to database cart:", err);
+    }
+
+    if (items.length === 1) {
+      toast.success(`Re-added ${items[0].name} to shopping cart!`);
+    } else {
+      toast.success(`Re-added ${items.length} items to shopping cart!`);
+    }
   };
 
   const handleCancelOrder = async (orderId: string, displayId: string) => {
@@ -737,7 +774,7 @@ export default function DashboardOrdersClient() {
                           </button>
                         )}
                         <button
-                          onClick={() => handleBuyAgain(ord.items[0]?.name || "item")}
+                          onClick={() => handleBuyAgain(ord.items)}
                           className="rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center gap-1.5"
                         >
                           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -748,7 +785,7 @@ export default function DashboardOrdersClient() {
                       </>
                     ) : ord.status === "Cancelled" || ord.status === "Returned" ? (
                       <button
-                        onClick={() => handleBuyAgain(ord.items[0]?.name || "item")}
+                        onClick={() => handleBuyAgain(ord.items)}
                         className="rounded-xl bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 text-xs font-bold shadow-md hover:shadow-lg transition-all cursor-pointer flex items-center gap-1.5"
                       >
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
@@ -1164,7 +1201,7 @@ export default function DashboardOrdersClient() {
                           Review
                         </button>
                         <button
-                          onClick={() => handleBuyAgain(ord.items[0]?.name || "item")}
+                          onClick={() => handleBuyAgain(ord.items)}
                           className="rounded-xl bg-blue-600 text-white px-4 py-2 text-xs font-bold"
                         >
                           Buy Again
@@ -1172,7 +1209,7 @@ export default function DashboardOrdersClient() {
                       </>
                     ) : ord.status === "Cancelled" || ord.status === "Returned" ? (
                       <button
-                        onClick={() => handleBuyAgain(ord.items[0]?.name || "item")}
+                        onClick={() => handleBuyAgain(ord.items)}
                         className="rounded-xl bg-blue-600 text-white px-4 py-2 text-xs font-bold"
                       >
                         Buy Again
