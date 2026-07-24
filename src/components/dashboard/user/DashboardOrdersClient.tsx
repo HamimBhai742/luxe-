@@ -38,6 +38,7 @@ export default function DashboardOrdersClient() {
   const dispatch = useAppDispatch();
   const [syncDbCart] = useSyncDbCartMutation();
   const [isLoading, setIsLoading] = useState(true);
+  const [cancellingOrder, setCancellingOrder] = useState<{ id: string; displayId: string } | null>(null);
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeMobileTab, setActiveMobileTab] = useState("wishlist"); // Highlight wishlist icon in mockup bottom nav
@@ -288,7 +289,7 @@ export default function DashboardOrdersClient() {
     }
   };
 
-  const handleCancelOrder = async (orderId: string, displayId: string) => {
+  const executeCancelOrder = async (orderId: string, displayId: string) => {
     const toastId = toast.loading(`Cancelling order ${displayId}...`);
     try {
       const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
@@ -317,6 +318,10 @@ export default function DashboardOrdersClient() {
       console.error("Error cancelling order:", err);
       toast.error("Failed to cancel order due to a network error.", { id: toastId });
     }
+  };
+
+  const handleCancelOrder = (orderId: string, displayId: string) => {
+    setCancellingOrder({ id: orderId, displayId });
   };
 
   const handleTrackOrder = (orderId: string) => {
@@ -1474,6 +1479,49 @@ export default function DashboardOrdersClient() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modern Cancel Order Confirmation Modal */}
+      {cancellingOrder && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm transition-all duration-300">
+          <div className="w-full max-w-sm transform rounded-3xl bg-white p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-950 transition-all scale-100 duration-300 flex flex-col items-center text-center">
+            
+            {/* Warning Icon */}
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 dark:bg-red-950/30 text-red-650 dark:text-red-400 mb-4 animate-pulse">
+              <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            
+            <h3 className="text-base font-black text-zinc-950 dark:text-white uppercase font-serif tracking-tight">
+              Cancel Order
+            </h3>
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-2 leading-relaxed">
+              Are you sure you want to cancel order <span className="font-extrabold text-zinc-800 dark:text-zinc-300">{cancellingOrder.displayId}</span>? This action cannot be undone.
+            </p>
+
+            <div className="grid grid-cols-2 gap-3 w-full mt-6">
+              <button
+                type="button"
+                onClick={() => setCancellingOrder(null)}
+                className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-800 px-4 py-2.5 text-xs font-bold text-zinc-700 dark:text-zinc-300 cursor-pointer transition-colors"
+              >
+                No, Keep It
+              </button>
+              <button
+                type="button"
+                onClick={async () => {
+                  const target = cancellingOrder;
+                  setCancellingOrder(null);
+                  await executeCancelOrder(target.id, target.displayId);
+                }}
+                className="rounded-xl bg-red-600 hover:bg-red-500 text-white px-4 py-2.5 text-xs font-bold cursor-pointer transition-colors shadow-md shadow-red-500/10"
+              >
+                Yes, Cancel
+              </button>
+            </div>
           </div>
         </div>
       )}
