@@ -164,18 +164,33 @@ export default function DashboardOrdersClient() {
     fetchUserOrders();
   }, []);
 
-  const handleInvoice = (dbId: string, orderId: string) => {
-    const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
-    const downloadUrl = `${baseUrl}/orders/${dbId}/invoice/download`;
-    
-    toast.success(`Downloading invoice for order ${orderId}...`);
-    
-    const link = document.createElement("a");
-    link.href = downloadUrl;
-    link.setAttribute("download", `invoice-${orderId}.pdf`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleInvoice = async (dbId: string, orderId: string) => {
+    const toastId = toast.loading(`Generating and downloading invoice for order ${orderId}...`);
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_URL || "http://localhost:5001/api/v1";
+      const downloadUrl = `${baseUrl}/orders/${dbId}/invoice/download`;
+      
+      const response = await fetch(downloadUrl);
+      if (!response.ok) {
+        throw new Error(`Server returned status ${response.status}`);
+      }
+      
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = `invoice-${orderId}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+      
+      toast.success(`Invoice downloaded successfully!`, { id: toastId });
+    } catch (err: any) {
+      console.error("Invoice download failed:", err);
+      toast.error("Failed to download invoice. Please try again.", { id: toastId });
+    }
   };
 
   const { data: userReviewsData } = useGetUserReviewsQuery();
