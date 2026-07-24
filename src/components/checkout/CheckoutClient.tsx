@@ -519,9 +519,17 @@ export default function CheckoutClient() {
         toast.error("Please fill in payment card details!");
         return;
       }
-      if (paymentMethod === "bkash" && (!senderNumber || !txnId)) {
-        toast.error("Please enter both the Sender Mobile Number and Transaction ID!");
-        return;
+      if (paymentMethod === "bkash") {
+        if (!senderNumber || !txnId) {
+          toast.error("Please enter both the Sender Mobile Number and Transaction ID!");
+          return;
+        }
+        const cleanNumber = senderNumber.replace(/[\s\-\(\)]/g, "");
+        const bdRegex = /^(?:\+?8801|8801|008801|01)[3-9]\d{8}$/;
+        if (!bdRegex.test(cleanNumber)) {
+          toast.error("Please enter a valid Bangladeshi mobile number (e.g., 017XXXXXXXX)!");
+          return;
+        }
       }
       setActiveStep("review");
     } else if (activeStep === "review") {
