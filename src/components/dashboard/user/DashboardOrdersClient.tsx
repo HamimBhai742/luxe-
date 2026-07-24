@@ -339,9 +339,7 @@ export default function DashboardOrdersClient() {
     setCancellingOrder({ id: orderId, displayId });
   };
 
-  const handleTrackOrder = (orderId: string) => {
-    toast.success(`Tracking delivery status for ${orderId}...`);
-  };
+
 
   // Search & Filter Logic
   const filteredOrders = useMemo(() => {
@@ -823,16 +821,6 @@ export default function DashboardOrdersClient() {
                             Cancel Order
                           </button>
                         )}
-                        <button
-                          onClick={() => handleTrackOrder(ord.id)}
-                          className="rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 px-4 py-2.5 text-xs font-bold shadow-md transition-all cursor-pointer flex items-center gap-1.5"
-                        >
-                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 1115 0z" />
-                          </svg>
-                          <span>Track Order</span>
-                        </button>
                       </>
                     )}
                   </div>
@@ -1249,12 +1237,6 @@ export default function DashboardOrdersClient() {
                           className="rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900 px-3.5 py-2 text-xs font-bold text-zinc-600 dark:text-zinc-300"
                         >
                           Invoice
-                        </button>
-                        <button
-                          onClick={() => handleTrackOrder(ord.id)}
-                          className="rounded-xl bg-blue-600 text-white px-4 py-2 text-xs font-bold"
-                        >
-                          Track Order
                         </button>
                       </>
                     )}
