@@ -120,7 +120,7 @@ export default function AdminProductsClient() {
           // Set initial default category if available
           const activeCategories = data.data.filter((c: any) => c.status === "Active");
           if (activeCategories.length > 0) {
-            setCategory(activeCategories[0].name);
+            setCategory(activeCategories[0].slug);
           }
         }
       } catch (error) {
@@ -150,7 +150,7 @@ export default function AdminProductsClient() {
     // Clear form inputs
     setName("");
     const activeCategories = dbCategories.filter((c: any) => c.status === "Active");
-    setCategory(activeCategories.length > 0 ? activeCategories[0].name : "Electronics");
+    setCategory(activeCategories.length > 0 ? activeCategories[0].slug : "electronics");
     setSku("");
     setBarcode("");
     setPrice("");
@@ -193,7 +193,11 @@ export default function AdminProductsClient() {
   const handleStartEdit = (product: ProductItem) => {
     setEditingProductId(product.id);
     setName(product.name);
-    setCategory(product.category);
+    const matchedCategory = dbCategories.find(
+      c => c.name.toLowerCase() === product.category.toLowerCase() ||
+           c.slug.toLowerCase() === product.category.toLowerCase()
+    );
+    setCategory(matchedCategory ? matchedCategory.slug : product.category);
     setSku(product.sku);
     setBarcode(product.barcode === "No barcode" ? "" : product.barcode);
     setPrice(String(product.price));
@@ -500,9 +504,16 @@ export default function AdminProductsClient() {
     const matchesSearch =
       (p.name || "").toLowerCase().includes(filterSearch.toLowerCase()) ||
       (p.sku || "").toLowerCase().includes(filterSearch.toLowerCase()) ||
+      (p.brand || "").toLowerCase().includes(filterSearch.toLowerCase()) ||
+      (p.category || "").toLowerCase().includes(filterSearch.toLowerCase()) ||
       (p.barcode || "").toLowerCase().includes(filterSearch.toLowerCase());
     
-    const matchesCategory = selectedCategory === "All" || p.category === selectedCategory;
+    const activeCatObj = dbCategories.find(c => c.slug === selectedCategory);
+    const matchesCategory =
+      selectedCategory === "All" ||
+      p.category === selectedCategory ||
+      (activeCatObj && p.category === activeCatObj.name);
+    
     const matchesStatus = selectedStatus === "All" || p.status === selectedStatus;
 
     return matchesSearch && matchesCategory && matchesStatus;
@@ -678,11 +689,20 @@ export default function AdminProductsClient() {
               }}
               className="appearance-none rounded-xl border border-zinc-200 bg-zinc-50/50 hover:bg-zinc-100/50 px-4 py-2.5 pr-9 text-xs font-extrabold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-900 dark:text-zinc-300 transition-all cursor-pointer focus:outline-none"
             >
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat === "All" ? "All Categories" : cat}
-                </option>
-              ))}
+              <option value="All">All Categories</option>
+              {dbCategories.length > 0 ? (
+                dbCategories.filter((c: any) => c.status === "Active").map((cat) => (
+                  <option key={cat.id} value={cat.slug}>
+                    {cat.name}
+                  </option>
+                ))
+              ) : (
+                ["electronics", "fashion", "home"].map((slug) => (
+                  <option key={slug} value={slug}>
+                    {slug.charAt(0).toUpperCase() + slug.slice(1)}
+                  </option>
+                ))
+              )}
             </select>
             <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -1102,14 +1122,19 @@ export default function AdminProductsClient() {
                       onChange={(e) => setCategory(e.target.value)}
                       className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 bg-zinc-50/50 text-xs font-bold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 appearance-none focus:outline-none focus:bg-white dark:focus:bg-zinc-950 transition-all"
                     >
-                      {(dbCategories.length > 0
-                        ? dbCategories.filter((c: any) => c.status === "Active").map((c: any) => c.name)
-                        : ["Electronics", "Furniture", "Home Goods"]
-                      ).map((catName) => (
-                        <option key={catName} value={catName}>
-                          {catName}
-                        </option>
-                      ))}
+                      {dbCategories.length > 0 ? (
+                        dbCategories.filter((c: any) => c.status === "Active").map((cat: any) => (
+                          <option key={cat.id} value={cat.slug}>
+                            {cat.name}
+                          </option>
+                        ))
+                      ) : (
+                        ["electronics", "fashion", "home"].map((slug) => (
+                          <option key={slug} value={slug}>
+                            {slug.charAt(0).toUpperCase() + slug.slice(1)}
+                          </option>
+                        ))
+                      )}
                     </select>
                     <svg className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400 pointer-events-none" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
