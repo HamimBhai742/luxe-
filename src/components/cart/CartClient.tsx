@@ -322,7 +322,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
 
                   <div className="flex flex-col justify-center items-end gap-3 shrink-0">
                     <span className="text-base font-extrabold text-zinc-900 dark:text-zinc-50">
-                      ${(item.price * item.quantity).toLocaleString()}.00
+                      ৳{(item.price * item.quantity).toLocaleString()}.00
                     </span>
                     <div className="flex items-center border border-zinc-200 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 overflow-hidden shadow-xs">
                       <button
@@ -661,7 +661,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
               <div className="flex justify-between items-center">
                 <span>Subtotal</span>
                 <span className="text-zinc-900 dark:text-zinc-100 font-extrabold">
-                  ${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  ৳{subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
               <div className="flex justify-between items-center">
@@ -673,7 +673,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
               {appliedCoupon && (
                 <div className="flex justify-between items-center text-green-600 font-bold">
                   <span>Discount ({appliedCoupon.code})</span>
-                  <span>-${discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span>-৳{discountAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
               )}
             </div>
@@ -684,7 +684,7 @@ export default function CartClient({ initialItems, recommended }: CartClientProp
             <div className="flex items-center justify-between">
               <span className="text-sm font-extrabold text-zinc-900 dark:text-white">Total</span>
               <span className="text-lg font-black text-zinc-950 dark:text-zinc-50">
-                ${mobileTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                ৳{mobileTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </div>
 

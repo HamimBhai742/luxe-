@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { addToCart } from "@/lib/features/cart/cartSlice";
 import { useGetWishlistQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation } from "@/lib/features/api/wishlistApi";
 import { useSyncDbCartMutation } from "@/lib/features/api/cartApi";
+import { useGetProductsQuery } from "@/lib/features/api/productApi";
 
 interface WishlistItem {
   id: number;
@@ -90,7 +91,19 @@ export default function DashboardWishlistClient() {
   const [sortOption, setSortOption] = useState("Recently Added");
   const [activeMobileTab, setActiveMobileTab] = useState("wishlist");
 
+  const { data: productsData } = useGetProductsQuery();
+
   const wishlist = wishlistData?.success && wishlistData.data ? wishlistData.data : [];
+
+  const similarProducts = useMemo(() => {
+    if (!productsData?.success || !productsData.data) {
+      return SIMILAR_PRODUCTS;
+    }
+    const dbProducts = productsData.data;
+    const wishlistIds = new Set(wishlist.map((item: any) => String(item.id || item.productId)));
+    const filtered = dbProducts.filter((p) => !wishlistIds.has(String(p.id)));
+    return filtered.length > 0 ? filtered.slice(0, 5) : dbProducts.slice(0, 5);
+  }, [productsData, wishlist]);
 
   const handleRemoveItem = async (id: string | number, name: string) => {
     try {
@@ -360,7 +373,7 @@ export default function DashboardWishlistClient() {
 
         {/* Products horizontally scrollable or wrapping grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {SIMILAR_PRODUCTS.map((prod) => (
+          {similarProducts.map((prod) => (
             <div
               key={prod.id}
               onClick={() => handleAddToWishlist(prod)}
